@@ -1,1 +1,2 @@
+# tpm will install our plugins, we ignore them because we do not want subrepos
 .config/tmux/plugins/

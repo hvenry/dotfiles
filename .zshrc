@@ -1,3 +1,6 @@
+# Make neovim default vim
+alias vim='nvim'
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -47,6 +50,3 @@ fi
 
 # Load Powerlevel10k config
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Keybindings
-bindkey '^I' autosuggest-accept
