@@ -12,16 +12,35 @@ Next, install GNU Stow:
 brew install stow
 ```
 
+This configuration uses tmux, tpm, fzf, so install with:
+
+```bash
+brew install tmux
+brew install tpm
+brew install fzf
+```
+
+Install Tmux styling dependencies [here](https://github.com/janoamaral/tokyo-night-tmux):
+
 After this, clone this repo in to the `$HOME` directory using git.
 
 ```bash
 git clone git@github.com:hvenry/dotfiles.git
 ```
 
-Now, `cd` in to the dotfiles repo that was just cloned, and then use **GNU stow** to create the symlinks.
+Now, `cd` in to the dotfiles repo that was just cloned, and then use **GNU stow** to create the symlinks:
+
+**NOTE**: Be sure to remove any configurations that are under `~/` have been cloned from this repo. For instance, to create symlinks for `~/dotfiles/.config/nvim`, be sure to `rm -rf ~/.config/nvim` before doing so.
 
 ```bash
 stow .
 ```
 
-This should now create symlinks from `~/` to the `~/dotfiles/` folder, allowing for consistent managment of dotfiles.
+This should now create symlinks from `~/` to the `~/dotfiles/` folder, allowing for consistent management of dotfiles.
+
+Finally, source necessary configuration files, for example:
+
+```
+source ~/.zshrc
+tmux source ~/.config/tmux/tmux.conf
+```
