@@ -4,3 +4,4 @@
 -- set win bar for neovim, which is content that is displayed at top of every window
 -- = represents separation point, m is modifier flag of buffer, f is path to file in buffer
 vim.opt.winbar = "%=%m %f"
+vim.opt.wrap = true
