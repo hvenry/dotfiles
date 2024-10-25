@@ -2,7 +2,7 @@
 
 This is a dotfiles repo containing my configurations for certain programs, these configurations are kept in sync by using [GNU Stow](https://www.gnu.org/software/stow/), a symlink farm manager that creates symlinks from my dotfile repo to `~/`.
 
-## Setup
+## General Setup
 
 In order to setup these dotfiles on another machine, [Homebrew](https://brew.sh/) will need to be installed, as it is my package manager of choice, as well as [Git](https://formulae.brew.sh/formula/git).
 
@@ -44,3 +44,7 @@ Finally, source necessary configuration files, for example:
 source ~/.zshrc
 tmux source ~/.config/tmux/tmux.conf
 ```
+
+## Iterm2 Setup
+
+In order to use my config for [iterm2](https://iterm2.com/), simply install iterm2, open it and go to `general/settings`, select `Load settings from a custom folder or URL` and set it to `~/dotfiles/iterm2`.
