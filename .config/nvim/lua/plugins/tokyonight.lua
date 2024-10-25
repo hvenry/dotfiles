@@ -1,9 +1,16 @@
 return {
-  "folke/tokyonight.nvim",
-  config = function()
-    require("tokyonight").setup({
-      style = "night", -- This ensures `tokyonight-night` is selected
-    })
-    vim.cmd("colorscheme tokyonight-night") -- Set the colorscheme here
-  end,
+  { "folke/tokyonight.nvim" },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "tokyonight-night",
+    },
+  },
 }
+--   config = function()
+--     require("tokyonight").setup({
+--       style = "night",
+--     })
+--     vim.cmd("colorscheme tokyonight-night")
+--   end,
+-- }

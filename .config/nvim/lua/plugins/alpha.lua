@@ -1,9 +1,10 @@
 return {
   "goolord/alpha-nvim",
+  dependencies = { "echasnovski/mini.icons" },
   config = function()
     local alpha = require("alpha")
     local dashboard = require("alpha.themes.dashboard")
-    -- logo
+
     local logo = [[
 	  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
 	  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
@@ -14,9 +15,9 @@ return {
 
                         [ hvenry ]
     ]]
-    -- set logo as header
+    -- Set custom logo in header
     dashboard.section.header.val = vim.split(logo, "\n")
-    -- apply the dashboard setup
+    -- Apply the dashboard setup
     alpha.setup(dashboard.opts)
   end,
 }
