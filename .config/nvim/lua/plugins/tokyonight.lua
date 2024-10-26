@@ -1,5 +1,14 @@
 return {
-  { "folke/tokyonight.nvim" },
+  {
+    "folke/tokyonight.nvim",
+    opts = {
+      transparent = true,
+      styles = {
+        sidebars = "transparent",
+        floats = "transparent",
+      },
+    },
+  },
   {
     "LazyVim/LazyVim",
     opts = {
@@ -7,10 +16,3 @@ return {
     },
   },
 }
---   config = function()
---     require("tokyonight").setup({
---       style = "night",
---     })
---     vim.cmd("colorscheme tokyonight-night")
---   end,
--- }
