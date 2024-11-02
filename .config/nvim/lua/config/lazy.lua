@@ -36,7 +36,6 @@ require("lazy").setup({
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.json" },
-    { "lukas-reineke/indent-blankline.nvim", enabled = false },
     { import = "lazyvim.plugins.extras.coding.luasnip" },
     { import = "plugins" },
   },
