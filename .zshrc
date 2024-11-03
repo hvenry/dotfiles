@@ -11,6 +11,9 @@ fi
 # Source GHCup environment for Haskell
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
 
+# source conda installation
+[ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ] && . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+
 # set defaul editor
 export EDITOR=nvim
 
