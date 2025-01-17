@@ -1,0 +1,12 @@
+# appearance
+theme = tokyonight_night
+background = #101016
+
+background-opacity = 0.9
+background-blur-radius = 8
+macos-titlebar-style = hidden
+
+window-padding-x = 8
+window-padding-y = 8
+
+# keybindings
