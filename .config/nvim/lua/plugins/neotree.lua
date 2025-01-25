@@ -11,8 +11,8 @@ return {
       },
     },
   },
+  -- make 'space + e open' in current directory
   keys = {
-    -- make 'space + e open' in current directory
     {
       "<Space>e",
       function()
