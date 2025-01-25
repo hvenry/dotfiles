@@ -5,14 +5,12 @@ return {
     filesystem = {
       follow_current_file = true,
       hijack_netrw_behavior = "open_default",
-      -- show hidden files
       filtered_items = {
         visible = true,
       },
     },
   },
   keys = {
-    -- make 'space + e open' in current directory
     {
       "<Space>e",
       function()
