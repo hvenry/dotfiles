@@ -7,8 +7,15 @@ background-blur-radius = 8
 macos-titlebar-style = hidden
 
 window-padding-x = 8
-window-padding-y = 8
+window-padding-y = 16, 0
+
+# font
+font-family = "JetBrains Mono"
+font-size=14
+font-feature=-calt
+font-feature=-liga
+font-feature=-dlig
 
 # keybindings
-# kill entire line
+#kill entire line
 keybind = cmd+backspace=esc:w
