@@ -1,0 +1,40 @@
+-- TO SOURCE: `:source %`
+-- FOR OPTIONS: `:h <option name>`
+-- bars in tree view
+vim.cmd("let g:netrw_liststyle = 3")
+
+local opt = vim.opt
+
+-- relative line number and absolute line number
+opt.relativenumber = true
+opt.number = true
+
+-- tabs & indentation
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.expandtab = true
+opt.autoindent = true
+
+opt.wrap = false
+
+-- search settings
+opt.ignorecase = true
+opt.smartcase = true
+
+-- highlight current cursor line
+opt.cursorline = true
+
+-- appearence
+opt.termguicolors = true
+opt.background = "dark"
+opt.signcolumn = "yes" 
+
+-- backspace
+opt.backspace = "indent,eol,start"
+
+-- use system clipboard
+opt.clipboard:append("unnamedplus")
+
+-- window splitting
+opt.splitright = true
+opt.splitbelow = true
