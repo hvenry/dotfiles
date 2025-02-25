@@ -2,7 +2,7 @@
 theme = tokyonight_night
 background = #101016
 
-background-opacity = 0.9
+background-opacity = 0.98
 background-blur-radius = 8
 macos-titlebar-style = hidden
 
