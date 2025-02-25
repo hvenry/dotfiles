@@ -74,7 +74,7 @@ return {
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
-    -- automatically configure lsp in specific way 
+    -- automatically configure lsp in specific way
     mason_lspconfig.setup_handlers({
       function(server_name)
         lspconfig[server_name].setup({

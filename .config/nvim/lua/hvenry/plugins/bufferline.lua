@@ -5,8 +5,9 @@ return {
 
   opts = {
     options = {
-      mode = "tabs",
+      mode = "buffers",
       separator_style = "thick",
+      always_show_bufferline = true,
     },
   },
 }
