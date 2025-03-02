@@ -3,7 +3,7 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
   config = function()
     require("neo-tree").setup({
-      close_if_last_window = false,
+      close_if_last_window = true,
       popup_border_style = "rounded",
       enable_git_status = true,
       enable_diagnostics = true,
@@ -16,7 +16,20 @@ return {
         position = "right", -- "float"
         width = 30,
         mappings = {
-          ["<CR>"] = "open", -- Open files in a new tab
+          ["<CR>"] = "open",
+        },
+        preserve_window_proportions = true, -- prevents window size changes
+      },
+      buffers = {
+        follow_current_file = true, -- auto-focus buffer you navigate to
+        group_empty_dirs = true,
+      },
+      event_handlers = {
+        {
+          event = "neo_tree_buffer_enter",
+          handler = function()
+            vim.opt_local.signcolumn = "auto"
+          end,
         },
       },
     })

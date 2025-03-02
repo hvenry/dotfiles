@@ -26,7 +26,6 @@ return {
     mason_lspconfig.setup({
       -- list of language servers for mason to automatically install
       ensure_installed = {
-        "ts_ls",
         "html",
         "cssls",
         "tailwindcss",

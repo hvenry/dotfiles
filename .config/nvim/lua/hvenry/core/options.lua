@@ -27,7 +27,7 @@ opt.cursorline = true
 -- appearence
 opt.termguicolors = true
 opt.background = "dark"
-opt.signcolumn = "yes" 
+opt.signcolumn = "yes"
 
 -- backspace
 opt.backspace = "indent,eol,start"

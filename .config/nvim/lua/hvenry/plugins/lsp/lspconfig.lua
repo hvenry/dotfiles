@@ -74,6 +74,18 @@ return {
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
+    -- Configure diagnostic sources to avoid duplicates
+    vim.diagnostic.config({
+      virtual_text = {
+        source = false,
+      },
+      float = {
+        source = true,
+      },
+      update_in_insert = false,
+      severity_sort = true,
+    })
+
     -- automatically configure lsp in specific way
     mason_lspconfig.setup_handlers({
       function(server_name)
