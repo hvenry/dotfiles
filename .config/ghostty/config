@@ -19,3 +19,11 @@ font-feature=-dlig
 # keybindings
 #kill entire line
 keybind = cmd+backspace=esc:w
+
+# shaders
+# custom-shader = ghostty-shaders/in-game-crt.glsl
+# custom-shader = ghostty-shaders/galaxy.glsl
+# custom-shader = ghostty-shaders/just-snow.glsl
+# custom-shader = ghostty-shaders/matrix-hallway.glsl
+# custom-shader = ghostty-shaders/retro-terminal.glsl
+# custom-shader = ghostty-shaders/water.glsl
