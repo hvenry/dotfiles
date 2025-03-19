@@ -8,7 +8,7 @@ return {
       enable_git_status = true,
       enable_diagnostics = true,
       filesystem = {
-        follow_current_file = true,
+        follow_current_file = { enabled = true },
         hijack_netrw_behavior = "open_default",
         use_libuv_file_watcher = true,
       },
@@ -21,7 +21,7 @@ return {
         preserve_window_proportions = true, -- prevents window size changes
       },
       buffers = {
-        follow_current_file = true, -- auto-focus buffer you navigate to
+        follow_current_file = { enabled = true }, -- auto-focus buffer you navigate to
         group_empty_dirs = true,
       },
       event_handlers = {
