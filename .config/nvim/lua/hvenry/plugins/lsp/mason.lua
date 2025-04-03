@@ -5,10 +5,7 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
   config = function()
-    -- import mason
     local mason = require("mason")
-
-    -- import mason-lspconfig
     local mason_lspconfig = require("mason-lspconfig")
     local mason_tool_installer = require("mason-tool-installer")
 
@@ -24,26 +21,58 @@ return {
     })
 
     mason_lspconfig.setup({
-      -- list of language servers for mason to automatically install
       ensure_installed = {
-        "html",
+        "bashls",
+        "clangd",
         "cssls",
-        "tailwindcss",
-        "svelte",
-        "lua_ls",
-        "rust_analyzer",
-        "graphql",
+        "docker_compose_language_service",
+        "dockerls",
         "emmet_ls",
+        "eslint",
+        "graphql",
+        "hls",
+        "html",
+        "jdtls",
+        "jsonls",
+        "lua_ls",
+        "marksman",
         "prismals",
+        "rust_analyzer",
+        "sqlls",
+        "svelte",
+        "tailwindcss",
+        "taplo",
+        "terraformls",
+        "ts_ls",
+        "yamlls",
       },
+      automatic_installation = { true },
     })
 
     mason_tool_installer.setup({
       ensure_installed = {
-        "prettier", -- prettier formatter
-        "stylua", -- lua formatter
-        "ruff", -- python formatter
+        -- Linteres
         "eslint_d",
+        "flake8",
+        "hadolint",
+        "markdownlint-cli2",
+        "pylint",
+        "shellcheck",
+        "tflint",
+        "sqlfluff",
+
+        -- Formatters
+        "gofumpt",
+        "goimports",
+        "prettier",
+        "shfmt",
+        "stylua",
+
+        -- Debuggers
+        "codelldb",
+
+        -- Other Tools
+        "markdown-toc",
       },
     })
   end,
