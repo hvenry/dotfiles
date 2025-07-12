@@ -117,6 +117,16 @@
     "when": "vim.mode == 'Normal' && editorTextFocus"
   },
   {
+    "key": "space g b", //  Go back
+    "command": "workbench.action.navigateBack",
+    "when": "vim.mode == 'Normal' && editorTextFocus"
+  },
+  {
+    "key": "space g f", //  Go forward
+    "command": "workbench.action.navigateForward",
+    "when": "vim.mode == 'Normal' && editorTextFocus"
+  },
+  {
     "key": "space g r", //  Go to references
     "command": "editor.action.goToReferences",
     "when": "vim.mode == 'Normal' && editorTextFocus"
@@ -127,7 +137,7 @@
     "when": "(vim.mode == 'Normal' || vim.mode == 'Visual') && (editorTextFocus || !inputFocus)"
   },
   {
-    "key": "space s g", // Live grep through all files
+    "key": "space f s", // Live grep through all files
     "command": "workbench.action.findInFiles",
     "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
   },
