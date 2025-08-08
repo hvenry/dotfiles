@@ -5,12 +5,10 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
-    "3rd/image.nvim",
   },
   config = function()
     require("neo-tree").setup({
       close_if_last_window = true,
-      popup_border_style = "rounded",
       enable_git_status = true,
       enable_diagnostics = true,
       filesystem = {
@@ -35,6 +33,10 @@ return {
       window = {
         position = "right",
         width = 30,
+        mapping_options = {
+          noremap = true,
+          nowait = true,
+        },
         mappings = {
           ["<CR>"] = "open",
           ["<bs>"] = "navigate_up",
@@ -45,20 +47,14 @@ return {
           ["s"] = "open_vsplit",
           ["S"] = "open_split",
         },
-        preserve_window_proportions = true,
+        preserve_window_proportions = false,
+        same_level = false,
+        auto_expand_width = false,
+        resize_timer_interval = -1,
       },
       buffers = {
         follow_current_file = { enabled = true },
         group_empty_dirs = true,
-      },
-      event_handlers = {
-        {
-          event = "neo_tree_buffer_enter",
-          handler = function(arg)
-            vim.opt_local.signcolumn = "auto"
-            vim.opt_local.winbar = "%#Directory# [ File Explorer ] %*"
-          end,
-        },
       },
       default_component_configs = {
         indent = {
@@ -84,13 +80,6 @@ return {
         },
       },
     })
-
-    -- open with space e
-    vim.api.nvim_set_keymap(
-      "n",
-      "<leader>e",
-      ":Neotree toggle<CR>",
-      { noremap = true, silent = true, desc = "Explorer NeoTree toggle" }
-    )
   end,
+  vim.api.nvim_set_keymap("n", "<leader>e", ":Neotree toggle<CR>", { noremap = true, silent = true, desc = "NeoTree" }),
 }

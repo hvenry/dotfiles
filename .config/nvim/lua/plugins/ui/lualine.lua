@@ -3,7 +3,7 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local lualine = require("lualine")
-    local lazy_status = require("lazy.status") -- to configure lazy pending updates count
+    local lazy_status = require("lazy.status")
 
     local colors = {
       blue = "#65D1FF",
@@ -17,6 +17,7 @@ return {
     }
 
     local my_lualine_theme = {
+      -- colours for different vim modes
       normal = {
         a = { bg = colors.blue, fg = colors.bg, gui = "bold" },
         b = { bg = colors.bg, fg = colors.fg },
@@ -49,23 +50,64 @@ return {
       },
     }
 
-    -- configure lualine with modified theme
     lualine.setup({
       options = {
         theme = my_lualine_theme,
+        globalstatus = true,
+        component_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
+        disabled_filetypes = { statusline = { "alpha", "dashboard", "starter" } },
+        icons_enabled = true,
       },
+
       sections = {
+        lualine_a = { "mode" },
+        lualine_b = {
+          "branch",
+          "diff",
+          { "diagnostics", sources = { "nvim_diagnostic" } },
+        },
+        lualine_c = {
+          {
+            "filename",
+            path = 1,
+            file_status = true,
+            newfile_status = true,
+            symbols = {
+              modified = "[+]",
+              readonly = "[-]",
+              unnamed = "[No Name]",
+              newfile = " [New]",
+            },
+          },
+        },
+
+        -- right side
         lualine_x = {
           {
             lazy_status.updates,
             cond = lazy_status.has_updates,
             color = { fg = "#ff9e64" },
           },
-          { "encoding" },
-          { "fileformat" },
-          { "filetype" },
+          "encoding",
+          "fileformat",
+          "filetype",
         },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
       },
+
+      -- when the window is inactive
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { { "filename", path = 2 } },
+        lualine_x = { "location" },
+        lualine_y = {},
+        lualine_z = {},
+      },
+
+      extensions = { "quickfix", "man", "fugitive", "nvim-tree", "lazy" },
     })
   end,
 }

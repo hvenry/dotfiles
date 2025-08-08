@@ -1,7 +1,3 @@
--- TO SOURCE: `:source %`
--- FOR OPTIONS: `:h <option name>`
--- bars in tree view
-
 -- disable netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -25,7 +21,7 @@ opt.ignorecase = true
 opt.smartcase = true
 
 -- highlight current cursor line
-opt.cursorline = true
+opt.cursorline = false
 
 -- appearence
 opt.termguicolors = true

@@ -1,2 +1,2 @@
-require("hvenry.core")
-require("hvenry.lazy")
+require("core")
+require("lazy_setup")

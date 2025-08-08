@@ -1,5 +1,5 @@
--- bootstrap lazy (if not installed on neovim launch, install lazy)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -10,14 +10,19 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
+
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ { import = "hvenry.plugins" }, { import = "hvenry.plugins.lsp" } }, {
+require("lazy").setup({
+  { import = "plugins" },
+  { import = "plugins.code" },
+  { import = "plugins.ui" },
+}, {
   checker = {
     enabled = true,
     notify = false,
   },
   change_detection = {
-    notify = false,
+    notify = true,
   },
 })
