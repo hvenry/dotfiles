@@ -11,7 +11,7 @@ window-padding-y = 4, 0
 
 # font
 font-family = "JetBrains Mono"
-font-size=12
+font-size=14
 font-feature=-calt
 font-feature=-liga
 font-feature=-dlig
