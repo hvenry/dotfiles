@@ -65,7 +65,7 @@ rm -f ~/.zshrc ~/.p10k.zsh
 rm -rf ~/Library/Application\ Support/Code/User
 ```
 
-## Stow Individual Packages (Configurations)
+## Stow Individual Packages (Sync Configurations)
 
 You can install specific configurations using stow:
 
@@ -95,26 +95,35 @@ stow -t ~ .
 
 The `vscode` package contains VS Code configuration files that work with macOS's default VS Code configuration location (`~/Library/Application Support/Code/User/`). After stowing with `stow -t ~ vscode`, VS Code will automatically use your dotfiles configuration.
 
-## Additional Setup
-
-Install tmux styling dependencies from [tokyo-night-tmux](https://github.com/janoamaral/tokyo-night-tmux).
-
 ## Sourcing Configuration Files
 
 After stowing your configurations, source the relevant files to apply changes:
 
+### Zsh
+
+Source the zsh config:
 ```bash
-# Source zsh configuration
 source ~/.zshrc
-
-# Source tmux configuration (if tmux is running)
-tmux source ~/.config/tmux/tmux.conf
-
-# For VS Code (macOS), restart VS Code to load new settings
-
-# For neovim, restart nvim or run :source $MYVIMRC inside nvim
-
-# For ghostty, restart the terminal application
 ```
 
-**Note**: Some configurations may require restarting the application to take full effect.
+### Tmux
+
+With an instance of tmux running, source the tmux configuration with:
+
+```bash
+tmux source ~/.config/tmux/tmux.conf
+```
+
+Then, install the packages with `prefix` + `I` in tmux to install custom plugins.
+
+### Neovim
+
+For neovim, restart nvim or run `:source $MYVIMRC` inside nvim.
+
+### VS Code
+
+For VS Code (macOS), restart VS Code to load new settings.
+
+### Ghostty
+
+Simply restart the terminal application.
