@@ -7,7 +7,7 @@ return {
     require("nvim-treesitter.configs").setup({
       highlight = { enable = true },
       -- https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#supported-languages
-      ensure_installed = { "lua", "python", "javascript", "typescript", "html" },
+      ensure_installed = { "lua", "python", "javascript", "typescript", "html", "prisma" },
     })
 
     -- Configure autotag

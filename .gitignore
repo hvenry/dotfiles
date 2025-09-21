@@ -1,8 +1,10 @@
 # tpm will install our plugins, we ignore them because we do not want subrepos
-.config/tmux/plugins/
+tmux/.config/tmux/plugins/
 
+# Ignore various config directories that shouldn't be tracked
 .config/configstore/
 .config/gcloud/
 .config/gh/
 
-.DS_store
+# macOS system files
+.DS_Store
