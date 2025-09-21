@@ -1,0 +1,10 @@
+# Arch Linux + Hyprland Profile
+# Full Wayland desktop environment with tiling window manager
+# Core packages: shell, editor, terminal multiplexer, terminal emulator
+# Desktop packages: window manager, status bar, app launcher, widgets, notifications, wallpaper, display manager
+
+# Core development tools
+zsh nvim tmux ghostty
+
+# Hyprland desktop environment
+hyprland waybar wofi eww mako swww sddm

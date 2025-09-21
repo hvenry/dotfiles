@@ -1,0 +1,5 @@
+# Server Profile
+# Development environment for headless servers
+# Shell, editor, and terminal multiplexer only
+
+zsh nvim tmux
