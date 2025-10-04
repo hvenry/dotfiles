@@ -61,6 +61,29 @@ return {
             },
           })
         end,
+        ["qmlls"] = function()
+          local lspconfig = require("lspconfig")
+          lspconfig.qmlls.setup({
+            capabilities = capabilities,
+            cmd_env = {
+              QML2_IMPORT_PATH = vim.env.QML2_IMPORT_PATH,
+            },
+            on_attach = function(client, bufnr)
+              -- Only show errors, not warnings (quickshell has custom imports qmlls doesn't understand)
+              vim.diagnostic.config({
+                virtual_text = {
+                  severity = { min = vim.diagnostic.severity.ERROR },
+                },
+                signs = {
+                  severity = { min = vim.diagnostic.severity.ERROR },
+                },
+                underline = {
+                  severity = { min = vim.diagnostic.severity.ERROR },
+                },
+              }, bufnr)
+            end,
+          })
+        end,
       },
     })
     require("mason-tool-installer").setup({

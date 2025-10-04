@@ -37,3 +37,6 @@ opt.clipboard:append("unnamedplus")
 -- window splitting
 opt.splitright = true
 opt.splitbelow = true
+
+-- Set the command line background color
+-- vim.api.nvim_set_hl(0, "MsgArea", { fg = "#ffffff" })
