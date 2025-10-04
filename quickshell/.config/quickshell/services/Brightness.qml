@@ -76,12 +76,17 @@ Singleton {
     Process {
         id: ddcProc
 
-        command: ["ddcutil", "detect", "--brief"]
+        command: ["ddcutil", "--sleep-multiplier", "0.5", "detect", "--brief"]
         stdout: StdioCollector {
-            onStreamFinished: root.ddcMonitors = text.trim().split("\n\n").filter(d => d.startsWith("Display ")).map(d => ({
-                        busNum: d.match(/I2C bus:[ ]*\/dev\/i2c-([0-9]+)/)[1],
-                        connector: d.match(/DRM connector:\s+(.*)/)[1].replace(/^card\d+-/, "") // strip "card1-"
-                    }))
+            onStreamFinished: root.ddcMonitors = text.trim().split("\n\n").filter(d => d.startsWith("Display ")).map(d => {
+                const busMatch = d.match(/I2C bus:[ ]*\/dev\/i2c-([0-9]+)/);
+                // Handle both "DRM connector:" and "DRM_connector:", and missing connector
+                const connectorMatch = d.match(/DRM[_ ]connector:\s+(.*)/);
+                return {
+                    busNum: busMatch ? busMatch[1] : null,
+                    connector: connectorMatch ? connectorMatch[1].replace(/^card\d+-/, "") : "unknown"
+                };
+            }).filter(d => d.busNum !== null)
         }
     }
 
@@ -200,7 +205,7 @@ Singleton {
             if (isAppleDisplay)
                 Quickshell.execDetached(["asdbctl", "set", rounded]);
             else if (isDdc)
-                Quickshell.execDetached(["ddcutil", "-b", busNum, "setvcp", "10", rounded]);
+                Quickshell.execDetached(["ddcutil", "--sleep-multiplier", "0.5", "-b", busNum, "setvcp", "10", rounded]);
             else
                 Quickshell.execDetached(["brightnessctl", "s", `${rounded}%`]);
 
@@ -212,7 +217,7 @@ Singleton {
             if (isAppleDisplay)
                 initProc.command = ["asdbctl", "get"];
             else if (isDdc)
-                initProc.command = ["ddcutil", "-b", busNum, "getvcp", "10", "--brief"];
+                initProc.command = ["ddcutil", "--sleep-multiplier", "0.5", "-b", busNum, "getvcp", "10", "--brief"];
             else
                 initProc.command = ["sh", "-c", "echo a b c $(brightnessctl g) $(brightnessctl m)"];
 

@@ -99,7 +99,7 @@ Singleton {
     FileView {
         id: kbLayoutFile
 
-        path: Quickshell.env("CAELESTIA_XKB_RULES_PATH") || "/usr/share/X11/xkb/rules/base.lst"
+        path: Quickshell.env("QUICKSHELL_XKB_RULES_PATH") || "/usr/share/X11/xkb/rules/base.lst"
         onLoaded: {
             const lines = text().match(/! layout\n([\s\S]*?)\n\n/)[1].split("\n");
             for (const line of lines) {

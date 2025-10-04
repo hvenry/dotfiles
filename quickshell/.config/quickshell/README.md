@@ -1,4 +1,190 @@
-## Installation
+## Directory Structure & XDG Paths
+
+This quickshell configuration uses the XDG Base Directory specification to organize files:
+
+### **Config Directory (`~/.config/quickshell/`)**
+
+**Purpose:** User-editable configuration files that define shell appearance and behavior.
+
+**Contains:**
+
+- `shell.json` - Main configuration (bar layout, enabled features, launcher actions, etc.)
+- `scheme.json` - Color scheme definitions (currently monochrome theme)
+- `*.qml` files - QML source code (symlinked from dotfiles repo via stow)
+
+**Git Versioned:** ✅ Yes - These files are tracked in your dotfiles repo.
+
+---
+
+### **State Directory (`~/.local/state/quickshell/`)**
+
+**Purpose:** Runtime state that persists between sessions but changes during use.
+
+**Contains:**
+
+- `apps.sqlite` - Application launch history for launcher sorting
+- `notifs.json` - Notification state/history
+- `sequences.txt` - Keyboard sequences/macros
+- `wallpaper/` - Current wallpaper state
+
+**Git Versioned:** ❌ No - User-specific runtime data.
+
+---
+
+### **Cache Directory (`~/.cache/quickshell/`)**
+
+**Purpose:** Temporary cached data for performance (safe to delete).
+
+**Contains:**
+
+- `imagecache/` - Processed images for faster loading
+- `imagecache/notifs/` - Notification image cache
+
+**Git Versioned:** ❌ No - Temporary performance optimization data.
+
+---
+
+### **Data Directory (`~/.local/share/quickshell/`)**
+
+**Purpose:** Application-specific persistent data (not currently used in minimal config).
+
+**Git Versioned:** ❌ No - User-specific persistent data.
+
+---
+
+## Installation from Dotfiles
+
+### Prerequisites
+
+**Runtime Dependencies:**
+
+- [`quickshell-git`](https://quickshell.outfoxxed.me) - Must be git version (not latest tagged release)
+- [`hyprland`](https://hyprland.org) - Wayland compositor
+- [`hyprpaper`](https://github.com/hyprwm/hyprpaper) - Wallpaper daemon
+- [`brightnessctl`](https://github.com/Hummer12007/brightnessctl) - Brightness control
+- [`libcava`](https://github.com/LukashonakV/cava) - Audio visualizer library
+- [`networkmanager`](https://networkmanager.dev) - Network management
+- [`aubio`](https://github.com/aubio/aubio) - Beat detection for media player
+- [`libpipewire`](https://pipewire.org) - Audio system
+- `qt6-declarative` - Qt QML runtime
+- `qt6-base` - Qt base libraries
+- `gcc-libs` - C++ runtime
+- `glibc` - C standard library
+- [`material-symbols`](https://fonts.google.com/icons) - Icon font
+- [`ttf-caskaydia-cove-nerd`](https://www.nerdfonts.com/font-downloads) - Monospace font
+
+**Build Dependencies:**
+
+- [`cmake`](https://cmake.org) - Build system
+- [`ninja`](https://github.com/ninja-build/ninja) - Build tool
+- `gcc` or `clang` - C++ compiler
+- [`libqalculate`](https://github.com/Qalculate/libqalculate) - Calculator library (for QML plugin)
+
+**Optional:**
+
+- [`ddcutil`](https://github.com/rockowitz/ddcutil) - External monitor brightness
+- [`lm-sensors`](https://github.com/lm-sensors/lm-sensors) - Temperature monitoring
+- [`pavucontrol`](https://freedesktop.org/software/pulseaudio/pavucontrol/) - Audio settings GUI
+
+---
+
+### Installation Steps
+
+#### 1. Clone Your Dotfiles Repository
+
+```sh
+git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+```
+
+#### 2. Build the C++ QML Plugin
+
+The configuration requires a custom QML plugin (for beat detection, audio visualization, etc.) that must be compiled:
+
+```sh
+cd ~/dotfiles/quickshell/.config/quickshell
+
+# Build the plugin
+cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/
+cmake --build build
+
+# Install the plugin (requires sudo)
+sudo cmake --install build
+```
+
+> [!NOTE]
+> The plugin includes:
+>
+> - **Caelestia.Services** - Beat tracker, audio collector, Cava visualizer
+> - **Caelestia.Internal** - Caching image manager, Hyprland extras, logind integration
+> - **Caelestia.Models** - Filesystem models
+> - **CUtils** - Utility functions (file conversion, image analysis, etc.)
+
+#### 3. Stow the Configuration
+
+Use GNU Stow to symlink the configuration into place:
+
+```sh
+cd ~/dotfiles
+stow quickshell
+```
+
+This creates symlinks:
+
+```
+~/.config/quickshell/shell.qml → ~/dotfiles/quickshell/.config/quickshell/shell.qml
+~/.config/quickshell/config/ → ~/dotfiles/quickshell/.config/quickshell/config/
+~/.config/quickshell/modules/ → ~/dotfiles/quickshell/.config/quickshell/modules/
+...
+```
+
+#### 4. Add to Hyprland Config
+
+Add to your `~/.config/hypr/hyprland.conf`:
+
+```conf
+# Start wallpaper daemon
+exec-once = hyprpaper
+
+# Start quickshell
+exec-once = qs -c ~/.config/quickshell
+```
+
+Or manually launch for testing:
+
+```sh
+qs -c ~/.config/quickshell
+```
+
+The `-c` flag tells quickshell to load the configuration from `~/.config/quickshell/shell.qml`.
+
+---
+
+### Understanding the Build Process
+
+When you run `cmake --build build`, the following happens:
+
+1. **Compiles C++ Plugin:** Builds the custom QML module with beat detection, audio visualization, and utility functions
+2. **Generates QML Module Files:** Creates `qmldir` and type info files for Qt's QML engine
+3. **Installs to System Paths:**
+   - Plugin: `/usr/lib/qt6/qml/Caelestia/` (or custom `INSTALL_QMLDIR`)
+   - Libraries: `/usr/lib/quickshell/` (or custom `INSTALL_LIBDIR`)
+
+The QML files in your dotfiles reference the plugin via `import Caelestia`, which Qt resolves using the installed `qmldir` files.
+
+---
+
+### Environment Variables
+
+You can customize paths using environment variables (set in `.envrc`, shell profile, or systemd service):
+
+- `QUICKSHELL_LIB_DIR` - Override library directory (default: `/usr/lib/quickshell`)
+- `QUICKSHELL_WALLPAPERS_DIR` - Override wallpaper directory (default: from `shell.json` or `~/Pictures`)
+- `QUICKSHELL_RECORDINGS_DIR` - Override recording directory (default: `~/Videos/Recordings`)
+- `QUICKSHELL_XKB_RULES_PATH` - Override keyboard layout rules (default: `/usr/share/X11/xkb/rules/base.lst`)
+
+---
+
+## Installation (Standalone)
 
 ### Arch linux
 
@@ -47,7 +233,7 @@ sudo cmake --install build
 > [!TIP]
 > You can customise the installation location via the `cmake` flags `INSTALL_LIBDIR`, `INSTALL_QMLDIR` and
 > `INSTALL_QSCONFDIR` for the libraries (the beat detector), QML plugin and Quickshell config directories
-> respectively. If changing the library directory, remember to set the `CAELESTIA_LIB_DIR` environment
+> respectively. If changing the library directory, remember to set the `QUICKSHELL_LIB_DIR` environment
 > variable to the custom directory when launching the shell.
 >
 > e.g. installing to `~/.config/quickshell/caelestia` for easy local changes:
@@ -518,39 +704,6 @@ default, you must create it manually.
   }
 }
 ```
-
-</details>
-
-### Home Manager Module
-
-For NixOS users, a home manager module is also available.
-
-<details><summary><code>home.nix</code></summary>
-
-```nix
-programs.caelestia = {
-  enable = true;
-  systemd = {
-    enable = false; # if you prefer starting from your compositor
-    target = "graphical-session.target";
-    environment = [];
-  };
-  settings = {
-    bar.status = {
-      showBattery = false;
-    };
-    paths.wallpaperDir = "~/Images";
-  };
-  cli = {
-    enable = true; # Also add caelestia-cli to path
-    settings = {
-      theme.enableGtk = false;
-    };
-  };
-};
-```
-
-The module automatically adds Caelestia shell to the path with **full functionality**. The CLI is not required, however you have the option to enable and configure it.
 
 </details>
 
