@@ -4,6 +4,7 @@ hyprland
 hyprpaper
 hypridle
 hyprlock
+hyprpicker
 xdg-desktop-portal-hyprland
 
 # Display server and session management
