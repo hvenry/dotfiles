@@ -10,6 +10,7 @@ This repository manages **configuration files only**, not software installation.
 2. **Then**: Use this repository to install/sync the configuration files
 
 For example:
+
 - Install `neovim` using `brew install neovim` (macOS) or `sudo pacman -S neovim` (Arch)
 - Then use this repo to install the Neovim configuration files
 
@@ -24,9 +25,9 @@ git clone git@github.com:hvenry/dotfiles.git
 cd dotfiles
 
 # Install a complete profile (configs only - see software installation below)
-./scripts/install-profile.sh macos           # macOS development setup
-./scripts/install-profile.sh arch-hyprland   # Arch Linux + Hyprland desktop
-./scripts/install-profile.sh server          # Minimal server setup
+./install-profile.sh macos           # macOS development setup
+./install-profile.sh arch-hyprland   # Arch Linux + Hyprland desktop
+./install-profile.sh server          # Minimal server setup
 ```
 
 ## Available Profiles
@@ -35,7 +36,7 @@ cd dotfiles
 - **`arch-hyprland`**: Full Wayland desktop with Hyprland (includes all desktop components)
 - **`server`**: Minimal headless server setup (zsh, nvim, tmux)
 
-## Software Installation (Required First)
+## Software Installation (Required First)<!--  -->
 
 **You must install the actual software before using the configuration files.**
 
@@ -71,19 +72,40 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 ### Arch Linux Setup
 
-Install required packages:
+**Option 1: Automated Bootstrap (Recommended)**
+
+For a fresh Arch system, use the automated bootstrap installer:
+
+```bash
+# Clone the repository
+cd ~
+git clone git@github.com:hvenry/dotfiles.git
+cd dotfiles
+
+# Run the complete Arch + Hyprland setup (installs packages + dotfiles)
+./bootstrap/arch-install.sh
+```
+
+This will:
+- Install all required packages from `bootstrap/pacman.txt` and `bootstrap/aur.txt`
+- Set up services (SDDM, PipeWire, etc.)
+- Handle NVIDIA configuration if detected
+- Apply the `arch-hyprland` dotfiles profile
+
+**Option 2: Manual Package Installation**
+
+If you prefer manual control, install required packages:
 
 ```bash
 # Core packages
-sudo pacman -S git stow tmux fzf neovim ghostty
+sudo pacman -S git stow tmux fzf neovim
 
-# VS Code (optional, for desktop setups)
-yay -S visual-studio-code-bin
-# OR from official repos:
-sudo pacman -S code
+# For Hyprland desktop environment (see bootstrap/pacman.txt for complete list):
+sudo pacman -S hyprland waybar wofi rofi-wayland swaync pipewire pipewire-pulse
+sudo pacman -S hyprpaper hypridle hyprlock networkmanager polkit-kde-agent
 
-# For Hyprland desktop environment (if using arch-hyprland profile):
-sudo pacman -S hyprland waybar wofi eww mako swww sddm
+# AUR packages (see bootstrap/aur.txt for complete list):
+yay -S ghostty visual-studio-code-bin eww hyprshot bibata-cursor-theme-bin
 ```
 
 Install Tmux Plugin Manager (TPM) for tmux themes and plugins:
@@ -110,18 +132,19 @@ Use the profile installer to automatically install configurations for your envir
 
 ```bash
 # Choose one based on your system:
-./scripts/install-profile.sh macos           # macOS development setup
-./scripts/install-profile.sh arch-hyprland   # Arch Linux + Hyprland desktop  
-./scripts/install-profile.sh server          # Minimal server setup
+./install-profile.sh macos           # macOS development setup
+./install-profile.sh arch-hyprland   # Arch Linux + Hyprland desktop
+./install-profile.sh server          # Minimal server setup
 
 # Clean install (removes existing configs first):
-./scripts/install-profile.sh --clean macos
+./install-profile.sh --clean macos
 
 # See all available profiles and options:
-./scripts/install-profile.sh
+./install-profile.sh
 ```
 
 **Profile Options:**
+
 - **No flags**: Keeps existing configurations, may cause conflicts
 - **`--clean`**: Removes existing configurations before installing (recommended)
 
@@ -157,7 +180,7 @@ stow -t ~ vscode
 # Install Neovim configuration
 stow -t ~ nvim
 
-# Install Ghostty terminal configuration  
+# Install Ghostty terminal configuration
 stow -t ~ ghostty
 
 # Install Tmux configuration
@@ -170,19 +193,22 @@ stow -t ~ .
 ## What Each Profile Installs
 
 ### macOS Profile
+
 - **zsh**: Shell configuration with Oh My Zsh and Powerlevel10k
-- **nvim**: Neovim configuration  
+- **nvim**: Neovim configuration
 - **tmux**: Terminal multiplexer configuration
 - **ghostty**: Terminal emulator configuration
 - **vscode**: VS Code settings and keybindings
 
-### Arch Hyprland Profile  
+### Arch Hyprland Profile
+
 - **Core tools**: zsh, nvim, tmux, ghostty
-- **Desktop environment**: hyprland, waybar, wofi, eww, mako, swww, sddm
+- **Desktop environment**: hyprland, waybar, wofi, eww, swww, sddm
 
 **Note**: Only packages with existing configuration folders will be installed. Missing packages are skipped with warnings.
 
 ### Server Profile
+
 - **zsh**: Shell configuration
 - **nvim**: Neovim configuration
 - **tmux**: Terminal multiplexer configuration
@@ -192,6 +218,7 @@ stow -t ~ .
 ### VS Code (Cross-Platform)
 
 The `vscode` package contains VS Code configuration files that work across platforms:
+
 - **macOS**: `~/Library/Application Support/Code/User/`
 - **Linux**: `~/.config/Code/User/`
 
@@ -210,6 +237,7 @@ After stowing your configurations, source the relevant files to apply changes:
 ### Zsh
 
 Source the zsh config:
+
 ```bash
 source ~/.zshrc
 ```
@@ -239,6 +267,7 @@ Simply restart the terminal application.
 ## Complete Setup Examples
 
 ### macOS Setup
+
 ```bash
 # 1. Install software
 brew install git stow tmux fzf neovim
@@ -251,13 +280,14 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cd ~
 git clone git@github.com:hvenry/dotfiles.git
 cd dotfiles
-./scripts/install-profile.sh --clean macos
+./install-profile.sh --clean macos
 
 # 4. Source configurations
 source ~/.zshrc
 ```
 
 ### Arch Linux Setup (Server)
+
 ```bash
 # 1. Install software
 sudo pacman -S git stow tmux fzf neovim
@@ -269,17 +299,30 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cd ~
 git clone git@github.com:hvenry/dotfiles.git
 cd dotfiles
-./scripts/install-profile.sh --clean server
+./install-profile.sh --clean server
 
 # 4. Source configurations
 source ~/.zshrc
 ```
 
 ### Arch Linux Setup (Hyprland Desktop)
+
+**Option 1: Automated Bootstrap (Recommended)**
+
 ```bash
-# 1. Install software
-sudo pacman -S git stow tmux fzf neovim ghostty
-sudo pacman -S hyprland waybar wofi eww mako swww sddm
+# Clone and run complete setup
+cd ~
+git clone git@github.com:hvenry/dotfiles.git
+cd dotfiles
+./bootstrap/arch-install.sh
+```
+
+**Option 2: Manual Setup**
+
+```bash
+# 1. Install software (see bootstrap files for complete lists)
+sudo pacman -S git stow tmux fzf neovim hyprland waybar rofi-wayland swaync
+yay -S ghostty visual-studio-code-bin eww hyprshot
 
 # 2. Install TPM for tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -288,8 +331,9 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cd ~
 git clone git@github.com:hvenry/dotfiles.git
 cd dotfiles
-./scripts/install-profile.sh --clean arch-hyprland
+./install-profile.sh --clean arch-hyprland
 
 # 4. Source configurations
 source ~/.zshrc
 ```
+

@@ -17,6 +17,10 @@ fi
 # set defaul editor
 export EDITOR=nvim
 
+# NVIDIA Video Acceleration
+export LIBVA_DRIVER_NAME=nvidia
+export VDPAU_DRIVER=nvidia
+
 # Zinit installation path
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -92,3 +96,8 @@ alias c='clear'
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
+
+# Add ~/.local/bin to PATH
+if [ -d "${HOME}/.local/bin" ] && [[ ":${PATH}:" != *":${HOME}/.local/bin:"* ]]; then
+    PATH="${HOME}/.local/bin:${PATH}"
+fi

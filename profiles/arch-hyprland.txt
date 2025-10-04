@@ -4,7 +4,19 @@
 # Desktop packages: window manager, status bar, app launcher, widgets, notifications, wallpaper, display manager
 
 # Core development tools
-zsh nvim tmux ghostty
+zsh
+nvim
+tmux
+ghostty
 
 # Hyprland desktop environment
-hyprland waybar wofi eww mako swww sddm
+hyprland
+waybar
+rofi
+scripts
+systemd
+
+# Theming and environment
+gtk
+xsettingsd
+environment

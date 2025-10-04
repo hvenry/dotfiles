@@ -1,0 +1,25 @@
+# AUR-only picks
+# Terminal emulator
+ghostty
+
+# Development tools
+claude-code
+visual-studio-code-bin
+
+# Fonts
+ttf-jetbrains-mono-nerd
+cozette-otb
+cozette-ttf
+
+# Hyprland ecosystem
+eww
+hyprshot
+
+# Cursor theme
+bibata-cursor-theme
+
+# GUI backend dependencies (for waybar custom GUI system)
+python-flask
+python-flask-cors
+chromium
+

@@ -1,0 +1,62 @@
+# Wayland/Hyprland stack
+# Core Hyprland environment
+hyprland
+hyprpaper
+hypridle
+hyprlock
+xdg-desktop-portal-hyprland
+
+# Display server and session management
+wayland
+wayland-protocols
+sddm
+
+# Audio system
+pipewire
+pipewire-pulse
+pipewire-alsa
+pipewire-jack
+wireplumber
+pactl
+playerctl
+
+# Networking
+networkmanager
+network-manager-applet
+
+# System utilities
+polkit
+polkit-kde-agent
+brightnessctl
+wl-clipboard
+grim
+slurp
+
+# Status bar and widgets
+waybar
+
+# App launcher and menus
+rofi-wayland
+wofi
+
+# Notification daemon
+swaync
+libnotify
+
+# Theming and fonts
+gtk3
+gtk4
+qt6ct
+adwaita-qt
+xsettingsd
+ttf-jetbrains-mono-nerd
+
+# File management
+dolphin
+thunar
+
+# Development tools
+git
+stow
+base-devel
+
