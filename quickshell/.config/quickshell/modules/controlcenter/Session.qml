@@ -11,11 +11,18 @@ QtObject {
     property int activeIndex: 0
     property bool navExpanded: false
 
+    readonly property Network network: Network {}
     readonly property Bt bt: Bt {}
     readonly property Audio audio: Audio {}
 
     onActiveChanged: activeIndex = panes.indexOf(active)
     onActiveIndexChanged: active = panes[activeIndex]
+
+    component Network: QtObject {
+        property var active
+        property var connectingNetwork
+        property bool showPasswordDialog: false
+    }
 
     component Bt: QtObject {
         property BluetoothDevice active
