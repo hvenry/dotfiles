@@ -1,4 +1,5 @@
 import Quickshell.Bluetooth
+import Quickshell.Services.Pipewire
 import QtQuick
 
 QtObject {
@@ -11,6 +12,7 @@ QtObject {
     property bool navExpanded: false
 
     readonly property Bt bt: Bt {}
+    readonly property Audio audio: Audio {}
 
     onActiveChanged: activeIndex = panes.indexOf(active)
     onActiveIndexChanged: active = panes[activeIndex]
@@ -21,5 +23,9 @@ QtObject {
         property bool editingAdapterName
         property bool fabMenuOpen
         property bool editingDeviceName
+    }
+
+    component Audio: QtObject {
+        property PwNode active
     }
 }

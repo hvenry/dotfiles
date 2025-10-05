@@ -106,7 +106,6 @@ Item {
 
         StyledRect {
             Layout.topMargin: Appearance.spacing.normal
-            visible: Config.general.apps.audio.length > 0
 
             implicitWidth: expandBtn.implicitWidth + Appearance.padding.normal * 2
             implicitHeight: expandBtn.implicitHeight + Appearance.padding.small
@@ -118,8 +117,7 @@ Item {
                 color: Colours.palette.m3onPrimaryContainer
 
                 function onClicked(): void {
-                    root.wrapper.hasCurrent = false;
-                    Quickshell.execDetached(["app2unit", "--", ...Config.general.apps.audio]);
+                    root.wrapper.detach("audio");
                 }
             }
 
@@ -131,7 +129,7 @@ Item {
 
                 StyledText {
                     Layout.leftMargin: Appearance.padding.smaller
-                    text: qsTr("Open settings")
+                    text: qsTr("Open panel")
                     color: Colours.palette.m3onPrimaryContainer
                 }
 
