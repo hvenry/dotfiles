@@ -13,6 +13,7 @@ A minimal monochrome Wayland shell for Hyprland, forked from [Caelestia](https:/
 ## Documentation
 
 📚 **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Comprehensive architecture documentation:
+
 - Directory structure and how `components/`, `config/`, `modules/`, `services/`, `utils/` interact
 - Complete component inventory with usage examples
 - Visual ASCII representations of all GUI elements (bar, launcher, dashboard, etc.)
@@ -128,18 +129,19 @@ The configuration requires custom QML plugins (for beat detection, audio visuali
 ```sh
 cd ~/dotfiles/quickshell/.config/quickshell
 
-# Build only the QML plugins (not the shell config files)
+# Build all modules, including QMLLS configuration for IDEs
 rm -rf build
 cmake -B build -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=/ \
   -DVERSION=1.0.0 \
   -DGIT_REVISION=refactored \
-  -DENABLE_MODULES="extras;plugin"
+  -DENABLE_MODULES="extras;plugin;shell"
 
+# Generate QML metadata for IDEs (includes .qmlls.ini)
 cmake --build build
 
-# Install the plugins to /usr/lib/qt6/qml/ (requires sudo)
+# Install QML plugins system-wide
 sudo cmake --install build
 ```
 
@@ -241,7 +243,6 @@ The QML files in your dotfiles reference the plugins via `import QShell`, `impor
 You can customize paths using environment variables (set in `.envrc`, shell profile, or systemd service):
 
 - `QUICKSHELL_LIB_DIR` - Override library directory (default: `/usr/lib/quickshell`)
-- `QUICKSHELL_WALLPAPERS_DIR` - Override wallpaper directory (default: from `shell.json` or `~/Pictures`)
 - `QUICKSHELL_RECORDINGS_DIR` - Override recording directory (default: `~/Videos/Recordings`)
 - `QUICKSHELL_XKB_RULES_PATH` - Override keyboard layout rules (default: `/usr/share/X11/xkb/rules/base.lst`)
 
@@ -649,7 +650,6 @@ Changes are hot-reloaded automatically when you save the file.
     "vimKeybinds": false,
     "enableDangerousActions": false,
     "maxShown": 7,
-    "maxWallpapers": 9,
     "specialPrefix": "@",
     "useFuzzy": {
       "apps": false,

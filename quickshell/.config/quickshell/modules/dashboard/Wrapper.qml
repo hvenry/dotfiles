@@ -1,11 +1,11 @@
 pragma ComponentBehavior: Bound
 
 import qs.components
-import qs.components.filedialog
 import qs.config
 import qs.utils
 import QShell
 import Quickshell
+import Quickshell.Io
 import QtQuick
 
 Item {
@@ -18,15 +18,51 @@ Item {
 
         reloadableId: "dashboardState"
     }
-    readonly property FileDialog facePicker: FileDialog {
-        title: qsTr("Select a profile picture")
-        filterLabel: qsTr("Image files")
-        filters: Images.validImageExtensions
-        onAccepted: path => {
-            if (CUtils.copyFile(Qt.resolvedUrl(path), Qt.resolvedUrl(`${Paths.home}/.face`)))
-                Quickshell.execDetached(["notify-send", "-a", "caelestia-shell", "-u", "low", "-h", `STRING:image-path:${path}`, "Profile picture changed", `Profile picture changed to ${Paths.shortenHome(path)}`]);
-            else
-                Quickshell.execDetached(["notify-send", "-a", "caelestia-shell", "-u", "critical", "Unable to change profile picture", `Failed to change profile picture to ${Paths.shortenHome(path)}`]);
+    readonly property QtObject facePicker: QtObject {
+        property string tmpFile: `${Paths.cache}/yazi-selected-face.txt`
+
+        function open(): void {
+            // Launch yazi in floating terminal to pick profile picture
+            Quickshell.execDetached(["rm", "-f", tmpFile]);
+
+            const yaziCmd = `yazi --chooser-file="${tmpFile}" ~/Pictures`;
+
+            Quickshell.execDetached([
+                "ghostty",
+                "--class=yazi-picker",
+                "--window-width=1200",
+                "--window-height=800",
+                "-e", "sh", "-c", yaziCmd
+            ]);
+
+            // Watch for the selected file
+            fileWatcherView.path = tmpFile;
+            fileWatcherView.watchChanges = true;
+        }
+    }
+
+    FileView {
+        id: fileWatcherView
+        watchChanges: false
+
+        onLoaded: {
+            const selectedPath = text().trim();
+            watchChanges = false;
+
+            // Clean up temp file
+            Quickshell.execDetached(["rm", "-f", path]);
+
+            if (selectedPath) {
+                if (CUtils.copyFile(Qt.resolvedUrl(selectedPath), Qt.resolvedUrl(`${Paths.home}/.face`))) {
+                    Quickshell.execDetached(["notify-send", "-a", "quickshell", "-u", "low", "Profile picture changed", `Profile picture changed to ${Paths.shortenHome(selectedPath)}`]);
+                } else {
+                    Quickshell.execDetached(["notify-send", "-a", "quickshell", "-u", "critical", "Unable to change profile picture", `Failed to change profile picture to ${Paths.shortenHome(selectedPath)}`]);
+                }
+            }
+        }
+
+        onLoadFailed: {
+            // Silently ignore - file doesn't exist yet
         }
     }
 

@@ -1,7 +1,6 @@
 pragma ComponentBehavior: Bound
 
 import qs.components
-import qs.components.filedialog
 import qs.config
 import Quickshell
 import Quickshell.Widgets
@@ -13,7 +12,7 @@ Item {
 
     required property PersistentProperties visibilities
     required property PersistentProperties state
-    required property FileDialog facePicker
+    required property var facePicker
     readonly property real nonAnimWidth: view.implicitWidth + viewWrapper.anchors.margins * 2
     readonly property real nonAnimHeight: tabs.implicitHeight + tabs.anchors.topMargin + view.implicitHeight + viewWrapper.anchors.margins * 2
 

@@ -113,21 +113,6 @@ Singleton {
         }
     }
 
-    IpcHandler {
-        target: "hypr"
-
-        function refreshDevices(): void {
-            extras.refreshDevices();
-        }
-    }
-
-    CustomShortcut {
-        name: "refreshDevices"
-        description: "Reload devices"
-        onPressed: extras.refreshDevices()
-        onReleased: extras.refreshDevices()
-    }
-
     HyprExtras {
         id: extras
     }

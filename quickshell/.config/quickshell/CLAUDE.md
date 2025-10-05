@@ -26,15 +26,18 @@ Quickshell uses Qt's QML declarative language with a modular import system:
 The configuration requires custom C++ QML plugins that are compiled and installed system-wide:
 
 **Plugin Structure:**
+
 - **`plugin/`** - Custom QML modules (beat tracker, audio collector, Cava visualizer)
 - **`extras/`** - Additional QML modules (Hyprland extras, logind integration, image utilities)
 
 **Build System:**
+
 - Uses CMake with Ninja generator
 - Installs to `/usr/lib/qt6/qml/Caelestia/` for QML imports
 - Installs libraries to `/usr/lib/quickshell/`
 
 **QML Imports:**
+
 ```qml
 import Caelestia             // Plugin modules (beat tracker, audio, Cava)
 import Caelestia.Internal    // Extras (caching image manager, Hyprland extras)
@@ -64,21 +67,23 @@ Key services accessible globally via QML imports:
 - **`Config`** (`config/Config.qml`) - Configuration loader and hot-reloader
 - **`Paths`** (`utils/Paths.qml`) - XDG directory paths and environment variables
 - **`Colours`** (`services/Colours.qml`) - Dynamic color scheme management
-- **`Wallpapers`** (`services/Wallpapers.qml`) - Wallpaper management via hyprpaper
 
 ### Directory Structure (XDG Paths)
 
 **Config:** `~/.config/quickshell/` (versioned in dotfiles)
+
 - `shell.json` - Main configuration
 - `scheme.json` - Color scheme (if stored here)
 - `*.qml` files - QML source code (symlinked via stow)
 
 **State:** `~/.local/state/quickshell/` (runtime state, not versioned)
+
 - `apps.sqlite` - Application launch history
 - `notifs.json` - Notification state
 - `scheme.json` - Color scheme (if stored here)
 
 **Cache:** `~/.cache/quickshell/` (temporary, safe to delete)
+
 - `imagecache/` - Processed images for faster loading
 
 **Data:** `~/.local/share/quickshell/` (persistent data, not currently used)
@@ -144,11 +149,13 @@ echo 'KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"' | sudo tee /etc/udev/rules
 **File:** `services/Brightness.qml`
 
 **Multi-backend system:**
+
 1. **ddcutil** - External monitors via DDC/CI (requires i2c permissions)
 2. **brightnessctl** - Laptop built-in displays via Linux backlight
 3. **asdbctl** - Apple Studio Display (if detected)
 
 **Key logic:**
+
 - Detects monitors via `ddcutil detect --brief` on startup
 - Parses DRM connector names (handles both `DRM connector:` and `DRM_connector:` formats)
 - Maps monitors to I2C bus numbers for ddcutil control
@@ -156,6 +163,7 @@ echo 'KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"' | sudo tee /etc/udev/rules
 - Queues brightness changes to avoid DDC/CI rate limiting (500ms timer)
 
 **Important:** The regex at line 83 handles multiple DDC output formats:
+
 ```qml
 const connectorMatch = d.match(/DRM[_ ]connector:\s+(.*)/);
 ```
@@ -165,6 +173,7 @@ const connectorMatch = d.match(/DRM[_ ]connector:\s+(.*)/);
 **File:** `services/Brightness.qml`
 
 **Query system:**
+
 ```qml
 function getMonitor(query: string): var {
     if (query === "active") // Currently focused monitor
@@ -180,11 +189,13 @@ function getMonitor(query: string): var {
 **File:** `services/Hypr.qml`
 
 **Uses Caelestia.HyprExtras QML module for:**
+
 - Keyboard state (Caps Lock, Num Lock)
 - Active keymap detection
 - Device management
 
 **Key properties:**
+
 - `toplevels` - All windows
 - `workspaces` - All workspaces
 - `monitors` - All displays
@@ -193,6 +204,7 @@ function getMonitor(query: string): var {
 - `keyboard` - Main keyboard device
 
 **Event handling:**
+
 - Listens to `Hyprland.rawEvent` signals
 - Refreshes state based on event types (workspace changes, window events, etc.)
 
@@ -201,12 +213,14 @@ function getMonitor(query: string): var {
 **File:** `config/Config.qml`
 
 **Mechanism:**
+
 - `FileView` watches `${Paths.config}/shell.json`
 - On file change: triggers `reload()`, parses JSON, shows toast notification
 - `JsonAdapter` automatically maps JSON to typed QML config objects
 - All modules bind to `Config.*` properties reactively
 
 **Usage:**
+
 ```qml
 import qs.config
 
@@ -220,6 +234,7 @@ Config.dashboard.enabled  // Reads from shell.json → dashboard.enabled
 **File:** `services/Colours.qml`
 
 **Current state:**
+
 - Pure monochrome scheme (no hue, only lightness)
 - Reads from `~/.local/state/quickshell/scheme.json`
 - Material Design 3 color tokens (surface, primary, onPrimary, etc.)
@@ -230,23 +245,26 @@ Config.dashboard.enabled  // Reads from shell.json → dashboard.enabled
 ## Key Files and Their Purposes
 
 ### Entry Points
+
 - **`shell.qml`** - Main entry point, instantiates top-level modules (Drawers, Shortcuts)
 
 ### Core Services
+
 - **`services/Hypr.qml`** - Hyprland state (workspaces, windows, monitors, keyboard)
 - **`services/Brightness.qml`** - Multi-backend brightness control (ddcutil, brightnessctl, asdbctl)
 - **`services/Colours.qml`** - Color scheme management
-- **`services/Wallpapers.qml`** - Wallpaper management via hyprpaper
 - **`services/Audio.qml`** - Audio input/output control via PipeWire
 - **`services/Network.qml`** - NetworkManager integration
 - **`services/Bluetooth.qml`** - BlueZ integration
 - **`services/Mpris.qml`** - Media player control (MPRIS2)
 
 ### Configuration
+
 - **`config/Config.qml`** - Main config loader with hot-reloading
 - **`utils/Paths.qml`** - Centralized path management (XDG directories, environment variables)
 
 ### Build System
+
 - **`CMakeLists.txt`** - Top-level build configuration
 - **`.envrc`** - direnv configuration for development builds
 - **`plugin/CMakeLists.txt`** - C++ QML plugin build
@@ -255,17 +273,19 @@ Config.dashboard.enabled  // Reads from shell.json → dashboard.enabled
 ### Module Organization
 
 **Active modules (enabled in shell.qml):**
+
 - `modules/drawers/` - Contains bar, launcher, dashboard, panels
 - `modules/Shortcuts.qml` - IPC handlers for keybinds
 
 **Disabled modules (removed from shell.qml):**
-- `modules/background/` - Desktop wallpaper/clock/visualizer (using hyprpaper instead)
+
 - `modules/lock/` - Lock screen (disabled in minimal config)
 - `modules/areapicker/` - Screenshot area picker (disabled)
 
 ## Refactor History
 
 See `REFACTOR_CHECKPOINT.md` for detailed changelog of the minimal monochrome refactor:
+
 - Removed Caelestia branding, renamed paths from `caelestia` to `quickshell`
 - Disabled heavy features (background management, lock screen, utilities)
 - Removed `caelestia-cli` dependency, uses hyprpaper directly
@@ -275,17 +295,19 @@ See `REFACTOR_CHECKPOINT.md` for detailed changelog of the minimal monochrome re
 ## Environment Variables
 
 **Development:**
+
 - `QUICKSHELL_LIB_DIR` - Override library directory (default: `/usr/lib/quickshell`)
 - `QML2_IMPORT_PATH` - Additional QML import paths (set by `.envrc` for dev builds)
 
 **Runtime:**
-- `QUICKSHELL_WALLPAPERS_DIR` - Override wallpaper directory
+
 - `QUICKSHELL_RECORDINGS_DIR` - Override recording directory
 - `QUICKSHELL_XKB_RULES_PATH` - Override keyboard layout rules path
 
 ## Dependencies
 
 **Runtime (required):**
+
 - `quickshell-git` - QML shell framework (must be git version)
 - `hyprland` - Wayland compositor
 - `hyprpaper` - Wallpaper daemon
@@ -297,11 +319,13 @@ See `REFACTOR_CHECKPOINT.md` for detailed changelog of the minimal monochrome re
 - `qt6-declarative`, `qt6-base` - Qt runtime
 
 **Build (required):**
+
 - `cmake`, `ninja` - Build system
 - `gcc` or `clang` - C++ compiler
 - `libqalculate` - Calculator library (for QML plugin)
 
 **Optional:**
+
 - `ddcutil` - External monitor brightness control
 - `lm-sensors` - Temperature monitoring
 - `pavucontrol` - Audio settings GUI
@@ -309,21 +333,25 @@ See `REFACTOR_CHECKPOINT.md` for detailed changelog of the minimal monochrome re
 ## Debugging Tips
 
 ### Check QML Import Paths
+
 ```bash
 echo $QML2_IMPORT_PATH
 # Should include build/qml for dev builds
 ```
 
 ### Monitor Brightness Issues
+
 - Verify i2c group membership: `groups | grep i2c`
 - Test ddcutil: `sudo ddcutil detect`
 - Check udev rules: `cat /etc/udev/rules.d/45-ddcutil-i2c.rules`
 
 ### Configuration Not Loading
+
 - Check file exists: `cat ~/.config/quickshell/shell.json`
 - Verify JSON syntax: `jq . ~/.config/quickshell/shell.json`
 - Watch quickshell output for parse errors
 
 ### Color Scheme Issues
+
 - Check scheme file: `cat ~/.local/state/quickshell/scheme.json`
 - Verify all required color tokens are present (see `services/Colours.qml`)

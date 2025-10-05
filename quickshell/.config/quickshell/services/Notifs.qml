@@ -104,40 +104,6 @@ Singleton {
         }
     }
 
-    CustomShortcut {
-        name: "clearNotifs"
-        description: "Clear all notifications"
-        onPressed: {
-            for (const notif of root.list.slice())
-                notif.close();
-        }
-    }
-
-    IpcHandler {
-        target: "notifs"
-
-        function clear(): void {
-            for (const notif of root.list.slice())
-                notif.close();
-        }
-
-        function isDndEnabled(): bool {
-            return props.dnd;
-        }
-
-        function toggleDnd(): void {
-            props.dnd = !props.dnd;
-        }
-
-        function enableDnd(): void {
-            props.dnd = true;
-        }
-
-        function disableDnd(): void {
-            props.dnd = false;
-        }
-    }
-
     component Notif: QtObject {
         id: notif
 

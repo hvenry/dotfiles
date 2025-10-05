@@ -33,24 +33,4 @@ Singleton {
             mask: Region {}
         }
     }
-
-    IpcHandler {
-        target: "idleInhibitor"
-
-        function isEnabled(): bool {
-            return props.enabled;
-        }
-
-        function toggle(): void {
-            props.enabled = !props.enabled;
-        }
-
-        function enable(): void {
-            props.enabled = true;
-        }
-
-        function disable(): void {
-            props.enabled = false;
-        }
-    }
 }

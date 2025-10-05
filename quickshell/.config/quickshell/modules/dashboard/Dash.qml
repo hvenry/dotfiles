@@ -1,5 +1,4 @@
 import qs.components
-import qs.components.filedialog
 import qs.services
 import qs.config
 import "dash"
@@ -11,7 +10,7 @@ GridLayout {
 
     required property PersistentProperties visibilities
     required property PersistentProperties state
-    required property FileDialog facePicker
+    required property var facePicker
 
     rowSpacing: Appearance.spacing.normal
     columnSpacing: Appearance.spacing.normal
