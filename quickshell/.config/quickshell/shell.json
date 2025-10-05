@@ -49,15 +49,6 @@
       "compact": true
     }
   },
-  "background": {
-    "enabled": false,
-    "desktopClock": {
-      "enabled": false
-    },
-    "visualiser": {
-      "enabled": false
-    }
-  },
   "dashboard": {
     "enabled": true,
     "dragThreshold": 50,

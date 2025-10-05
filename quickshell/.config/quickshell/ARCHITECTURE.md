@@ -250,34 +250,29 @@ quickshell/
    - Manages transparency settings
    - Currently uses pure monochrome scheme
 
-5. **`Wallpapers.qml`** - Wallpaper management
-   - Interfaces with `hyprpaper` daemon
-   - Functions: `setWallpaper()`, `preload()`, `unload()`
-   - Scans wallpaper directory for images
-
-6. **`Players.qml`** - Media player control (MPRIS2)
+5. **`Players.qml`** - Media player control (MPRIS2)
    - Properties: `active` (currently playing player), `players` (all players)
    - Functions: `play()`, `pause()`, `next()`, `previous()`
 
-7. **`Network.qml`** - Network management (NetworkManager)
+6. **`Network.qml`** - Network management (NetworkManager)
    - Properties: WiFi/Ethernet state, available networks
    - Functions: `connect()`, `disconnect()`, `scan()`
 
-8. **`Notifs.qml`** - Notification system
+7. **`Notifs.qml`** - Notification system
    - Manages notification queue, persistence, dismissal
    - Reads: `~/.local/state/quickshell/notifs.json`
 
-9. **`Time.qml`** - Time/date utilities
+8. **`Time.qml`** - Time/date utilities
    - Provides formatted time strings, date calculations
 
-10. **`SystemUsage.qml`** - System resource monitoring
-    - CPU, memory, disk usage tracking
+9. **`SystemUsage.qml`** - System resource monitoring
+   - CPU, memory, disk usage tracking
 
-11. **`Visibilities.qml`** - Panel visibility state
+10. **`Visibilities.qml`** - Panel visibility state
     - Tracks which panels are currently visible
     - Manages per-screen visibility state
 
-12. **`GameMode.qml`**, `IdleInhibitor.qml`, `Recorder.qml`, `Weather.qml` - Additional services
+11. **`GameMode.qml`**, `IdleInhibitor.qml`, `Recorder.qml`, `Weather.qml` - Additional services
 
 **Relationship to other directories:**
 
@@ -299,7 +294,7 @@ quickshell/
 **Utility files:**
 
 1. **`Paths.qml`** - Path management
-   - Properties: `home`, `pictures`, `videos`, `config`, `state`, `cache`, `wallsdir`, `recsdir`
+   - Properties: `home`, `pictures`, `videos`, `config`, `state`, `cache`, `recsdir`
    - Functions: `absolutePath()`, `toLocalFile()`, `shortenHome()`
    - Respects XDG Base Directory specification
 
@@ -606,7 +601,6 @@ Logo  Workspaces   ActiveWindow                StatusIcons  Power
   - `ActionItem` - System actions (shutdown, reboot, lock, etc.)
   - `CalcItem` - Calculator results (if query is math)
   - `SchemeItem`, `VariantItem` - Theme pickers
-  - `WallpaperItem` - Wallpaper thumbnails
 
 ### Dashboard (Top Center Pulldown)
 

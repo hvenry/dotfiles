@@ -10,7 +10,6 @@ Singleton {
 
     property alias appearance: adapter.appearance
     property alias general: adapter.general
-    property alias background: adapter.background
     property alias bar: adapter.bar
     property alias border: adapter.border
     property alias dashboard: adapter.dashboard
@@ -56,7 +55,6 @@ Singleton {
 
             property AppearanceConfig appearance: AppearanceConfig {}
             property GeneralConfig general: GeneralConfig {}
-            property BackgroundConfig background: BackgroundConfig {}
             property BarConfig bar: BarConfig {}
             property BorderConfig border: BorderConfig {}
             property DashboardConfig dashboard: DashboardConfig {}

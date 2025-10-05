@@ -22,7 +22,7 @@ Singleton {
     readonly property M3Palette current: M3Palette {}
     readonly property M3Palette preview: M3Palette {}
     readonly property Transparency transparency: Transparency {}
-    readonly property alias wallLuminance: analyser.luminance
+    readonly property real wallLuminance: 0
 
     function getLuminance(c: color): real {
         if (c.r == 0 && c.g == 0 && c.b == 0)
@@ -85,12 +85,6 @@ Singleton {
         watchChanges: true
         onFileChanged: reload()
         onLoaded: root.load(text(), false)
-    }
-
-    ImageAnalyser {
-        id: analyser
-
-        source: Wallpapers.current
     }
 
     component Transparency: QtObject {
