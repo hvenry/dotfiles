@@ -15,7 +15,6 @@ Singleton {
     property alias border: adapter.border
     property alias dashboard: adapter.dashboard
     property alias controlCenter: adapter.controlCenter
-    property alias launcher: adapter.launcher
     property alias notifs: adapter.notifs
     property alias osd: adapter.osd
     property alias session: adapter.session
@@ -62,7 +61,6 @@ Singleton {
             property BorderConfig border: BorderConfig {}
             property DashboardConfig dashboard: DashboardConfig {}
             property ControlCenterConfig controlCenter: ControlCenterConfig {}
-            property LauncherConfig launcher: LauncherConfig {}
             property NotifsConfig notifs: NotifsConfig {}
             property OsdConfig osd: OsdConfig {}
             property SessionConfig session: SessionConfig {}

@@ -1,6 +1,5 @@
 find_package(Qt6 REQUIRED COMPONENTS Core Qml Gui Quick Concurrent Sql Network DBus)
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(Qalculate IMPORTED_TARGET libqalculate REQUIRED)
 pkg_check_modules(Pipewire IMPORTED_TARGET libpipewire-0.3 REQUIRED)
 pkg_check_modules(Aubio IMPORTED_TARGET aubio REQUIRED)
 pkg_check_modules(Cava IMPORTED_TARGET cava REQUIRED)
@@ -41,7 +40,6 @@ qml_module(qshell
     URI QShell
     SOURCES
         cutils.hpp cutils.cpp
-        qalculator.hpp qalculator.cpp
         appdb.hpp appdb.cpp
         requests.hpp requests.cpp
         toaster.hpp toaster.cpp
@@ -51,7 +49,6 @@ qml_module(qshell
         Qt::Quick
         Qt::Concurrent
         Qt::Sql
-        PkgConfig::Qalculate
 )
 
 add_subdirectory(Hyprland)

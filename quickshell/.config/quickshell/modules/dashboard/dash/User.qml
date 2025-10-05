@@ -73,7 +73,6 @@ Row {
                     color: Colours.palette.m3onPrimary
 
                     function onClicked(): void {
-                        root.visibilities.launcher = false;
                         root.facePicker.open();
                     }
                 }

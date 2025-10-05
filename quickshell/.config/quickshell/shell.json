@@ -64,61 +64,6 @@
     "mediaUpdateInterval": 500,
     "showOnHover": true
   },
-  "launcher": {
-    "actions": [
-      {
-        "name": "Shutdown",
-        "icon": "power_settings_new",
-        "description": "Shutdown the system",
-        "command": ["systemctl", "poweroff"],
-        "enabled": true,
-        "dangerous": true
-      },
-      {
-        "name": "Reboot",
-        "icon": "cached",
-        "description": "Reboot the system",
-        "command": ["systemctl", "reboot"],
-        "enabled": true,
-        "dangerous": true
-      },
-      {
-        "name": "Logout",
-        "icon": "exit_to_app",
-        "description": "Log out of the current session",
-        "command": ["loginctl", "terminate-user", ""],
-        "enabled": true,
-        "dangerous": true
-      },
-      {
-        "name": "Lock",
-        "icon": "lock",
-        "description": "Lock the current session",
-        "command": ["loginctl", "lock-session"],
-        "enabled": true,
-        "dangerous": false
-      },
-      {
-        "name": "Sleep",
-        "icon": "bedtime",
-        "description": "Suspend then hibernate",
-        "command": ["systemctl", "suspend-then-hibernate"],
-        "enabled": true,
-        "dangerous": false
-      }
-    ],
-    "useFuzzy": {
-      "apps": false,
-      "actions": false,
-      "schemes": false,
-      "variants": false,
-      "wallpapers": false
-    },
-    "maxShown": 7,
-    "vimKeybinds": false,
-    "enableDangerousActions": true,
-    "maxWallpapers": 0
-  },
   "osd": {
     "enabled": true,
     "enableBrightness": true,

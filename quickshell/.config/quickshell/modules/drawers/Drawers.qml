@@ -26,7 +26,6 @@ Variants {
             property bool bar
             property bool osd
             property bool session
-            property bool launcher
             property bool dashboard
             property bool utilities
             property bool sidebar
@@ -57,14 +56,13 @@ Variants {
                     return 0;
 
                 const thresholds = [];
-                for (const panel of ["dashboard", "launcher", "session", "sidebar"])
+                for (const panel of ["dashboard", "session", "sidebar"])
                     if (Config[panel].enabled)
                         thresholds.push(Config[panel].dragThreshold);
                 return Math.max(...thresholds);
             }
 
             onHasFullscreenChanged: {
-                visibilities.launcher = false;
                 visibilities.session = false;
                 visibilities.dashboard = false;
             }
@@ -72,7 +70,7 @@ Variants {
             screen: scope.modelData
             name: "drawers"
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
-            WlrLayershell.keyboardFocus: visibilities.launcher || visibilities.session || panels.popouts.hasCurrent ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+            WlrLayershell.keyboardFocus: visibilities.session || panels.popouts.hasCurrent ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
 
             mask: Region {
                 x: bar.implicitWidth + win.dragMaskPadding
@@ -108,10 +106,9 @@ Variants {
             HyprlandFocusGrab {
                 id: focusGrab
 
-                active: (visibilities.launcher && Config.launcher.enabled) || (visibilities.session && Config.session.enabled) || (visibilities.sidebar && Config.sidebar.enabled) || (!Config.dashboard.showOnHover && visibilities.dashboard && Config.dashboard.enabled) || (panels.popouts.currentName.startsWith("traymenu") && panels.popouts.current?.depth > 1)
+                active: (visibilities.session && Config.session.enabled) || (visibilities.sidebar && Config.sidebar.enabled) || (!Config.dashboard.showOnHover && visibilities.dashboard && Config.dashboard.enabled) || (panels.popouts.currentName.startsWith("traymenu") && panels.popouts.current?.depth > 1)
                 windows: [win]
                 onCleared: {
-                    visibilities.launcher = false;
                     visibilities.session = false;
                     visibilities.sidebar = false;
                     visibilities.dashboard = false;

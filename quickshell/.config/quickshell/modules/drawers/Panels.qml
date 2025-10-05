@@ -2,7 +2,6 @@ import qs.config
 import qs.modules.osd as Osd
 import qs.modules.notifications as Notifications
 import qs.modules.session as Session
-import qs.modules.launcher as Launcher
 import qs.modules.dashboard as Dashboard
 import qs.modules.bar.popouts as BarPopouts
 import qs.modules.utilities as Utilities
@@ -21,7 +20,6 @@ Item {
     readonly property alias osd: osd
     readonly property alias notifications: notifications
     readonly property alias session: session
-    readonly property alias launcher: launcher
     readonly property alias dashboard: dashboard
     readonly property alias popouts: popouts
     readonly property alias utilities: utilities
@@ -64,17 +62,6 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.rightMargin: sidebar.width
-    }
-
-    Launcher.Wrapper {
-        id: launcher
-
-        screen: root.screen
-        visibilities: root.visibilities
-        panels: root
-
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
     }
 
     Dashboard.Wrapper {

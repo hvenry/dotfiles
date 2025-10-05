@@ -12,7 +12,7 @@ quickshell/
 ├── scheme.json            # Color scheme definition (Material Design 3 tokens)
 ├── components/            # Reusable UI building blocks
 ├── config/                # Configuration system (reads shell.json)
-├── modules/               # High-level feature modules (bar, launcher, etc.)
+├── modules/               # High-level feature modules (bar, etc.)
 ├── services/              # Singleton services (global state and functionality)
 ├── utils/                 # Utility singletons (paths, icons, etc.)
 ├── plugin/                # C++ QML plugins (compiled separately)
@@ -98,7 +98,7 @@ quickshell/
 
 1. **`Config.qml`** - Main configuration singleton
    - Loads `shell.json` using `FileView` and `JsonAdapter`
-   - Exposes configuration sections as properties: `Config.bar`, `Config.launcher`, etc.
+   - Exposes configuration sections as properties: `Config.bar`, etc.
    - Handles hot-reload on file changes
    - Shows toast notifications on config load/error
 
@@ -109,7 +109,6 @@ quickshell/
 3. **Config objects** (one per module):
    - `AppearanceConfig.qml` - Visual settings (fonts, spacing, rounding, animations)
    - `BarConfig.qml` - Bar layout and persistent mode
-   - `LauncherConfig.qml` - Launcher actions and fuzzy search settings
    - `DashboardConfig.qml` - Dashboard drag threshold and hover behavior
    - `SessionConfig.qml` - Session menu vim keybinds and commands
    - `SidebarConfig.qml` - Sidebar enabled state
@@ -133,7 +132,7 @@ quickshell/
 
 **Key characteristics:**
 
-- Implement specific user-facing features (bar, launcher, notifications, etc.)
+- Implement specific user-facing features (bar, notifications, etc.)
 - Compose `components/` into layouts
 - Read from `config/` for settings
 - Call `services/` for state and actions
@@ -143,7 +142,7 @@ quickshell/
 
 1. **`modules/drawers/`** - Main shell window system
    - `Drawers.qml` - Creates per-screen windows
-   - `Panels.qml` - Container for all panels (bar, launcher, dashboard, etc.)
+   - `Panels.qml` - Container for all panels (bar, dashboard, etc.)
    - `Interactions.qml` - Mouse/keyboard interaction handling
    - `Backgrounds.qml` - Panel background rendering
    - `Border.qml` - Screen border decoration
@@ -167,25 +166,7 @@ quickshell/
      - `ActiveWindow.qml` - Window management
      - `TrayMenu.qml` - Tray item menus
 
-3. **`modules/launcher/`** - Application launcher
-   - `Content.qml` - Main launcher UI
-   - `AppList.qml` - Application search/list
-   - `ContentList.qml` - Generic result list
-   - `WallpaperList.qml` - Wallpaper picker
-   - `items/` - Result item types:
-     - `AppItem.qml` - Application entry
-     - `ActionItem.qml` - System action (shutdown, reboot, etc.)
-     - `CalcItem.qml` - Calculator result
-     - `SchemeItem.qml` - Color scheme picker
-     - `VariantItem.qml` - Scheme variant picker
-     - `WallpaperItem.qml` - Wallpaper thumbnail
-   - `services/` - Launcher-specific services:
-     - `Apps.qml` - Application database and search
-     - `Actions.qml` - System actions
-     - `Schemes.qml` - Color scheme management
-     - `M3Variants.qml` - Material 3 variant options
-
-4. **`modules/dashboard/`** - Info dashboard (top pulldown)
+3. **`modules/dashboard/`** - Info dashboard (top pulldown)
    - `Content.qml` - Main dashboard container
    - `Tabs.qml` - Tab navigation (Dash, Media, Performance)
    - `dash/` - Dashboard widgets:
@@ -196,24 +177,24 @@ quickshell/
      - `Resources.qml` - System resource usage
      - `Weather.qml` - Weather information
 
-5. **`modules/session/`** - Session menu (logout, shutdown, etc.)
+4. **`modules/session/`** - Session menu (logout, shutdown, etc.)
    - `Content.qml` - Session action buttons
    - `Background.qml` - Modal background overlay
 
-6. **`modules/sidebar/`** - Notification center (right sidebar)
+5. **`modules/sidebar/`** - Notification center (right sidebar)
    - `Content.qml` - Notification list
    - `Notif.qml` - Individual notification
    - `NotifGroup.qml` - Grouped notifications
    - `NotifDock.qml` - Notification dock item
    - `Props.qml` - Notification properties manager
 
-7. **`modules/notifications/`** - Notification popups
+6. **`modules/notifications/`** - Notification popups
    - `Notification.qml` - Popup notification display
 
-8. **`modules/osd/`** - On-Screen Display (volume/brightness indicators)
+7. **`modules/osd/`** - On-Screen Display (volume/brightness indicators)
    - `Content.qml` - OSD display with progress bar
 
-9. **`modules/utilities/`** - Utility panel (disabled in minimal config)
+8. **`modules/utilities/`** - Utility panel (disabled in minimal config)
    - Recording controls, idle inhibit, etc.
 
 **Disabled modules (exist but not enabled in shell.qml):**
@@ -328,10 +309,7 @@ quickshell/
 3. **`Images.qml`** - Image utilities
    - Image loading, caching helpers
 
-4. **`Searcher.qml`** - Search/fuzzy matching
-   - Fuzzy search algorithm for launcher
-
-5. **`SysInfo.qml`** - System information
+4. **`SysInfo.qml`** - System information
    - Hardware detection, system info queries
 
 **Relationship to other directories:**
@@ -365,9 +343,6 @@ quickshell/
   },
   "dashboard": {
     /* Dashboard settings */
-  },
-  "launcher": {
-    /* Launcher actions and settings */
   },
   "session": {
     /* Session menu commands */
@@ -431,7 +406,7 @@ User edits shell.json
          ↓
     Config.qml (FileView + JsonAdapter)
          ↓
-    Config.bar, Config.launcher, etc. (typed objects)
+    Config.bar, etc (typed objects)
          ↓
     modules/ read Config.* properties
          ↓
@@ -605,7 +580,7 @@ Logo  Workspaces   ActiveWindow                StatusIcons  Power
 
 **Components:**
 
-- `OsIcon` - Logo button (toggles launcher)
+- `OsIcon` - Logo
 - `Workspaces` - Hyprland workspace indicators (1-10)
   - Active: filled circle
   - Occupied: outlined circle
@@ -623,22 +598,6 @@ Logo  Workspaces   ActiveWindow                StatusIcons  Power
 
 ---
 
-### Launcher (Bottom Center)
-
-```
-                     ┌─────────────┐
-                     │   Search    │
-                     │ ┌─────────┐ │
-                     │ │ text... │ │
-                     │ └─────────┘ │
-                     │             │
-                     │ [📱 App 1 ] │
-                     │ [📱 App 2 ] │
-                     │ [📱 App 3 ] │
-                     │ [⚙  Action] │
-                     └─────────────┘
-```
-
 **Components:**
 
 - `StyledTextField` - Search input
@@ -648,15 +607,6 @@ Logo  Workspaces   ActiveWindow                StatusIcons  Power
   - `CalcItem` - Calculator results (if query is math)
   - `SchemeItem`, `VariantItem` - Theme pickers
   - `WallpaperItem` - Wallpaper thumbnails
-
-**Activation:**
-
-- Click logo or press Super key
-- Type to filter
-- Arrow keys to navigate, Enter to launch
-- Prefix `>` for actions, `@` for special modes
-
----
 
 ### Dashboard (Top Center Pulldown)
 

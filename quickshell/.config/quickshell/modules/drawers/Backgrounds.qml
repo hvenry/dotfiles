@@ -3,7 +3,6 @@ import qs.config
 import qs.modules.osd as Osd
 import qs.modules.notifications as Notifications
 import qs.modules.session as Session
-import qs.modules.launcher as Launcher
 import qs.modules.dashboard as Dashboard
 import qs.modules.bar.popouts as BarPopouts
 import qs.modules.utilities as Utilities
@@ -42,13 +41,6 @@ Shape {
 
         startX: root.width - root.panels.sidebar.width
         startY: (root.height - wrapper.height) / 2 - rounding
-    }
-
-    Launcher.Background {
-        wrapper: root.panels.launcher
-
-        startX: (root.width - wrapper.width) / 2 - rounding
-        startY: root.height
     }
 
     Dashboard.Background {
