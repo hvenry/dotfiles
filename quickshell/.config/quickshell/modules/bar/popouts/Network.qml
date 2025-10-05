@@ -12,6 +12,8 @@ import QtQuick.Layouts
 ColumnLayout {
     id: root
 
+    required property var wrapper
+
     property string passwordPromptSsid: ""
 
     spacing: Appearance.spacing.small
@@ -28,6 +30,57 @@ ColumnLayout {
         label: qsTr("Enabled")
         checked: Network.wifiEnabled
         toggle.onToggled: Network.enableWifi(checked)
+    }
+
+    StyledRect {
+        Layout.topMargin: Appearance.spacing.small
+        Layout.fillWidth: true
+        implicitHeight: rescanBtn.implicitHeight + Appearance.padding.small * 2
+
+        radius: Appearance.rounding.full
+        color: Colours.palette.m3primaryContainer
+
+        StateLayer {
+            color: Colours.palette.m3onPrimaryContainer
+            disabled: Network.scanning || !Network.wifiEnabled
+
+            function onClicked(): void {
+                Network.rescanWifi();
+            }
+        }
+
+        RowLayout {
+            id: rescanBtn
+
+            anchors.centerIn: parent
+            spacing: Appearance.spacing.small
+            opacity: Network.scanning ? 0 : 1
+
+            MaterialIcon {
+                id: scanIcon
+
+                animate: true
+                text: "wifi_find"
+                color: Colours.palette.m3onPrimaryContainer
+            }
+
+            StyledText {
+                text: qsTr("Rescan networks")
+                color: Colours.palette.m3onPrimaryContainer
+            }
+
+            Behavior on opacity {
+                Anim {}
+            }
+        }
+
+        CircularIndicator {
+            anchors.centerIn: parent
+            strokeWidth: Appearance.padding.small / 2
+            bgColour: "transparent"
+            implicitHeight: parent.implicitHeight - Appearance.padding.smaller * 2
+            running: Network.scanning
+        }
     }
 
     StyledText {
@@ -260,53 +313,39 @@ ColumnLayout {
     }
 
     StyledRect {
-        Layout.topMargin: Appearance.spacing.small
-        Layout.fillWidth: true
-        implicitHeight: rescanBtn.implicitHeight + Appearance.padding.small * 2
+        Layout.topMargin: Appearance.spacing.normal
 
-        radius: Appearance.rounding.full
+        implicitWidth: expandBtn.implicitWidth + Appearance.padding.normal * 2
+        implicitHeight: expandBtn.implicitHeight + Appearance.padding.small
+
+        radius: Appearance.rounding.normal
         color: Colours.palette.m3primaryContainer
 
         StateLayer {
             color: Colours.palette.m3onPrimaryContainer
-            disabled: Network.scanning || !Network.wifiEnabled
 
             function onClicked(): void {
-                Network.rescanWifi();
+                root.wrapper.detach("network");
             }
         }
 
         RowLayout {
-            id: rescanBtn
+            id: expandBtn
 
             anchors.centerIn: parent
             spacing: Appearance.spacing.small
-            opacity: Network.scanning ? 0 : 1
-
-            MaterialIcon {
-                id: scanIcon
-
-                animate: true
-                text: "wifi_find"
-                color: Colours.palette.m3onPrimaryContainer
-            }
 
             StyledText {
-                text: qsTr("Rescan networks")
+                Layout.leftMargin: Appearance.padding.smaller
+                text: qsTr("Open panel")
                 color: Colours.palette.m3onPrimaryContainer
             }
 
-            Behavior on opacity {
-                Anim {}
+            MaterialIcon {
+                text: "chevron_right"
+                color: Colours.palette.m3onPrimaryContainer
+                font.pointSize: Appearance.font.size.large
             }
-        }
-
-        CircularIndicator {
-            anchors.centerIn: parent
-            strokeWidth: Appearance.padding.small / 2
-            bgColour: "transparent"
-            implicitHeight: parent.implicitHeight - Appearance.padding.smaller * 2
-            running: Network.scanning
         }
     }
 
