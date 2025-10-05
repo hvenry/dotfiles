@@ -1,5 +1,5 @@
-qml_module(caelestia-services
-    URI Caelestia.Services
+qml_module(qshell-audio
+    URI QShell.Audio
     SOURCES
         service.hpp service.cpp
         serviceref.hpp serviceref.cpp

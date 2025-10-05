@@ -12,7 +12,7 @@
   },
   "appearance": {
     "transparency": {
-      "enabled": false
+      "enabled": true
     }
   },
   "general": {
@@ -25,20 +25,20 @@
   },
   "bar": {
     "entries": [
-      {"id": "logo", "enabled": true},
-      {"id": "workspaces", "enabled": true},
-      {"id": "spacer", "enabled": true},
-      {"id": "activeWindow", "enabled": true},
-      {"id": "spacer", "enabled": true},
-      {"id": "clock", "enabled": true},
-      {"id": "statusIcons", "enabled": true},
-      {"id": "power", "enabled": true}
+      { "id": "logo", "enabled": true },
+      { "id": "workspaces", "enabled": true },
+      { "id": "spacer", "enabled": true },
+      { "id": "activeWindow", "enabled": true },
+      { "id": "spacer", "enabled": true },
+      { "id": "clock", "enabled": false },
+      { "id": "statusIcons", "enabled": true },
+      { "id": "power", "enabled": true }
     ],
     "status": {
       "showAudio": true,
       "showBattery": true,
       "showNetwork": true,
-      "showBluetooth": false,
+      "showBluetooth": true,
       "showKbLayout": false,
       "showMicrophone": false,
       "showLockStatus": false
@@ -136,16 +136,24 @@
     }
   },
   "sidebar": {
-    "enabled": false
+    "enabled": true,
+    "showOnHover": true,
+    "hotCornerSize": 50
   },
   "utilities": {
-    "enabled": false
+    "enabled": true
   },
   "notifs": {
-    "expire": false,
-    "defaultExpireTimeout": 5000
+    "expire": true,
+    "defaultExpireTimeout": 8000
   },
-  "paths": {
-    "wallpaperDir": ""
+  "notch": {
+    "enabled": true,
+    "sizes": {
+      "width": 200,
+      "height": 35,
+      "padding": 12,
+      "rounding": 16
+    }
   }
 }

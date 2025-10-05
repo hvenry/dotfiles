@@ -1,7 +1,7 @@
 pragma Singleton
 
 import qs.utils
-import Caelestia
+import QShell
 import Quickshell
 import Quickshell.Io
 
@@ -24,7 +24,7 @@ Singleton {
     property alias utilities: adapter.utilities
     property alias sidebar: adapter.sidebar
     property alias services: adapter.services
-    property alias paths: adapter.paths
+    property alias notch: adapter.notch
 
     ElapsedTimer {
         id: timer
@@ -71,7 +71,7 @@ Singleton {
             property UtilitiesConfig utilities: UtilitiesConfig {}
             property SidebarConfig sidebar: SidebarConfig {}
             property ServiceConfig services: ServiceConfig {}
-            property UserPaths paths: UserPaths {}
+            property NotchConfig notch: NotchConfig {}
         }
     }
 }

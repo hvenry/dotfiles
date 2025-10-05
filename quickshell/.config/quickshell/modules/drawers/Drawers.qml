@@ -5,6 +5,7 @@ import qs.components.containers
 import qs.services
 import qs.config
 import qs.modules.bar
+import qs.modules.notch as Notch
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
@@ -18,6 +19,20 @@ Variants {
         id: scope
 
         required property ShellScreen modelData
+
+        PersistentProperties {
+            id: visibilities
+
+            property bool bar
+            property bool osd
+            property bool session
+            property bool launcher
+            property bool dashboard
+            property bool utilities
+            property bool sidebar
+
+            Component.onCompleted: Visibilities.load(scope.modelData, this)
+        }
 
         Exclusions {
             screen: scope.modelData
@@ -130,20 +145,6 @@ Variants {
                 }
             }
 
-            PersistentProperties {
-                id: visibilities
-
-                property bool bar
-                property bool osd
-                property bool session
-                property bool launcher
-                property bool dashboard
-                property bool utilities
-                property bool sidebar
-
-                Component.onCompleted: Visibilities.load(scope.modelData, this)
-            }
-
             Interactions {
                 screen: scope.modelData
                 popouts: panels.popouts
@@ -172,6 +173,11 @@ Variants {
                     Component.onCompleted: Visibilities.bars.set(scope.modelData, this)
                 }
             }
+        }
+
+        Notch.NotchWindow {
+            screen: scope.modelData
+            visibilities: visibilities
         }
     }
 }

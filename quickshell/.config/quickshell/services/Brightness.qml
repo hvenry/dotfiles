@@ -164,6 +164,11 @@ Singleton {
         readonly property bool isAppleDisplay: root.appleDisplayPresent && modelData.model.startsWith("StudioDisplay")
         property real brightness
         property real queuedBrightness: NaN
+    // Track the last value actually applied to hardware to avoid
+    // suppressing a needed hardware write when UI updated early
+    property real appliedBrightness: NaN
+    // Track the last value we attempted to write via the worker process
+    property real lastWritten: NaN
 
         readonly property Process initProc: Process {
             stdout: StdioCollector {
@@ -175,42 +180,77 @@ Singleton {
                         const [, , , cur, max] = text.split(" ");
                         monitor.brightness = parseInt(cur) / parseInt(max);
                     }
+                    monitor.appliedBrightness = monitor.brightness;
                 }
             }
         }
 
-        readonly property Timer timer: Timer {
-            interval: 500
-            onTriggered: {
-                if (!isNaN(monitor.queuedBrightness)) {
-                    monitor.setBrightness(monitor.queuedBrightness);
-                    monitor.queuedBrightness = NaN;
+        // Dedicated worker process to serialize writes and avoid command spam.
+        // We only update appliedBrightness after the process finishes, keeping
+        // UI and hardware state in sync and avoiding "bounce".
+        readonly property Process writeProc: Process {
+            stdout: StdioCollector {}
+            stderr: StdioCollector {}
+            onRunningChanged: {
+                if (running)
+                    return;
+                // Process finished: assume write completed; sync applied state
+                if (!isNaN(monitor.lastWritten))
+                    monitor.appliedBrightness = monitor.lastWritten;
+
+                const q = monitor.queuedBrightness;
+                monitor.queuedBrightness = NaN;
+                if (!isNaN(q)) {
+                    // Drop if equivalent to what's already applied
+                    if (isNaN(monitor.appliedBrightness) || Math.round(monitor.appliedBrightness * 100) !== Math.round(q * 100))
+                        monitor.performHardwareWrite(q);
+                } else {
+                    // No pending writes; read back actual hardware level to
+                    // ensure the slider reflects device state precisely.
+                    monitor.initBrightness();
                 }
             }
+        }
+
+        function performHardwareWrite(value: real): void {
+            const rounded = Math.round(value * 100);
+            lastWritten = value;
+            if (isAppleDisplay) {
+                writeProc.command = ["asdbctl", "set", rounded];
+            } else if (isDdc) {
+                // Speed up ddcutil a bit, at the risk of occasional flakiness on some monitors
+                writeProc.command = ["ddcutil", "--noverify", "--sleep-multiplier", "0.2", "-b", busNum, "setvcp", "10", rounded];
+            } else {
+                writeProc.command = ["brightnessctl", "s", `${rounded}%`];
+            }
+            writeProc.running = true;
         }
 
         function setBrightness(value: real): void {
             value = Math.max(0, Math.min(1, value));
             const rounded = Math.round(value * 100);
-            if (Math.round(brightness * 100) === rounded)
-                return;
+            // Always update UI immediately
+            brightness = value;
 
-            if (isDdc && timer.running) {
-                queuedBrightness = value;
+            if (!isDdc) {
+                if (!isNaN(appliedBrightness) && Math.round(appliedBrightness * 100) === rounded)
+                    return;
+                // Serialize even for non-DDC to keep state synchronized
+                if (writeProc.running)
+                    queuedBrightness = value;
+                else
+                    performHardwareWrite(value);
                 return;
             }
 
-            brightness = value;
-
-            if (isAppleDisplay)
-                Quickshell.execDetached(["asdbctl", "set", rounded]);
-            else if (isDdc)
-                Quickshell.execDetached(["ddcutil", "--sleep-multiplier", "0.5", "-b", busNum, "setvcp", "10", rounded]);
-            else
-                Quickshell.execDetached(["brightnessctl", "s", `${rounded}%`]);
-
-            if (isDdc)
-                timer.restart();
+            // DDC path: queue if a write is in progress; otherwise write now
+            if (writeProc.running) {
+                queuedBrightness = value;
+            } else {
+                if (!isNaN(appliedBrightness) && Math.round(appliedBrightness * 100) === rounded)
+                    return;
+                performHardwareWrite(value);
+            }
         }
 
         function initBrightness(): void {

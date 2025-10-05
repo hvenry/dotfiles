@@ -1,7 +1,7 @@
 pragma Singleton
 
 import qs.config
-import Caelestia
+import QShell
 import Quickshell
 
 Singleton {
@@ -18,7 +18,7 @@ Singleton {
 
     readonly property string imagecache: `${cache}/imagecache`
     readonly property string notifimagecache: `${imagecache}/notifs`
-    readonly property string wallsdir: Quickshell.env("QUICKSHELL_WALLPAPERS_DIR") || absolutePath(Config.paths.wallpaperDir)
+    readonly property string wallsdir: Quickshell.env("QUICKSHELL_WALLPAPERS_DIR") || `${pictures}/Wallpapers`
     readonly property string recsdir: Quickshell.env("QUICKSHELL_RECORDINGS_DIR") || `${videos}/Recordings`
     readonly property string libdir: Quickshell.env("QUICKSHELL_LIB_DIR") || "/usr/lib/quickshell"
 

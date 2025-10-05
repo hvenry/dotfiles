@@ -1,5 +1,5 @@
-qml_module(caelestia-internal
-    URI Caelestia.Internal
+qml_module(qshell-hyprland
+    URI QShell.Hyprland
     SOURCES
         cachingimagemanager.hpp cachingimagemanager.cpp
         circularindicatormanager.hpp circularindicatormanager.cpp

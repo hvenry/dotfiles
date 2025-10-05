@@ -86,7 +86,7 @@ JsonObject {
 
     component Transparency: JsonObject {
         property bool enabled: false
-        property real base: 0.85
-        property real layers: 0.4
+        property real base: 0.95
+        property real layers: 0.65
     }
 }

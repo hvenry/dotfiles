@@ -17,6 +17,12 @@ CustomMouseArea {
     property bool dashboardShortcutActive
     property bool osdShortcutActive
     property bool utilitiesShortcutActive
+    property bool sidebarShortcutActive
+
+    function inTopRightCorner(x: real, y: real): bool {
+        const cornerSize = Config.sidebar.hotCornerSize;
+        return x >= width - cornerSize && y <= cornerSize;
+    }
 
     function withinPanelHeight(panel: Item, x: real, y: real): bool {
         const panelY = Config.border.thickness + panel.y;
@@ -67,6 +73,9 @@ CustomMouseArea {
 
             if (!utilitiesShortcutActive)
                 visibilities.utilities = false;
+
+            if (!sidebarShortcutActive && Config.sidebar.showOnHover)
+                visibilities.sidebar = false;
 
             if (!popouts.currentName.startsWith("traymenu") || (popouts.current?.depth ?? 0) <= 1) {
                 popouts.hasCurrent = false;
@@ -198,6 +207,21 @@ CustomMouseArea {
             utilitiesShortcutActive = false;
         }
 
+        // Show sidebar on top-right corner hover
+        if (Config.sidebar.showOnHover && Config.sidebar.enabled) {
+            const showSidebarHover = inTopRightCorner(x, y);
+
+            // Always update visibility based on hover if not in shortcut mode
+            if (!sidebarShortcutActive) {
+                if (showSidebarHover && !visibilities.sidebar) {
+                    visibilities.sidebar = true;
+                }
+            } else if (showSidebarHover) {
+                // If hovering over hot corner while in shortcut mode, transition to hover control
+                sidebarShortcutActive = false;
+            }
+        }
+
         // Show popouts on hover
         if (x < bar.implicitWidth) {
             bar.checkPopout(y);
@@ -268,6 +292,19 @@ CustomMouseArea {
             } else {
                 // Utilities hidden, clear shortcut flag
                 root.utilitiesShortcutActive = false;
+            }
+        }
+
+        function onSidebarChanged() {
+            if (root.visibilities.sidebar) {
+                // Sidebar became visible, immediately check if this should be shortcut mode
+                const inHotCorner = root.inTopRightCorner(root.mouseX, root.mouseY);
+                if (!inHotCorner) {
+                    root.sidebarShortcutActive = true;
+                }
+            } else {
+                // Sidebar hidden, clear shortcut flag
+                root.sidebarShortcutActive = false;
             }
         }
     }

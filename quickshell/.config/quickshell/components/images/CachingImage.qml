@@ -1,5 +1,5 @@
 import qs.utils
-import Caelestia.Internal
+import QShell.Hyprland
 import Quickshell
 import QtQuick
 

@@ -4,7 +4,7 @@ import qs.components
 import qs.components.filedialog
 import qs.config
 import qs.utils
-import Caelestia
+import QShell
 import Quickshell
 import QtQuick
 
