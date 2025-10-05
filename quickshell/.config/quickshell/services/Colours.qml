@@ -2,25 +2,17 @@ pragma Singleton
 pragma ComponentBehavior: Bound
 
 import qs.config
-import qs.utils
-import QShell
 import Quickshell
-import Quickshell.Io
 import QtQuick
 
 Singleton {
     id: root
 
-    property bool showPreview
-    property string scheme
-    property string flavour
-    readonly property bool light: showPreview ? previewLight : currentLight
-    property bool currentLight
-    property bool previewLight
-    readonly property M3Palette palette: showPreview ? preview : current
+    readonly property string scheme: "monochrome"
+    readonly property string flavour: "dark"
+    readonly property bool light: false
+    readonly property M3Palette palette: M3Palette {}
     readonly property M3TPalette tPalette: M3TPalette {}
-    readonly property M3Palette current: M3Palette {}
-    readonly property M3Palette preview: M3Palette {}
     readonly property Transparency transparency: Transparency {}
     readonly property real wallLuminance: 0
 
@@ -55,37 +47,6 @@ Singleton {
         return Qt.hsla(c.hslHue, c.hslSaturation, 0.1, 1);
     }
 
-    function load(data: string, isPreview: bool): void {
-        const colours = isPreview ? preview : current;
-        const scheme = JSON.parse(data);
-
-        if (!isPreview) {
-            root.scheme = scheme.name;
-            flavour = scheme.flavour;
-            currentLight = scheme.mode === "light";
-        } else {
-            previewLight = scheme.mode === "light";
-        }
-
-        for (const [name, colour] of Object.entries(scheme.colours)) {
-            const propName = name.startsWith("term") ? name : `m3${name}`;
-            if (colours.hasOwnProperty(propName))
-                colours[propName] = `#${colour}`;
-        }
-    }
-
-    function setMode(mode: string): void {
-        // Disabled: requires caelestia CLI
-        // To change mode manually, edit ~/.local/state/caelestia/scheme.json
-        console.log("setMode disabled - edit scheme.json manually to change light/dark mode");
-    }
-
-    FileView {
-        path: `${Paths.config}/scheme.json`
-        watchChanges: true
-        onFileChanged: reload()
-        onLoaded: root.load(text(), false)
-    }
 
     component Transparency: QtObject {
         readonly property bool enabled: Appearance.transparency.enabled
@@ -155,79 +116,79 @@ Singleton {
     }
 
     component M3Palette: QtObject {
-        property color m3primary_paletteKeyColor: "#a8627b"
-        property color m3secondary_paletteKeyColor: "#8e6f78"
-        property color m3tertiary_paletteKeyColor: "#986e4c"
-        property color m3neutral_paletteKeyColor: "#807477"
-        property color m3neutral_variant_paletteKeyColor: "#837377"
-        property color m3background: "#191114"
-        property color m3onBackground: "#efdfe2"
-        property color m3surface: "#191114"
-        property color m3surfaceDim: "#191114"
-        property color m3surfaceBright: "#403739"
-        property color m3surfaceContainerLowest: "#130c0e"
-        property color m3surfaceContainerLow: "#22191c"
-        property color m3surfaceContainer: "#261d20"
-        property color m3surfaceContainerHigh: "#31282a"
-        property color m3surfaceContainerHighest: "#3c3235"
-        property color m3onSurface: "#efdfe2"
-        property color m3surfaceVariant: "#514347"
-        property color m3onSurfaceVariant: "#d5c2c6"
-        property color m3inverseSurface: "#efdfe2"
-        property color m3inverseOnSurface: "#372e30"
-        property color m3outline: "#9e8c91"
-        property color m3outlineVariant: "#514347"
+        property color m3primary_paletteKeyColor: "#ffffff"
+        property color m3secondary_paletteKeyColor: "#b0b0b0"
+        property color m3tertiary_paletteKeyColor: "#808080"
+        property color m3neutral_paletteKeyColor: "#5a5a5a"
+        property color m3neutral_variant_paletteKeyColor: "#5a5a5a"
+        property color m3background: "#0a0a0a"
+        property color m3onBackground: "#e8e8e8"
+        property color m3surface: "#0a0a0a"
+        property color m3surfaceDim: "#0a0a0a"
+        property color m3surfaceBright: "#2e2e2e"
+        property color m3surfaceContainerLowest: "#050505"
+        property color m3surfaceContainerLow: "#121212"
+        property color m3surfaceContainer: "#181818"
+        property color m3surfaceContainerHigh: "#232323"
+        property color m3surfaceContainerHighest: "#2e2e2e"
+        property color m3onSurface: "#e8e8e8"
+        property color m3surfaceVariant: "#404040"
+        property color m3onSurfaceVariant: "#c0c0c0"
+        property color m3inverseSurface: "#e8e8e8"
+        property color m3inverseOnSurface: "#2a2a2a"
+        property color m3outline: "#8a8a8a"
+        property color m3outlineVariant: "#404040"
         property color m3shadow: "#000000"
         property color m3scrim: "#000000"
-        property color m3surfaceTint: "#ffb0ca"
-        property color m3primary: "#ffb0ca"
-        property color m3onPrimary: "#541d34"
-        property color m3primaryContainer: "#6f334a"
-        property color m3onPrimaryContainer: "#ffd9e3"
-        property color m3inversePrimary: "#8b4a62"
-        property color m3secondary: "#e2bdc7"
-        property color m3onSecondary: "#422932"
-        property color m3secondaryContainer: "#5a3f48"
-        property color m3onSecondaryContainer: "#ffd9e3"
-        property color m3tertiary: "#f0bc95"
-        property color m3onTertiary: "#48290c"
-        property color m3tertiaryContainer: "#b58763"
+        property color m3surfaceTint: "#ffffff"
+        property color m3primary: "#ffffff"
+        property color m3onPrimary: "#1a1a1a"
+        property color m3primaryContainer: "#b0b0b0"
+        property color m3onPrimaryContainer: "#000000"
+        property color m3inversePrimary: "#5a5a5a"
+        property color m3secondary: "#c0c0c0"
+        property color m3onSecondary: "#2a2a2a"
+        property color m3secondaryContainer: "#404040"
+        property color m3onSecondaryContainer: "#b0b0b0"
+        property color m3tertiary: "#b0b0b0"
+        property color m3onTertiary: "#1a1a1a"
+        property color m3tertiaryContainer: "#808080"
         property color m3onTertiaryContainer: "#000000"
-        property color m3error: "#ffb4ab"
+        property color m3error: "#ff6b6b"
         property color m3onError: "#690005"
         property color m3errorContainer: "#93000a"
         property color m3onErrorContainer: "#ffdad6"
-        property color m3success: "#B5CCBA"
-        property color m3onSuccess: "#213528"
-        property color m3successContainer: "#374B3E"
-        property color m3onSuccessContainer: "#D1E9D6"
-        property color m3primaryFixed: "#ffd9e3"
-        property color m3primaryFixedDim: "#ffb0ca"
-        property color m3onPrimaryFixed: "#39071f"
-        property color m3onPrimaryFixedVariant: "#6f334a"
-        property color m3secondaryFixed: "#ffd9e3"
-        property color m3secondaryFixedDim: "#e2bdc7"
-        property color m3onSecondaryFixed: "#2b151d"
-        property color m3onSecondaryFixedVariant: "#5a3f48"
-        property color m3tertiaryFixed: "#ffdcc3"
-        property color m3tertiaryFixedDim: "#f0bc95"
-        property color m3onTertiaryFixed: "#2f1500"
-        property color m3onTertiaryFixedVariant: "#623f21"
-        property color term0: "#353434"
-        property color term1: "#ff4c8a"
-        property color term2: "#ffbbb7"
-        property color term3: "#ffdedf"
-        property color term4: "#b3a2d5"
-        property color term5: "#e98fb0"
-        property color term6: "#ffba93"
-        property color term7: "#eed1d2"
-        property color term8: "#b39e9e"
-        property color term9: "#ff80a3"
-        property color term10: "#ffd3d0"
-        property color term11: "#fff1f0"
-        property color term12: "#dcbc93"
-        property color term13: "#f9a8c2"
-        property color term14: "#ffd1c0"
+        property color m3success: "#a0a0a0"
+        property color m3onSuccess: "#1a1a1a"
+        property color m3successContainer: "#505050"
+        property color m3onSuccessContainer: "#d0d0d0"
+        property color m3primaryFixed: "#e8e8e8"
+        property color m3primaryFixedDim: "#c0c0c0"
+        property color m3onPrimaryFixed: "#0a0a0a"
+        property color m3onPrimaryFixedVariant: "#404040"
+        property color m3secondaryFixed: "#d0d0d0"
+        property color m3secondaryFixedDim: "#b0b0b0"
+        property color m3onSecondaryFixed: "#0a0a0a"
+        property color m3onSecondaryFixedVariant: "#404040"
+        property color m3tertiaryFixed: "#d0d0d0"
+        property color m3tertiaryFixedDim: "#b0b0b0"
+        property color m3onTertiaryFixed: "#0a0a0a"
+        property color m3onTertiaryFixedVariant: "#404040"
+        property color term0: "#0a0a0a"
+        property color term1: "#808080"
+        property color term2: "#a0a0a0"
+        property color term3: "#b0b0b0"
+        property color term4: "#c0c0c0"
+        property color term5: "#d0d0d0"
+        property color term6: "#e0e0e0"
+        property color term7: "#e8e8e8"
+        property color term8: "#5a5a5a"
+        property color term9: "#909090"
+        property color term10: "#b0b0b0"
+        property color term11: "#c0c0c0"
+        property color term12: "#d0d0d0"
+        property color term13: "#e0e0e0"
+        property color term14: "#f0f0f0"
         property color term15: "#ffffff"
     }
 }

@@ -235,12 +235,12 @@ Config.dashboard.enabled  // Reads from shell.json → dashboard.enabled
 
 **Current state:**
 
-- Pure monochrome scheme (no hue, only lightness)
-- Reads from `~/.local/state/quickshell/scheme.json`
+- Pure monochrome scheme hardcoded directly in `services/Colours.qml`
+- No external configuration files - colors are defined in the M3Palette component
 - Material Design 3 color tokens (surface, primary, onPrimary, etc.)
-- CLI-based color extraction disabled (requires `caelestia-cli`)
+- Dark mode only
 
-**To change colors:** Edit `scheme.json` directly - changes reload automatically.
+**To change colors:** Edit the M3Palette component in `services/Colours.qml` and modify the color property values.
 
 ## Key Files and Their Purposes
 
