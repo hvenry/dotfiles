@@ -1,3 +1,12 @@
+/**
+ * Audio management service singleton
+ *
+ * Audio provides PipeWire audio control for speakers and microphones.
+ *
+ * Used by: modules/bar/popouts/, modules/osd/
+ * Reads from: PipeWire via QShell.Audio plugin, Config.services
+ * Provides: defaultSpeaker, defaultMicrophone, volume controls
+ */
 pragma Singleton
 
 import qs.config

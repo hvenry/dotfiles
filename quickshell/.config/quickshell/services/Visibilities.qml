@@ -1,3 +1,12 @@
+/**
+ * Panel visibility state management service singleton
+ *
+ * Visibilities tracks which panels are currently visible per screen.
+ *
+ * Used by: modules/drawers/, all panel modules
+ * Reads from: Panel visibility events
+ * Provides: Per-screen visibility state tracking
+ */
 pragma Singleton
 
 import Quickshell

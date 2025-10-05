@@ -63,13 +63,16 @@ return {
         end,
         ["qmlls"] = function()
           local lspconfig = require("lspconfig")
+          local util = require("lspconfig.util")
+
           lspconfig.qmlls.setup({
-            capabilities = capabilities,
-            cmd_env = {
-              QML2_IMPORT_PATH = vim.env.QML2_IMPORT_PATH,
+            cmd = {
+              "qmlls",
+              "--ini",
+              vim.fn.expand("~/dotfiles/quickshell/.config/quickshell/build/.qmlls.ini"),
             },
+            root_dir = util.root_pattern(".qmlls.ini", ".git"),
             on_attach = function(client, bufnr)
-              -- Only show errors, not warnings (quickshell has custom imports qmlls doesn't understand)
               vim.diagnostic.config({
                 virtual_text = {
                   severity = { min = vim.diagnostic.severity.ERROR },

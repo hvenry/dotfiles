@@ -1,3 +1,20 @@
+/**
+ * Main configuration singleton - loads shell.json and provides typed config objects
+ *
+ * Config is the central configuration management system that reads shell.json,
+ * watches for changes, and exposes typed configuration objects for each module.
+ *
+ * Key features:
+ * - Loads shell.json using FileView and JsonAdapter
+ * - Hot-reloads configuration on file changes
+ * - Exposes config sections: appearance, bar, dashboard, session, etc.
+ * - Shows toast notifications on config load/error
+ * - Performance timing for config load operations
+ *
+ * Used by: All modules and components needing configuration
+ * Reads from: shell.json (user settings), Paths (config directory)
+ * Provides: Config.bar, Config.appearance, Config.dashboard, etc.
+ */
 pragma Singleton
 
 import qs.utils

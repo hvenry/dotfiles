@@ -1,3 +1,12 @@
+/**
+ * Idle inhibitor service singleton
+ *
+ * IdleInhibitor prevents system sleep/idle when needed.
+ *
+ * Used by: modules/utilities/cards/IdleInhibit.qml
+ * Reads from: Wayland idle inhibit protocol, Config.general.idle
+ * Provides: Idle inhibit toggle, auto-inhibit when audio playing
+ */
 pragma Singleton
 
 import Quickshell

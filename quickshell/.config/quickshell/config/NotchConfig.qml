@@ -1,3 +1,13 @@
+/**
+ * Notch configuration object
+ *
+ * NotchConfig defines settings for MacBook-style notch display area
+ * (feature module configuration).
+ *
+ * Used by: Notch module (if enabled)
+ * Reads from: shell.json → notch section
+ * Provides: Config.notch
+ */
 import Quickshell.Io
 
 JsonObject {

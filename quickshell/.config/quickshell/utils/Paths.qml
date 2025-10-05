@@ -1,3 +1,19 @@
+/**
+ * Path management utilities singleton
+ *
+ * Paths provides centralized path management following XDG Base Directory specification.
+ *
+ * Key features:
+ * - XDG directory paths: config, state, cache, data
+ * - User directories: home, pictures, videos
+ * - Quickshell-specific paths: imagecache, recsdir, libdir
+ * - Path utility functions: absolutePath(), toLocalFile(), shortenHome()
+ * - Environment variable support with fallbacks
+ *
+ * Used by: All modules and services requiring file paths
+ * Reads from: Environment variables (XDG_*, HOME, etc.)
+ * Provides: Directory paths and path conversion functions
+ */
 pragma Singleton
 
 import qs.config

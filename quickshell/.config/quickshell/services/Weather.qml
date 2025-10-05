@@ -1,3 +1,12 @@
+/**
+ * Weather information service singleton
+ *
+ * Weather fetches and provides weather data from online services.
+ *
+ * Used by: modules/dashboard/dash/Weather.qml
+ * Reads from: Weather API, Config.services.weatherLocation
+ * Provides: Current weather, forecast, temperature
+ */
 pragma Singleton
 
 import qs.config

@@ -1,3 +1,12 @@
+/**
+ * Notification system service singleton
+ *
+ * Notifs manages the notification queue, persistence, and dismissal.
+ *
+ * Used by: modules/notifications/, modules/sidebar/
+ * Reads from: D-Bus notifications, notifs.json (persistence)
+ * Provides: Notification list, dismiss/clear actions, persistence
+ */
 pragma Singleton
 pragma ComponentBehavior: Bound
 

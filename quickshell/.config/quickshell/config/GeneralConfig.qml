@@ -1,3 +1,20 @@
+/**
+ * General configuration object - defines default applications and system behavior
+ *
+ * GeneralConfig defines general system settings including default applications,
+ * idle behavior, and battery warning levels.
+ *
+ * Key features:
+ * - Default applications: terminal, audio mixer, media player, file explorer
+ * - Idle configuration: lock before sleep, inhibit when audio playing
+ * - Idle timeouts with actions (lock, DPMS, suspend)
+ * - Battery warning levels with custom messages and icons
+ * - Critical battery level threshold
+ *
+ * Used by: modules/utilities/, modules/BatteryMonitor.qml, session menu
+ * Reads from: shell.json → general section
+ * Provides: Config.general with default apps and system settings
+ */
 import Quickshell.Io
 
 JsonObject {

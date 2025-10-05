@@ -1,3 +1,18 @@
+/**
+ * Appearance configuration shortcut singleton
+ *
+ * Appearance provides convenient access to Config.appearance properties without
+ * the full Config.appearance.xxx path. This is a pure convenience wrapper.
+ *
+ * Key features:
+ * - Shortcut aliases for rounding, spacing, padding, font, anim, transparency
+ * - Allows `Appearance.spacing.large` instead of `Config.appearance.spacing.large`
+ * - Read-only properties (aliases to Config.appearance)
+ *
+ * Used by: All components for visual styling
+ * Reads from: Config.appearance
+ * Provides: Convenience access to appearance settings
+ */
 pragma Singleton
 
 import Quickshell

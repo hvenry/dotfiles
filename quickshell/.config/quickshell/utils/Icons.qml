@@ -1,3 +1,22 @@
+/**
+ * Icon utilities singleton
+ *
+ * Icons provides icon name mapping and lookups for various UI elements including
+ * weather, network, Bluetooth, notifications, applications, and system tray.
+ *
+ * Key features:
+ * - Weather icon mapping (weather codes to Material icons)
+ * - Application category icon mapping (desktop categories to icons)
+ * - Network strength icon selection
+ * - Bluetooth device icon detection
+ * - Notification icon heuristics based on summary text
+ * - Volume/microphone icon selection based on level and mute state
+ * - System tray icon substitution support
+ *
+ * Used by: All modules displaying icons
+ * Reads from: DesktopEntries, Config.bar.tray.iconSubs
+ * Provides: Icon name lookup functions for various contexts
+ */
 pragma Singleton
 
 import qs.config

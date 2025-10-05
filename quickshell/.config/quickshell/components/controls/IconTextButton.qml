@@ -1,3 +1,21 @@
+/**
+ * Combined icon and text button with Material Design styling
+ *
+ * IconTextButton provides a themed button displaying both an icon and text label.
+ * Supports three visual types (Filled, Tonal, Text) and toggle functionality.
+ *
+ * Key features:
+ * - Icon + text in horizontal layout
+ * - Three button types: Filled, Tonal, Text
+ * - Toggle mode with checked/unchecked states
+ * - Icon fill animation on state change
+ * - Ripple animation via StateLayer
+ * - Automatic color theming
+ *
+ * Used by: Toolbars, navigation, action buttons
+ * Reads from: Colours (palette), Appearance (padding, spacing, rounding)
+ * Provides: Interactive icon+text button with clicked signal
+ */
 import ".."
 import qs.services
 import qs.config

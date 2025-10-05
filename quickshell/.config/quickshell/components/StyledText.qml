@@ -1,3 +1,19 @@
+/**
+ * Themed text component with color animation
+ *
+ * StyledText extends Qt's Text component with automatic theming from the Colours
+ * and Appearance services. Supports optional text change animations.
+ *
+ * Key features:
+ * - Automatic color binding to Colours.palette.m3onSurface
+ * - Font family and size from Appearance config
+ * - Optional text change animation (scale/fade effects)
+ * - Smooth color transitions
+ *
+ * Used by: All UI components that display text
+ * Reads from: Colours (palette), Appearance (fonts, animations)
+ * Provides: Consistently themed text rendering
+ */
 pragma ComponentBehavior: Bound
 
 import qs.services

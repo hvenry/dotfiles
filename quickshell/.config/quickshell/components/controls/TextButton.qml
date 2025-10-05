@@ -1,3 +1,20 @@
+/**
+ * Text button with Material Design styling
+ *
+ * TextButton provides a themed button component displaying text.
+ * Supports three visual types (Filled, Tonal, Text) and toggle functionality.
+ *
+ * Key features:
+ * - Three button types: Filled, Tonal, Text
+ * - Toggle mode with checked/unchecked states
+ * - Ripple animation via StateLayer
+ * - Automatic color theming based on type and state
+ * - Dynamic radius (pill shape when unchecked, rounded when checked)
+ *
+ * Used by: Session menu, dialogs, forms throughout the UI
+ * Reads from: Colours (palette), Appearance (padding, rounding, animations)
+ * Provides: Interactive text button with clicked signal
+ */
 import ".."
 import qs.services
 import qs.config

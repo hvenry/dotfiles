@@ -1,3 +1,21 @@
+/**
+ * Display brightness control service singleton
+ *
+ * Brightness provides multi-backend brightness control for external monitors
+ * (ddcutil via DDC/CI), laptops (brightnessctl), and Apple displays (asdbctl).
+ *
+ * Key features:
+ * - Automatic backend detection per monitor (DDC, brightnessctl, asdbctl)
+ * - Monitor querying by name, model, serial, or "active" (focused monitor)
+ * - DDC/CI communication via i2c bus with optimized timings
+ * - Hardware write queueing to avoid DDC rate limiting
+ * - Brightness change debouncing for smooth adjustment
+ * - Per-monitor state tracking and initialization
+ *
+ * Used by: modules/osd/, modules/bar/popouts/
+ * Reads from: ddcutil, brightnessctl, asdbctl, Hypr (monitor info)
+ * Provides: getMonitor(), increaseBrightness(), decreaseBrightness()
+ */
 pragma Singleton
 pragma ComponentBehavior: Bound
 

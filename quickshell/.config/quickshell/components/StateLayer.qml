@@ -1,3 +1,20 @@
+/**
+ * Interactive ripple/hover effect layer
+ *
+ * StateLayer implements Material Design's state layer pattern, providing visual
+ * feedback for interactive elements with hover and ripple effects.
+ *
+ * Key features:
+ * - Material Design ripple animation on press
+ * - Hover state overlay with opacity changes
+ * - Pressed state visual feedback
+ * - Customizable ripple origin based on click position
+ * - Disabled state support
+ *
+ * Used by: All interactive components (buttons, list items, etc.)
+ * Reads from: Colours (palette), Appearance (animations, rounding)
+ * Provides: Interactive visual feedback with onClicked callback
+ */
 import qs.services
 import qs.config
 import QtQuick

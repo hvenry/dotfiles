@@ -1,3 +1,12 @@
+/**
+ * Network management service singleton
+ *
+ * Network provides NetworkManager integration for WiFi and Ethernet.
+ *
+ * Used by: modules/bar/popouts/Network.qml, modules/bar/components/StatusIcons.qml
+ * Reads from: NetworkManager via Quickshell plugin
+ * Provides: WiFi/Ethernet state, network list, connect/disconnect
+ */
 pragma Singleton
 
 import Quickshell

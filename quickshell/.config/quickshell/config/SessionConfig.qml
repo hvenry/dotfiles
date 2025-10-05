@@ -1,3 +1,20 @@
+/**
+ * Session configuration object - defines session menu behavior and commands
+ *
+ * SessionConfig defines settings for the session menu (logout, shutdown, etc.)
+ * including keyboard navigation, vim keybinds, and system commands.
+ *
+ * Key features:
+ * - Enable/disable session menu
+ * - Drag threshold for dismissing menu
+ * - Vim keybinds support (hjkl navigation)
+ * - System commands: logout, shutdown, hibernate, reboot
+ * - Button size configuration
+ *
+ * Used by: modules/session/
+ * Reads from: shell.json → session section
+ * Provides: Config.session with typed session settings
+ */
 import Quickshell.Io
 
 JsonObject {

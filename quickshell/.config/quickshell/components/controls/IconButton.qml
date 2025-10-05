@@ -1,3 +1,21 @@
+/**
+ * Icon button with Material Design ripple effects
+ *
+ * IconButton provides a themed button component displaying a Material Design icon.
+ * Supports three visual types (Filled, Tonal, Text) and toggle functionality.
+ *
+ * Key features:
+ * - Material Design icon rendering with fill animation
+ * - Three button types: Filled, Tonal, Text
+ * - Toggle mode with checked/unchecked states
+ * - Ripple animation via StateLayer
+ * - Disabled state support
+ * - Automatic color theming based on type and state
+ *
+ * Used by: Bar components, popouts, toolbars throughout the UI
+ * Reads from: Colours (palette), Appearance (padding, rounding, animations)
+ * Provides: Interactive icon button with clicked signal
+ */
 import ".."
 import qs.services
 import qs.config

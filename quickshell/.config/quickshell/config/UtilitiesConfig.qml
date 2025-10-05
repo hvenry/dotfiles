@@ -1,3 +1,13 @@
+/**
+ * Utilities configuration object
+ *
+ * UtilitiesConfig defines settings for utility features including toast
+ * notifications, recording controls, and idle inhibitor.
+ *
+ * Used by: modules/utilities/
+ * Reads from: shell.json → utilities section
+ * Provides: Config.utilities
+ */
 import Quickshell.Io
 
 JsonObject {

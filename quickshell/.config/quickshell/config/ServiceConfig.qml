@@ -1,3 +1,13 @@
+/**
+ * Service-level configuration object
+ *
+ * ServiceConfig defines settings for system services including audio increment,
+ * brightness step, weather location, and media player aliases.
+ *
+ * Used by: services/Audio, services/Brightness, services/Weather, services/Players
+ * Reads from: shell.json → services section
+ * Provides: Config.services
+ */
 import Quickshell.Io
 import QtQuick
 

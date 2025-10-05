@@ -1,3 +1,12 @@
+/**
+ * System resource monitoring service singleton
+ *
+ * SystemUsage tracks CPU, memory, and disk usage statistics.
+ *
+ * Used by: modules/dashboard/dash/Resources.qml
+ * Reads from: /proc filesystem, system sensors
+ * Provides: CPU/memory/disk usage percentages
+ */
 pragma Singleton
 
 import qs.config

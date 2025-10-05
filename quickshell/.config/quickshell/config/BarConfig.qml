@@ -1,3 +1,22 @@
+/**
+ * Bar configuration object - defines bar layout and behavior
+ *
+ * BarConfig defines all settings for the main bar including layout entries,
+ * workspace configuration, tray settings, status icons, and sizing.
+ *
+ * Key features:
+ * - Persistent/auto-hide mode configuration
+ * - Customizable bar layout via entries array (logo, workspaces, clock, etc.)
+ * - Workspace display settings (count, indicators, labels)
+ * - System tray configuration (background, recoloring, icon substitution)
+ * - Status icon visibility toggles (audio, network, battery, etc.)
+ * - Scroll action bindings for workspaces, volume, brightness
+ * - Size settings for popouts and menus
+ *
+ * Used by: modules/bar/
+ * Reads from: shell.json → bar section
+ * Provides: Config.bar with typed bar settings
+ */
 import Quickshell.Io
 
 JsonObject {

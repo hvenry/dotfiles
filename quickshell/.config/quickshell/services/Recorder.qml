@@ -1,3 +1,12 @@
+/**
+ * Screen recording service singleton
+ *
+ * Recorder manages screen recording via wf-recorder.
+ *
+ * Used by: modules/utilities/cards/Record.qml
+ * Reads from: wf-recorder process, Paths (recordings directory)
+ * Provides: Start/stop recording, recording list management
+ */
 pragma Singleton
 
 import Quickshell

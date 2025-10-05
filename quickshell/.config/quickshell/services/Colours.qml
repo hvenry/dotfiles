@@ -1,3 +1,22 @@
+/**
+ * Color scheme management service singleton
+ *
+ * Colours provides the complete Material Design 3 color palette for the UI,
+ * managing theme colors, transparency, and color utilities.
+ *
+ * Key features:
+ * - Material Design 3 color tokens (100+ colors)
+ * - Pure monochrome scheme (black/white/grey gradients)
+ * - Light/dark mode support
+ * - Transparency layer system for glass effects
+ * - Color utility functions (luminance, contrast, layer blending)
+ * - Separate palettes: palette (base) and tPalette (transparent variants)
+ * - Terminal color scheme (term0-term15)
+ *
+ * Used by: All components for color theming
+ * Reads from: Appearance (transparency settings)
+ * Provides: palette, tPalette, light, getLuminance(), layer(), on()
+ */
 pragma Singleton
 pragma ComponentBehavior: Bound
 

@@ -1,3 +1,18 @@
+/**
+ * System information utilities singleton
+ *
+ * SysInfo provides system information including OS details, uptime, and user info.
+ *
+ * Key features:
+ * - OS information from /etc/os-release (name, ID, logo)
+ * - System uptime tracking (auto-refreshing every 15s)
+ * - User and environment info (USER, shell, WM/desktop)
+ * - OS logo resolution and caching
+ *
+ * Used by: modules/dashboard/dash/User.qml, modules/bar/components/OsIcon.qml
+ * Reads from: /etc/os-release, /proc/uptime, environment variables
+ * Provides: osName, osLogo, uptime, user, wm, shell
+ */
 pragma Singleton
 
 import Quickshell

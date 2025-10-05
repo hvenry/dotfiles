@@ -1,3 +1,21 @@
+/**
+ * Dashboard configuration object - defines dashboard behavior and sizing
+ *
+ * DashboardConfig defines settings for the top pulldown dashboard including
+ * drag thresholds, hover behavior, media update intervals, and widget sizes.
+ *
+ * Key features:
+ * - Enable/disable dashboard
+ * - Show on hover configuration
+ * - Media player update interval (milliseconds)
+ * - Drag threshold for pulldown activation
+ * - Widget size settings (date/time, media, resources, weather, etc.)
+ * - Progress indicator sizing (media, resources)
+ *
+ * Used by: modules/dashboard/
+ * Reads from: shell.json → dashboard section
+ * Provides: Config.dashboard with typed dashboard settings
+ */
 import Quickshell.Io
 
 JsonObject {

@@ -1,3 +1,12 @@
+/**
+ * Time and date utilities service singleton
+ *
+ * Time provides formatted time strings and date calculations.
+ *
+ * Used by: modules/bar/components/Clock.qml, modules/dashboard/dash/DateTime.qml
+ * Reads from: System clock
+ * Provides: Formatted time/date strings, date calculations
+ */
 pragma Singleton
 
 import Quickshell

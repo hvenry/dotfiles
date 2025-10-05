@@ -1,3 +1,16 @@
+/**
+ * Image utilities singleton
+ *
+ * Images provides image validation and type checking utilities.
+ *
+ * Key features:
+ * - Valid image type/extension lists (jpeg, png, webp, tiff, svg)
+ * - Image file validation by name/extension
+ *
+ * Used by: Components loading images
+ * Reads from: None (pure utilities)
+ * Provides: Image validation functions
+ */
 pragma Singleton
 
 import Quickshell

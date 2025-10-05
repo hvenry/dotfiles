@@ -1,3 +1,21 @@
+/**
+ * Hyprland integration service singleton
+ *
+ * Hypr provides integration with the Hyprland Wayland compositor, managing
+ * workspaces, windows (toplevels), monitors, and keyboard state.
+ *
+ * Key features:
+ * - Workspace, window, and monitor tracking via Hyprland IPC
+ * - Keyboard state monitoring (Caps Lock, Num Lock, active keymap)
+ * - Hyprland dispatcher for sending commands
+ * - Event handling and state refresh on compositor changes
+ * - Keyboard layout mapping from XKB rules
+ * - Toast notifications for Caps/Num Lock changes
+ *
+ * Used by: modules/bar/, modules/dashboard/, modules/drawers/
+ * Reads from: Hyprland IPC, XKB rules file, Config.utilities
+ * Provides: toplevels, workspaces, monitors, keyboard state, dispatch()
+ */
 pragma Singleton
 
 import qs.components.misc

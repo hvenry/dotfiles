@@ -1,3 +1,12 @@
+/**
+ * Game mode service singleton
+ *
+ * GameMode manages gaming-specific system optimizations.
+ *
+ * Used by: modules/utilities/ (if enabled)
+ * Reads from: GameMode daemon
+ * Provides: Game mode toggle and status
+ */
 pragma Singleton
 
 import qs.services

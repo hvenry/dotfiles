@@ -1,3 +1,22 @@
+/**
+ * Appearance configuration object - defines visual settings
+ *
+ * AppearanceConfig defines all visual settings for the UI including rounding,
+ * spacing, padding, fonts, animations, and transparency. Loaded from shell.json.
+ *
+ * Key features:
+ * - Rounding: corner radius values (small, normal, large, full)
+ * - Spacing: gap sizes between elements
+ * - Padding: internal padding for components
+ * - Fonts: font families (sans, mono, material, clock) and sizes
+ * - Animations: easing curves (Material Design 3) and durations
+ * - Transparency: base and layer transparency settings
+ * - Scale properties for proportional resizing
+ *
+ * Used by: All components via Appearance singleton
+ * Reads from: shell.json → appearance section
+ * Provides: Typed visual configuration with defaults
+ */
 import Quickshell.Io
 
 JsonObject {

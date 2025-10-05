@@ -1,3 +1,12 @@
+/**
+ * Media player control service singleton (MPRIS2)
+ *
+ * Players provides control for media players via MPRIS2 protocol.
+ *
+ * Used by: modules/dashboard/dash/Media.qml, modules/bar/
+ * Reads from: MPRIS2 via Quickshell plugin, Config.services (player aliases)
+ * Provides: active player, play/pause/next/previous controls
+ */
 pragma Singleton
 
 import qs.components.misc
