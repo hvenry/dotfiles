@@ -5,7 +5,6 @@ qml_module(qshell-hyprland
         circularindicatormanager.hpp circularindicatormanager.cpp
         hyprdevices.hpp hyprdevices.cpp
         hyprextras.hpp hyprextras.cpp
-        logindmanager.hpp logindmanager.cpp
     LIBRARIES
         Qt::Gui
         Qt::Quick

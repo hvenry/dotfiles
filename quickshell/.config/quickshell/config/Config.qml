@@ -18,7 +18,6 @@ Singleton {
     property alias osd: adapter.osd
     property alias session: adapter.session
     property alias winfo: adapter.winfo
-    property alias lock: adapter.lock
     property alias utilities: adapter.utilities
     property alias sidebar: adapter.sidebar
     property alias services: adapter.services
@@ -63,7 +62,6 @@ Singleton {
             property OsdConfig osd: OsdConfig {}
             property SessionConfig session: SessionConfig {}
             property WInfoConfig winfo: WInfoConfig {}
-            property LockConfig lock: LockConfig {}
             property UtilitiesConfig utilities: UtilitiesConfig {}
             property SidebarConfig sidebar: SidebarConfig {}
             property ServiceConfig services: ServiceConfig {}

@@ -246,7 +246,7 @@ Config.dashboard.enabled  // Reads from shell.json → dashboard.enabled
 
 ### Entry Points
 
-- **`shell.qml`** - Main entry point, instantiates top-level modules (Drawers, Shortcuts)
+- **`shell.qml`** - Main entry point, instantiates top-level modules (Drawers)
 
 ### Core Services
 
@@ -274,12 +274,12 @@ Config.dashboard.enabled  // Reads from shell.json → dashboard.enabled
 
 **Active modules (enabled in shell.qml):**
 
-- `modules/drawers/` - Contains bar, launcher, dashboard, panels
-- `modules/Shortcuts.qml` - IPC handlers for keybinds
+- `modules/drawers/` - Contains bar, dashboard, panels
 
 **Disabled modules (removed from shell.qml):**
 
-- `modules/lock/` - Lock screen (disabled in minimal config)
+- `modules/background/` - Desktop wallpaper/clock/visualizer (using hyprpaper instead)
+- `modules/lock/` - Lock screen (removed, using hyprlock instead)
 - `modules/areapicker/` - Screenshot area picker (disabled)
 
 ## Refactor History

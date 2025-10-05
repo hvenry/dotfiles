@@ -116,7 +116,7 @@ quickshell/
    - `OsdConfig.qml` - OSD (On-Screen Display) settings
    - `ServiceConfig.qml` - Service-level settings (audio increment, player aliases)
    - `GeneralConfig.qml` - Default applications (terminal, file manager, etc.)
-   - Plus: `BackgroundConfig`, `BorderConfig`, `ControlCenterConfig`, `LockConfig`, `UtilitiesConfig`, `WInfoConfig`
+   - Plus: `BackgroundConfig`, `BorderConfig`, `ControlCenterConfig`, `UtilitiesConfig`, `WInfoConfig`
 
 **Relationship to other directories:**
 
