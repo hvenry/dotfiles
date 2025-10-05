@@ -39,6 +39,11 @@ Variants {
             bar: bar
         }
 
+        Notch.NotchWindow {
+            screen: scope.modelData
+            visibilities: visibilities
+        }
+
         StyledWindow {
             id: win
 
@@ -173,11 +178,6 @@ Variants {
                     Component.onCompleted: Visibilities.bars.set(scope.modelData, this)
                 }
             }
-        }
-
-        Notch.NotchWindow {
-            screen: scope.modelData
-            visibilities: visibilities
         }
     }
 }

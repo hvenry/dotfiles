@@ -5,6 +5,7 @@ import qs.components.containers
 import qs.config
 import qs.services
 import Quickshell
+import Quickshell.Wayland
 import QtQuick
 import QtQuick.Effects
 
@@ -16,6 +17,7 @@ StyledWindow {
 
     screen: root.screen
     name: "notch"
+    WlrLayershell.layer: WlrLayer.Top
 
     // Always reserve space, even when notch is hidden (prevents window resize flicker)
     exclusiveZone: Config.notch.enabled ? Config.notch.sizes.height : 0

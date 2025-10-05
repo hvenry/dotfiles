@@ -15,9 +15,13 @@ RowLayout {
 
     spacing: Config.notch.sizes.padding
 
-    // Activate audio visualization service
+    // Activate audio visualization services
     ServiceRef {
         service: Audio.cava
+    }
+
+    ServiceRef {
+        service: Audio.beatTracker
     }
 
     // Time display (12-hour with seconds and date)
@@ -165,22 +169,6 @@ RowLayout {
                     color: Colours.palette.m3outline
                     font.pointSize: Appearance.font.size.smaller
                 }
-            }
-        }
-    }
-
-    // Separator before visualizer (only visible when playing)
-    Rectangle {
-        Layout.alignment: Qt.AlignVCenter
-        Layout.preferredWidth: (Players.active?.isPlaying) ? 1 : 0
-        Layout.preferredHeight: Config.notch.sizes.height * 0.5
-        color: Colours.palette.m3outlineVariant
-        visible: Layout.preferredWidth > 0
-
-        Behavior on Layout.preferredWidth {
-            Anim {
-                duration: Appearance.anim.durations.normal
-                easing.bezierCurve: Appearance.anim.curves.emphasized
             }
         }
     }
