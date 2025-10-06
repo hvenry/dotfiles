@@ -1,6 +1,5 @@
 pragma ComponentBehavior: Bound
 
-import qs.components.effects
 import qs.services
 import qs.config
 import qs.utils
@@ -23,12 +22,12 @@ MouseArea {
             modelData.secondaryActivate();
     }
 
-    ColouredIcon {
+    Image {
         id: icon
 
         anchors.fill: parent
         source: Icons.getTrayIcon(root.modelData.id, root.modelData.icon)
-        colour: Colours.palette.m3secondary
-        layer.enabled: Config.bar.tray.recolour
+        sourceSize: Qt.size(width, height)
+        asynchronous: true
     }
 }

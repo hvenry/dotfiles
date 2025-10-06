@@ -1,8 +1,8 @@
 pragma ComponentBehavior: Bound
 
 import qs.components
-import qs.components.effects
 import qs.services
+import Quickshell.Widgets
 import qs.config
 import qs.utils
 import Quickshell
@@ -84,11 +84,12 @@ StyledRect {
             Component {
                 id: appIconComp
 
-                ColouredIcon {
-                    implicitSize: Math.round(Config.notifs.sizes.image * 0.6)
+                Image {
+                    width: Math.round(Config.notifs.sizes.image * 0.6)
+                    height: Math.round(Config.notifs.sizes.image * 0.6)
                     source: Quickshell.iconPath(root.appIcon)
-                    colour: root.urgency === NotificationUrgency.Critical ? Colours.palette.m3onError : root.urgency === NotificationUrgency.Low ? Colours.palette.m3onSurface : Colours.palette.m3onSecondaryContainer
-                    layer.enabled: root.appIcon.endsWith("symbolic")
+                    sourceSize: Qt.size(width, height)
+                    asynchronous: true
                 }
             }
 
@@ -127,12 +128,13 @@ StyledRect {
                     color: root.urgency === NotificationUrgency.Critical ? Colours.palette.m3error : root.urgency === NotificationUrgency.Low ? Colours.palette.m3surfaceContainerHigh : Colours.palette.m3secondaryContainer
                     radius: Appearance.rounding.full
 
-                    ColouredIcon {
+                    Image {
                         anchors.centerIn: parent
-                        implicitSize: Math.round(Config.notifs.sizes.badge * 0.6)
+                        width: Math.round(Config.notifs.sizes.badge * 0.6)
+                        height: Math.round(Config.notifs.sizes.badge * 0.6)
                         source: Quickshell.iconPath(root.appIcon)
-                        colour: root.urgency === NotificationUrgency.Critical ? Colours.palette.m3onError : root.urgency === NotificationUrgency.Low ? Colours.palette.m3onSurface : Colours.palette.m3onSecondaryContainer
-                        layer.enabled: root.appIcon.endsWith("symbolic")
+                        sourceSize: Qt.size(width, height)
+                        asynchronous: true
                     }
                 }
             }

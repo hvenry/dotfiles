@@ -9,7 +9,7 @@
  * - User and environment info (USER, shell, WM/desktop)
  * - OS logo resolution and caching
  *
- * Used by: modules/dashboard/dash/User.qml, modules/bar/components/OsIcon.qml
+ * Used by: modules/dashboard/dash/User.qml
  * Reads from: /etc/os-release, /proc/uptime, environment variables
  * Provides: osName, osLogo, uptime, user, wm, shell
  */

@@ -2,29 +2,23 @@
  * Hyprland integration service singleton
  *
  * Hypr provides integration with the Hyprland Wayland compositor, managing
- * workspaces, windows (toplevels), monitors, and keyboard state.
+ * workspaces, windows (toplevels), and monitors.
  *
  * Key features:
  * - Workspace, window, and monitor tracking via Hyprland IPC
- * - Keyboard state monitoring (Caps Lock, Num Lock, active keymap)
  * - Hyprland dispatcher for sending commands
  * - Event handling and state refresh on compositor changes
- * - Keyboard layout mapping from XKB rules
- * - Toast notifications for Caps/Num Lock changes
  *
  * Used by: modules/bar/, modules/dashboard/, modules/drawers/
- * Reads from: Hyprland IPC, XKB rules file, Config.utilities
- * Provides: toplevels, workspaces, monitors, keyboard state, dispatch()
+ * Reads from: Hyprland IPC, Config.utilities
+ * Provides: toplevels, workspaces, monitors, dispatch()
  */
 pragma Singleton
 
 import qs.components.misc
 import qs.config
-import QShell
-import QShell.Hyprland
 import Quickshell
 import Quickshell.Hyprland
-import Quickshell.Io
 import QtQuick
 
 Singleton {
@@ -39,18 +33,6 @@ Singleton {
     readonly property HyprlandMonitor focusedMonitor: Hyprland.focusedMonitor
     readonly property int activeWsId: focusedWorkspace?.id ?? 1
 
-    readonly property HyprKeyboard keyboard: extras.devices.keyboards.find(kb => kb.main) ?? null
-    readonly property bool capsLock: keyboard?.capsLock ?? false
-    readonly property bool numLock: keyboard?.numLock ?? false
-    readonly property string defaultKbLayout: keyboard?.layout.split(",")[0] ?? "??"
-    readonly property string kbLayoutFull: keyboard?.activeKeymap ?? "Unknown"
-    readonly property string kbLayout: kbMap.get(kbLayoutFull) ?? "??"
-    readonly property var kbMap: new Map()
-
-    readonly property alias extras: extras
-    readonly property alias options: extras.options
-    readonly property alias devices: extras.devices
-
     signal configReloaded
 
     function dispatch(request: string): void {
@@ -59,32 +41,6 @@ Singleton {
 
     function monitorFor(screen: ShellScreen): HyprlandMonitor {
         return Hyprland.monitorFor(screen);
-    }
-
-    function reloadDynamicConfs(): void {
-        extras.batchMessage(["keyword bindlni ,Caps_Lock,global,qshell:refreshDevices", "keyword bindlni ,Num_Lock,global,qshell:refreshDevices"]);
-    }
-
-    Component.onCompleted: reloadDynamicConfs()
-
-    onCapsLockChanged: {
-        if (!Config.utilities.toasts.capsLockChanged)
-            return;
-
-        if (capsLock)
-            Toaster.toast(qsTr("Caps lock enabled"), qsTr("Caps lock is currently enabled"), "keyboard_capslock_badge");
-        else
-            Toaster.toast(qsTr("Caps lock disabled"), qsTr("Caps lock is currently disabled"), "keyboard_capslock");
-    }
-
-    onNumLockChanged: {
-        if (!Config.utilities.toasts.numLockChanged)
-            return;
-
-        if (numLock)
-            Toaster.toast(qsTr("Num lock enabled"), qsTr("Num lock is currently enabled"), "looks_one");
-        else
-            Toaster.toast(qsTr("Num lock disabled"), qsTr("Num lock is currently disabled"), "timer_1");
     }
 
     Connections {
@@ -97,7 +53,6 @@ Singleton {
 
             if (n === "configreloaded") {
                 root.configReloaded();
-                root.reloadDynamicConfs();
             } else if (["workspace", "moveworkspace", "activespecial", "focusedmon"].includes(n)) {
                 Hyprland.refreshWorkspaces();
                 Hyprland.refreshMonitors();
@@ -112,26 +67,5 @@ Singleton {
                 Hyprland.refreshToplevels();
             }
         }
-    }
-
-    FileView {
-        id: kbLayoutFile
-
-        path: Quickshell.env("QUICKSHELL_XKB_RULES_PATH") || "/usr/share/X11/xkb/rules/base.lst"
-        onLoaded: {
-            const lines = text().match(/! layout\n([\s\S]*?)\n\n/)[1].split("\n");
-            for (const line of lines) {
-                if (!line.trim() || line.trim().startsWith("!"))
-                    continue;
-
-                const match = line.match(/^\s*([a-z]{2,})\s+([a-zA-Z() ]+)$/);
-                if (match)
-                    root.kbMap.set(match[2], match[1]);
-            }
-        }
-    }
-
-    HyprExtras {
-        id: extras
     }
 }

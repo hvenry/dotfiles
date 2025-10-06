@@ -13,7 +13,7 @@ ColumnLayout {
     StyledText {
         Layout.topMargin: Appearance.padding.normal
         Layout.rightMargin: Appearance.padding.normal
-        text: qsTr("Keyboard layout: %1").arg(Hypr.kbLayoutFull)
+        text: qsTr("Keyboard layout")
         font.weight: 500
     }
 
@@ -23,6 +23,6 @@ ColumnLayout {
         Layout.fillWidth: true
 
         text: qsTr("Switch layout")
-        onClicked: Hypr.extras.message("switchxkblayout all next")
+        onClicked: Hypr.dispatch("switchxkblayout all next")
     }
 }

@@ -54,10 +54,10 @@ JsonObject {
     }
 
     component FontFamily: JsonObject {
-        property string sans: "Rubik"
-        property string mono: "CaskaydiaCove NF"
+        property string sans: "JetBrainsMono Nerd Font"
+        property string mono: "JetBrainsMono Nerd Font"
         property string material: "Material Symbols Rounded"
-        property string clock: "Rubik"
+        property string clock: "JetBrainsMono Nerd Font"
     }
 
     component FontSize: JsonObject {

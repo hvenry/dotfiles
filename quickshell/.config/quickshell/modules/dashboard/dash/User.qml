@@ -1,6 +1,6 @@
 import qs.components
-import qs.components.effects
 import qs.components.images
+import Quickshell.Widgets
 import qs.services
 import qs.config
 import qs.utils
@@ -115,15 +115,17 @@ Row {
             implicitWidth: icon.implicitWidth + text.width + text.anchors.leftMargin
             implicitHeight: Math.max(icon.implicitHeight, text.implicitHeight)
 
-            ColouredIcon {
+            Image {
                 id: icon
 
                 anchors.left: parent.left
-                anchors.leftMargin: (Config.dashboard.sizes.infoIconSize - implicitWidth) / 2
+                anchors.leftMargin: (Config.dashboard.sizes.infoIconSize - width) / 2
 
                 source: SysInfo.osLogo
-                implicitSize: Math.floor(Appearance.font.size.normal * 1.34)
-                colour: Colours.palette.m3primary
+                width: Math.floor(Appearance.font.size.normal * 1.34)
+                height: Math.floor(Appearance.font.size.normal * 1.34)
+                sourceSize: Qt.size(width, height)
+                asynchronous: true
             }
 
             StyledText {

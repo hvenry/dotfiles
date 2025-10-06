@@ -25,7 +25,6 @@
   },
   "bar": {
     "entries": [
-      { "id": "logo", "enabled": true },
       { "id": "workspaces", "enabled": true },
       { "id": "spacer", "enabled": true },
       { "id": "activeWindow", "enabled": true },

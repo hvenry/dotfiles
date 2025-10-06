@@ -1,7 +1,6 @@
 pragma ComponentBehavior: Bound
 
 import qs.components
-import qs.components.effects
 import qs.services
 import qs.config
 import qs.utils
@@ -159,11 +158,11 @@ StyledRect {
                         width: Math.round(parent.width * 0.6)
                         height: Math.round(parent.width * 0.6)
 
-                        sourceComponent: ColouredIcon {
+                        sourceComponent: Image {
                             anchors.fill: parent
                             source: Quickshell.iconPath(root.modelData.appIcon)
-                            colour: root.modelData.urgency === NotificationUrgency.Critical ? Colours.palette.m3onError : root.modelData.urgency === NotificationUrgency.Low ? Colours.palette.m3onSurface : Colours.palette.m3onSecondaryContainer
-                            layer.enabled: root.modelData.appIcon.endsWith("symbolic")
+                            sourceSize: Qt.size(width, height)
+                            asynchronous: true
                         }
                     }
 
