@@ -53,7 +53,7 @@ Singleton {
 
             if (n === "configreloaded") {
                 root.configReloaded();
-            } else if (["workspace", "moveworkspace", "activespecial", "focusedmon"].includes(n)) {
+            } else if (["workspace", "moveworkspace", "focusedmon"].includes(n)) {
                 Hyprland.refreshWorkspaces();
                 Hyprland.refreshMonitors();
             } else if (["openwindow", "closewindow", "movewindow"].includes(n)) {
