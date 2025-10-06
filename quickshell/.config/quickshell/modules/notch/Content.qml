@@ -20,10 +20,6 @@ RowLayout {
         service: Audio.cava
     }
 
-    ServiceRef {
-        service: Audio.beatTracker
-    }
-
     // Time display (12-hour with seconds and date)
     StyledText {
         id: timeText

@@ -51,10 +51,6 @@ Item {
         service: Audio.cava
     }
 
-    ServiceRef {
-        service: Audio.beatTracker
-    }
-
     ColumnLayout {
         id: mainLayout
 

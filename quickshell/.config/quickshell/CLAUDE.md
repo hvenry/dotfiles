@@ -27,7 +27,7 @@ The configuration requires custom C++ QML plugins that are compiled and installe
 
 **Plugin Structure:**
 
-- **`plugin/`** - Custom QML modules (beat tracker, audio collector, Cava visualizer)
+- **`plugin/`** - Custom QML modules (audio collector, Cava visualizer)
 - **`extras/`** - Additional QML modules (Hyprland extras, logind integration, image utilities)
 
 **Build System:**
@@ -39,7 +39,7 @@ The configuration requires custom C++ QML plugins that are compiled and installe
 **QML Imports:**
 
 ```qml
-import Caelestia             // Plugin modules (beat tracker, audio, Cava)
+import Caelestia             // Plugin modules (audio, Cava)
 import Caelestia.Internal    // Extras (caching image manager, Hyprland extras)
 import Caelestia.Models      // Filesystem models
 ```
@@ -314,7 +314,6 @@ See `REFACTOR_CHECKPOINT.md` for detailed changelog of the minimal monochrome re
 - `brightnessctl` - Laptop brightness control
 - `networkmanager` - Network management
 - `pipewire` - Audio system
-- `aubio` - Beat detection for media player
 - `libcava` - Audio visualizer library
 - `qt6-declarative`, `qt6-base` - Qt runtime
 

@@ -89,7 +89,7 @@ This configuration uses the XDG Base Directory specification:
 
 #### 1. Build C++ QML Plugins
 
-The configuration requires custom QML plugins for beat detection, audio visualization, and Hyprland integration:
+The configuration requires custom QML plugins for audio visualization, and Hyprland integration:
 
 ```sh
 cd ~/dotfiles/quickshell/.config/quickshell
@@ -108,7 +108,7 @@ cmake --build build
 **Plugins installed:**
 
 - **QShell** - Core utilities (calculator, app database, toast notifications)
-- **QShell.Audio** - Beat tracker, audio collector, Cava visualizer
+- **QShell.Audio** - audio collector, Cava visualizer
 - **QShell.Hyprland** - Hyprland keyboard state, image caching, device management
 - **QShell.Models** - Filesystem models for file dialogs
 

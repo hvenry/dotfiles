@@ -23,6 +23,7 @@ ColumnLayout {
     readonly property bool hasWindows: isOccupied && Config.bar.workspaces.showWindows
 
     Layout.alignment: Qt.AlignHCenter
+    Layout.preferredWidth: Config.bar.sizes.innerWidth - Appearance.padding.small * 2
     Layout.preferredHeight: size
 
     spacing: 0
@@ -30,7 +31,8 @@ ColumnLayout {
     StyledText {
         id: indicator
 
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+        Layout.fillWidth: true
+        Layout.alignment: Qt.AlignVCenter
         Layout.preferredHeight: Config.bar.sizes.innerWidth - Appearance.padding.small * 2
 
         animate: true
@@ -49,7 +51,8 @@ ColumnLayout {
             return root.activeWsId === root.ws ? activeLabel : root.isOccupied ? occupiedLabel : label;
         }
         color: Config.bar.workspaces.occupiedBg || root.isOccupied || root.activeWsId === root.ws ? Colours.palette.m3onSurface : Colours.layer(Colours.palette.m3outlineVariant, 2)
-        verticalAlignment: Qt.AlignVCenter
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
     }
 
     Loader {
