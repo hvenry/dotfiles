@@ -4,7 +4,7 @@
 #include <qobject.h>
 #include <qqmlengine.h>
 
-namespace caelestia {
+namespace utils {
 
 class Requests : public QObject {
     Q_OBJECT
@@ -20,4 +20,4 @@ private:
     QNetworkAccessManager* m_manager;
 };
 
-} // namespace caelestia
+} // namespace utils

@@ -10,8 +10,8 @@
 pragma Singleton
 
 import qs.config
-import QShell.Audio
-import QShell
+import Utils.Audio
+import Utils
 import Quickshell
 import Quickshell.Services.Pipewire
 import QtQuick

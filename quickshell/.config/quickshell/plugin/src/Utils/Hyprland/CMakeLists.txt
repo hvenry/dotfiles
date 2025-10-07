@@ -1,5 +1,5 @@
-qml_module(qshell-hyprland
-    URI QShell.Hyprland
+qml_module(utils-hyprland
+    URI Utils.Hyprland
     SOURCES
         cachingimagemanager.hpp cachingimagemanager.cpp
         circularindicatormanager.hpp circularindicatormanager.cpp

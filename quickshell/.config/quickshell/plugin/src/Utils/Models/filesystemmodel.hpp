@@ -9,7 +9,7 @@
 #include <qobject.h>
 #include <qqmlintegration.h>
 
-namespace caelestia::models {
+namespace utils::models {
 
 class FileSystemEntry : public QObject {
     Q_OBJECT
@@ -144,4 +144,4 @@ private:
     [[nodiscard]] bool compareEntries(const FileSystemEntry* a, const FileSystemEntry* b) const;
 };
 
-} // namespace caelestia::models
+} // namespace utils::models

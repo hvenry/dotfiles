@@ -16,7 +16,7 @@
 #include <stop_token>
 #include <vector>
 
-namespace caelestia::services {
+namespace utils::audio {
 
 /**
  * PipeWire worker constructor - sets up audio capture stream
@@ -256,4 +256,4 @@ void AudioCollector::stop() {
     }
 }
 
-} // namespace caelestia::services
+} // namespace utils::audio

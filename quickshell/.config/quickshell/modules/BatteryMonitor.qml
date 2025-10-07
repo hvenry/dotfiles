@@ -1,5 +1,5 @@
 import qs.config
-import QShell
+import Utils
 import Quickshell
 import Quickshell.Services.UPower
 import QtQuick

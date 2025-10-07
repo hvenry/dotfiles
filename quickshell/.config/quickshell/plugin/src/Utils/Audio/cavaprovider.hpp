@@ -24,7 +24,7 @@
 #include <cava/cavacore.h>
 #include <qqmlintegration.h>
 
-namespace caelestia::services {
+namespace utils::audio {
 
 /**
  * Cava audio processor (runs on separate thread)
@@ -92,4 +92,4 @@ private:
     void updateValues(QVector<double> values);  // Update from processor
 };
 
-} // namespace caelestia::services
+} // namespace utils::audio

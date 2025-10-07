@@ -36,8 +36,8 @@ function(qml_module arg_TARGET)
     target_link_libraries(${arg_TARGET} PRIVATE Qt::Core Qt::Qml ${arg_LIBRARIES})
 endfunction()
 
-qml_module(qshell
-    URI QShell
+qml_module(utils
+    URI Utils
     SOURCES
         cutils.hpp cutils.cpp
         requests.hpp requests.cpp

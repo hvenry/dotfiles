@@ -1,1 +1,1 @@
-add_subdirectory(src/QShell)
+add_subdirectory(src/Utils)

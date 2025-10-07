@@ -18,7 +18,7 @@
 pragma Singleton
 
 import qs.utils
-import QShell
+import Utils
 import Quickshell
 import Quickshell.Io
 

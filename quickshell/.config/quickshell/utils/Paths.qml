@@ -17,7 +17,7 @@
 pragma Singleton
 
 import qs.config
-import QShell
+import Utils
 import Quickshell
 
 Singleton {

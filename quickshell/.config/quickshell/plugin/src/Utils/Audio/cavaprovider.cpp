@@ -7,7 +7,7 @@
 #include <cstddef>
 #include <qdebug.h>
 
-namespace caelestia::services {
+namespace utils::audio {
 
 CavaProcessor::CavaProcessor(QObject* parent)
     : AudioProcessor(parent)
@@ -145,4 +145,4 @@ void CavaProvider::updateValues(QVector<double> values) {
     }
 }
 
-} // namespace caelestia::services
+} // namespace utils::audio

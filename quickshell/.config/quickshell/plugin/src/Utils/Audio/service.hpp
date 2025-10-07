@@ -12,7 +12,7 @@
 #include <qobject.h>
 #include <qset.h>
 
-namespace caelestia::services {
+namespace utils::audio {
 
 /**
  * Reference-counted service base class
@@ -45,4 +45,4 @@ private:
     virtual void stop() = 0;  // Stop the service (implemented by child)
 };
 
-} // namespace caelestia::services
+} // namespace utils::audio

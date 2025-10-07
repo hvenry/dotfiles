@@ -26,7 +26,7 @@
 #include <thread>
 #include <vector>
 
-namespace caelestia::services {
+namespace utils::audio {
 
 // Audio capture constants
 namespace ac {
@@ -104,4 +104,4 @@ private:
     void stop() override;   // Stop PipeWire capture thread
 };
 
-} // namespace caelestia::services
+} // namespace utils::audio

@@ -1,5 +1,5 @@
-qml_module(qshell-models
-    URI QShell.Models
+qml_module(utils-models
+    URI Utils.Models
     SOURCES
         filesystemmodel.hpp filesystemmodel.cpp
     LIBRARIES

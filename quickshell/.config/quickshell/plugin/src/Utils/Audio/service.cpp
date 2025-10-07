@@ -9,7 +9,7 @@
 #include <qdebug.h>
 #include <qpointer.h>
 
-namespace caelestia::services {
+namespace utils::audio {
 
 Service::Service(QObject* parent)
     : QObject(parent) {}
@@ -43,4 +43,4 @@ void Service::unref(QObject* sender) {
     }
 }
 
-} // namespace caelestia::services
+} // namespace utils::audio

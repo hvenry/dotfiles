@@ -17,7 +17,7 @@
 #include <qqmlintegration.h>
 #include <qtimer.h>
 
-namespace caelestia::services {
+namespace utils::audio {
 
 /**
  * Base audio processor (runs on separate thread)
@@ -70,4 +70,4 @@ private:
     void stop() override;   // Stop processor thread
 };
 
-} // namespace caelestia::services
+} // namespace utils::audio

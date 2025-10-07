@@ -18,7 +18,7 @@
 #include <qpointer.h>
 #include <qqmlintegration.h>
 
-namespace caelestia::services {
+namespace utils::audio {
 
 /**
  * QML-accessible service reference holder
@@ -45,4 +45,4 @@ private:
     QPointer<Service> m_service; // Weak pointer to service (auto-nulls if service destroyed)
 };
 
-} // namespace caelestia::services
+} // namespace utils::audio

@@ -4,7 +4,7 @@ import qs.components
 import qs.services
 import qs.config
 import qs.utils
-import QShell.Audio
+import Utils.Audio
 import Quickshell
 import QtQuick
 import QtQuick.Layouts

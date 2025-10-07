@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import qs.components
 import qs.config
 import qs.utils
-import QShell
+import Utils
 import Quickshell
 import Quickshell.Io
 import QtQuick

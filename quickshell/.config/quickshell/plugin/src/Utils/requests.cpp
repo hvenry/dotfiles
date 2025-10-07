@@ -4,7 +4,7 @@
 #include <qnetworkreply.h>
 #include <qnetworkrequest.h>
 
-namespace caelestia {
+namespace utils {
 
 Requests::Requests(QObject* parent)
     : QObject(parent)
@@ -32,4 +32,4 @@ void Requests::get(const QUrl& url, QJSValue onSuccess, QJSValue onError) const 
     });
 }
 
-} // namespace caelestia
+} // namespace utils

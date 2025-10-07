@@ -1,5 +1,5 @@
-qml_module(qshell-audio
-    URI QShell.Audio
+qml_module(utils-audio
+    URI Utils.Audio
     SOURCES
         service.hpp service.cpp
         serviceref.hpp serviceref.cpp

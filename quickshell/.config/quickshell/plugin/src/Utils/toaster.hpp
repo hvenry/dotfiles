@@ -4,7 +4,7 @@
 #include <qqmlintegration.h>
 #include <qset.h>
 
-namespace caelestia {
+namespace utils {
 
 class Toast : public QObject {
     Q_OBJECT
@@ -69,7 +69,7 @@ public:
     [[nodiscard]] QList<Toast*> toasts() const;
 
     Q_INVOKABLE void toast(const QString& title, const QString& message, const QString& icon = QString(),
-        caelestia::Toast::Type type = Toast::Type::Info, int timeout = 5000);
+        utils::Toast::Type type = Toast::Type::Info, int timeout = 5000);
 
 signals:
     void toastsChanged();
@@ -78,4 +78,4 @@ private:
     QList<Toast*> m_toasts;
 };
 
-} // namespace caelestia
+} // namespace utils

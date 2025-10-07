@@ -7,7 +7,7 @@
 
 #include "service.hpp"
 
-namespace caelestia::services {
+namespace utils::audio {
 
 /**
  * Constructor - automatically refs the service
@@ -52,4 +52,4 @@ void ServiceRef::setService(Service* service) {
     }
 }
 
-} // namespace caelestia::services
+} // namespace utils::audio

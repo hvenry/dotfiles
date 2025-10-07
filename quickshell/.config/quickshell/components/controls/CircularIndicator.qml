@@ -1,7 +1,7 @@
 import ".."
 import qs.services
 import qs.config
-import QShell.Hyprland
+import Utils.Hyprland
 import QtQuick
 import QtQuick.Templates
 
