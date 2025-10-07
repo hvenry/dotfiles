@@ -1,3 +1,9 @@
+/**
+ * PipeWire audio collector implementation
+ *
+ * Captures system audio via PipeWire and provides thread-safe ring buffer
+ * for audio visualization processors.
+ */
 #include "audiocollector.hpp"
 
 #include "service.hpp"
@@ -12,6 +18,12 @@
 
 namespace caelestia::services {
 
+/**
+ * PipeWire worker constructor - sets up audio capture stream
+ *
+ * Creates PipeWire main loop, audio stream, and connects to default sink.
+ * Runs synchronously until stop token is triggered.
+ */
 PipeWireWorker::PipeWireWorker(std::stop_token token, AudioCollector* collector)
     : m_loop(nullptr)
     , m_stream(nullptr)
@@ -19,6 +31,7 @@ PipeWireWorker::PipeWireWorker(std::stop_token token, AudioCollector* collector)
     , m_idle(true)
     , m_token(token)
     , m_collector(collector) {
+    // Initialize PipeWire library
     pw_init(nullptr, nullptr);
 
     m_loop = pw_main_loop_new(nullptr);
