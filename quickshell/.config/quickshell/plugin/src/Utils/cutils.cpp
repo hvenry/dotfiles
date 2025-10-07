@@ -8,6 +8,7 @@
 #include <qfuturewatcher.h>
 #include <qqmlengine.h>
 
+// File utilities
 namespace utils {
 
 void CUtils::saveItem(QQuickItem* target, const QUrl& path) {

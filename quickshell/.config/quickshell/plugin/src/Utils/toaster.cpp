@@ -4,6 +4,7 @@
 #include <qlogging.h>
 #include <qtimer.h>
 
+// Toast notification system
 namespace utils {
 
 Toast::Toast(const QString& title, const QString& message, const QString& icon, Type type, int timeout, QObject* parent)

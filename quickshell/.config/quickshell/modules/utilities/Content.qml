@@ -20,18 +20,8 @@ Item {
 
         IdleInhibit {}
 
-        Record {
-            props: root.props
-            visibilities: root.visibilities
-            z: 1
-        }
-
         Toggles {
             visibilities: root.visibilities
         }
-    }
-
-    RecordingDeleteModal {
-        props: root.props
     }
 }

@@ -165,7 +165,6 @@ stow -R quickshell
 Customize paths using environment variables:
 
 - `QUICKSHELL_LIB_DIR` - Override library directory (default: `/usr/lib/quickshell`)
-- `QUICKSHELL_RECORDINGS_DIR` - Override recording directory
 - `QUICKSHELL_XKB_RULES_PATH` - Override keyboard layout rules
 
 ---

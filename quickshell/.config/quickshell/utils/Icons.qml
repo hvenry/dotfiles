@@ -170,8 +170,6 @@ Singleton {
         summary = summary.toLowerCase();
         if (summary.includes("reboot"))
             return "restart_alt";
-        if (summary.includes("recording"))
-            return "screen_record";
         if (summary.includes("battery"))
             return "power";
         if (summary.includes("screenshot"))

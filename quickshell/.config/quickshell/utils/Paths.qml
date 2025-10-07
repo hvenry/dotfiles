@@ -6,7 +6,7 @@
  * Key features:
  * - XDG directory paths: config, state, cache, data
  * - User directories: home, pictures, videos
- * - Quickshell-specific paths: imagecache, recsdir, libdir
+ * - Quickshell-specific paths: imagecache, libdir
  * - Path utility functions: absolutePath(), toLocalFile(), shortenHome()
  * - Environment variable support with fallbacks
  *
@@ -34,7 +34,6 @@ Singleton {
 
     readonly property string imagecache: `${cache}/imagecache`
     readonly property string notifimagecache: `${imagecache}/notifs`
-    readonly property string recsdir: Quickshell.env("QUICKSHELL_RECORDINGS_DIR") || `${videos}/Recordings`
     readonly property string libdir: Quickshell.env("QUICKSHELL_LIB_DIR") || "/usr/lib/quickshell"
 
     function toLocalFile(path: url): string {
