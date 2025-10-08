@@ -21,20 +21,20 @@
       { "id": "spacer", "enabled": true },
       { "id": "activeWindow", "enabled": true },
       { "id": "spacer", "enabled": true },
+      { "id": "tray", "enabled": false },
       { "id": "statusIcons", "enabled": true },
       { "id": "power", "enabled": true }
     ],
     "status": {
       "showAudio": true,
-      "showBattery": true,
+      "showBattery": false,
       "showNetwork": true,
       "showBluetooth": true,
-      "showKbLayout": false,
       "showMicrophone": false
     },
     "persistent": true,
     "tray": {
-      "background": false,
+      "background": true,
       "compact": true
     }
   },
@@ -73,12 +73,6 @@
     "defaultExpireTimeout": 8000
   },
   "notch": {
-    "enabled": true,
-    "sizes": {
-      "width": 200,
-      "height": 35,
-      "padding": 12,
-      "rounding": 16
-    }
+    "enabled": true
   }
 }

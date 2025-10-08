@@ -91,7 +91,6 @@ Singleton {
             Music: "music_note",
             Player: "music_note",
             Recorder: "mic",
-            Game: "sports_esports",
             FileTools: "files",
             FileManager: "files",
             Filesystem: "files",
