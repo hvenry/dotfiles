@@ -10,6 +10,7 @@ Item {
 
     required property var visibilities
     required property Item sidebar
+    required property var popouts
 
     readonly property PersistentProperties props: PersistentProperties {
         reloadableId: "utilities"
@@ -85,6 +86,7 @@ Item {
             implicitWidth: root.implicitWidth - Appearance.padding.large * 2
             props: root.props
             visibilities: root.visibilities
+            popouts: root.popouts
         }
     }
 }

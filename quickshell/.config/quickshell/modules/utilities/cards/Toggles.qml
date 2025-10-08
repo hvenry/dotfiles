@@ -12,6 +12,7 @@ StyledRect {
     id: root
 
     required property var visibilities
+    required property var popouts
 
     Layout.fillWidth: true
     implicitHeight: layout.implicitHeight + Appearance.padding.large * 2
@@ -62,9 +63,7 @@ StyledRect {
                 toggle: false
                 onClicked: {
                     root.visibilities.utilities = false;
-                    WindowFactory.create(null, {
-                        screen: QsWindow.window?.screen ?? null
-                    });
+                    root.popouts.detach("network");
                 }
             }
 

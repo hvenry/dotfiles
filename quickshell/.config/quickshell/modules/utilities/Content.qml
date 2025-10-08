@@ -8,6 +8,7 @@ Item {
 
     required property var props
     required property var visibilities
+    required property var popouts
 
     implicitWidth: layout.implicitWidth
     implicitHeight: layout.implicitHeight
@@ -20,6 +21,7 @@ Item {
 
         Toggles {
             visibilities: root.visibilities
+            popouts: root.popouts
         }
     }
 }
