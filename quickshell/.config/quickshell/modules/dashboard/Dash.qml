@@ -10,50 +10,41 @@ GridLayout {
 
     required property PersistentProperties visibilities
     required property PersistentProperties state
-    required property var facePicker
 
     rowSpacing: Appearance.spacing.normal
     columnSpacing: Appearance.spacing.normal
+    rows: 2
+    columns: 3
 
-    Rect {
-        Layout.column: 2
-        Layout.columnSpan: 3
-        Layout.preferredWidth: user.implicitWidth
-        Layout.preferredHeight: user.implicitHeight
-
-        User {
-            id: user
-
-            visibilities: root.visibilities
-            state: root.state
-            facePicker: root.facePicker
-        }
-    }
-
+    // Left column - Weather (top)
     Rect {
         Layout.row: 0
-        Layout.columnSpan: 2
-        Layout.preferredWidth: Config.dashboard.sizes.weatherWidth
+        Layout.column: 0
         Layout.fillHeight: true
+        Layout.preferredWidth: Config.dashboard.sizes.weatherWidth
 
         Weather {}
     }
 
+    // Left column - DateTime (bottom)
     Rect {
         Layout.row: 1
-        Layout.preferredWidth: dateTime.implicitWidth
+        Layout.column: 0
         Layout.fillHeight: true
+        Layout.preferredWidth: Config.dashboard.sizes.weatherWidth
 
         DateTime {
             id: dateTime
         }
     }
 
+    // Calendar - spans 2 rows
     Rect {
-        Layout.row: 1
+        Layout.row: 0
         Layout.column: 1
-        Layout.columnSpan: 3
+        Layout.rowSpan: 2
         Layout.fillWidth: true
+        Layout.minimumWidth: Config.dashboard.sizes.calendarMinWidth
         Layout.preferredHeight: calendar.implicitHeight
 
         Calendar {
@@ -63,26 +54,16 @@ GridLayout {
         }
     }
 
+    // Resources
     Rect {
-        Layout.row: 1
-        Layout.column: 4
+        Layout.row: 0
+        Layout.column: 2
+        Layout.rowSpan: 2
         Layout.preferredWidth: resources.implicitWidth
         Layout.fillHeight: true
 
         Resources {
             id: resources
-        }
-    }
-
-    Rect {
-        Layout.row: 0
-        Layout.column: 5
-        Layout.rowSpan: 2
-        Layout.preferredWidth: media.implicitWidth
-        Layout.fillHeight: true
-
-        Media {
-            id: media
         }
     }
 
