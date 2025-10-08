@@ -36,6 +36,6 @@ JsonObject {
         readonly property int weatherWidth: 250
         readonly property int mediaCoverArtSize: 150
         readonly property int mediaVisualiserSize: 80
-        readonly property int resourceSize: 280
+        readonly property int resourceSize: 200
     }
 }

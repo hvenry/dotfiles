@@ -104,8 +104,8 @@ Item {
         contentItem: CustomMouseArea {
             id: mouse
 
-            implicitWidth: Math.max(icon.width, label.width)
-            implicitHeight: icon.height + label.height
+            implicitWidth: icon.width
+            implicitHeight: icon.height
 
             cursorShape: Qt.PointingHandCursor
 
@@ -210,8 +210,7 @@ Item {
             MaterialIcon {
                 id: icon
 
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: label.top
+                anchors.centerIn: parent
 
                 text: tab.iconName
                 color: tab.current ? Colours.palette.m3primary : Colours.palette.m3onSurfaceVariant
@@ -221,16 +220,6 @@ Item {
                 Behavior on fill {
                     Anim {}
                 }
-            }
-
-            StyledText {
-                id: label
-
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.bottom
-
-                text: tab.text
-                color: tab.current ? Colours.palette.m3primary : Colours.palette.m3onSurfaceVariant
             }
         }
     }
