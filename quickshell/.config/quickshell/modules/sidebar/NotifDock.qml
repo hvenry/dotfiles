@@ -94,22 +94,9 @@ Item {
             sourceComponent: ColumnLayout {
                 spacing: Appearance.spacing.large
 
-                Image {
-                    asynchronous: true
-                    source: Qt.resolvedUrl(`${Quickshell.shellDir}/assets/dino.png`)
-                    fillMode: Image.PreserveAspectFit
-                    sourceSize.width: clipRect.width * 0.8
-
-                    layer.enabled: true
-                    layer.effect: Colouriser {
-                        colorizationColor: Colours.palette.m3outlineVariant
-                        brightness: 1
-                    }
-                }
-
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
-                    text: qsTr("No Notifications")
+                    text: qsTr("󰣇 ")
                     color: Colours.palette.m3outlineVariant
                     font.pointSize: Appearance.font.size.large
                     font.family: Appearance.font.family.mono

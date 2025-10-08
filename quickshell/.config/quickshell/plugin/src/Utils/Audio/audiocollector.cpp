@@ -77,7 +77,7 @@ PipeWireWorker::PipeWireWorker(std::stop_token token, AudioCollector* collector)
         self->processStream();
     };
 
-    m_stream = pw_stream_new_simple(pw_main_loop_get_loop(m_loop), "caelestia-shell", props, &events, this);
+    m_stream = pw_stream_new_simple(pw_main_loop_get_loop(m_loop), "quickshell", props, &events, this);
 
     const int success = pw_stream_connect(m_stream, PW_DIRECTION_INPUT, PW_ID_ANY,
         static_cast<pw_stream_flags>(

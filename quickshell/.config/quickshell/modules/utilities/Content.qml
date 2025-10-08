@@ -18,8 +18,6 @@ Item {
         anchors.fill: parent
         spacing: Appearance.spacing.normal
 
-        IdleInhibit {}
-
         Toggles {
             visibilities: root.visibilities
         }

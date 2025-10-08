@@ -109,37 +109,10 @@ Row {
         anchors.verticalCenter: parent.verticalCenter
         spacing: Appearance.spacing.normal
 
-        Item {
-            id: line
-
-            implicitWidth: icon.implicitWidth + text.width + text.anchors.leftMargin
-            implicitHeight: Math.max(icon.implicitHeight, text.implicitHeight)
-
-            Image {
-                id: icon
-
-                anchors.left: parent.left
-                anchors.leftMargin: (Config.dashboard.sizes.infoIconSize - width) / 2
-
-                source: SysInfo.osLogo
-                width: Math.floor(Appearance.font.size.normal * 1.34)
-                height: Math.floor(Appearance.font.size.normal * 1.34)
-                sourceSize: Qt.size(width, height)
-                asynchronous: true
-            }
-
-            StyledText {
-                id: text
-
-                anchors.verticalCenter: icon.verticalCenter
-                anchors.left: icon.right
-                anchors.leftMargin: icon.anchors.leftMargin
-                text: `:  ${SysInfo.osPrettyName || SysInfo.osName}`
-                font.pointSize: Appearance.font.size.normal
-
-                width: Config.dashboard.sizes.infoWidth
-                elide: Text.ElideRight
-            }
+        InfoLine {
+            icon: "computer"
+            text: SysInfo.osPrettyName || SysInfo.osName
+            colour: Colours.palette.m3primary
         }
 
         InfoLine {

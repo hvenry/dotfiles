@@ -138,12 +138,6 @@ ColumnLayout {
                 }
             }
             DelegateChoice {
-                roleValue: "clock"
-                delegate: WrappedLoader {
-                    sourceComponent: Clock {}
-                }
-            }
-            DelegateChoice {
                 roleValue: "statusIcons"
                 delegate: WrappedLoader {
                     sourceComponent: StatusIcons {}

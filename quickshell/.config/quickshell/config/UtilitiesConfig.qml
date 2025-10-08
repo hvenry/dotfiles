@@ -1,8 +1,7 @@
 /**
  * Utilities configuration object
  *
- * UtilitiesConfig defines settings for utility features including toast
- * notifications and idle inhibitor.
+ * UtilitiesConfig defines settings for utility features
  *
  * Used by: modules/utilities/
  * Reads from: shell.json → utilities section

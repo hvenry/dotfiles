@@ -15,21 +15,12 @@
       "enabled": true
     }
   },
-  "general": {
-    "apps": {
-      "terminal": ["kitty"],
-      "audio": ["pavucontrol"],
-      "playback": ["mpv"],
-      "explorer": ["thunar"]
-    }
-  },
   "bar": {
     "entries": [
       { "id": "workspaces", "enabled": true },
       { "id": "spacer", "enabled": true },
       { "id": "activeWindow", "enabled": true },
       { "id": "spacer", "enabled": true },
-      { "id": "clock", "enabled": false },
       { "id": "statusIcons", "enabled": true },
       { "id": "power", "enabled": true }
     ],

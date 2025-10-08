@@ -4,14 +4,13 @@
  * SysInfo provides system information including OS details, uptime, and user info.
  *
  * Key features:
- * - OS information from /etc/os-release (name, ID, logo)
+ * - OS information from /etc/os-release (name, ID)
  * - System uptime tracking (auto-refreshing every 15s)
  * - User and environment info (USER, shell, WM/desktop)
- * - OS logo resolution and caching
  *
  * Used by: modules/dashboard/dash/User.qml
  * Reads from: /etc/os-release, /proc/uptime, environment variables
- * Provides: osName, osLogo, uptime, user, wm, shell
+ * Provides: osName, uptime, user, wm, shell
  */
 pragma Singleton
 
@@ -26,8 +25,6 @@ Singleton {
     property string osPrettyName
     property string osId
     property list<string> osIdLike
-    property string osLogo: Qt.resolvedUrl(`${Quickshell.shellDir}/assets/logo.svg`)
-    property bool isDefaultLogo: true
 
     property string uptime
     readonly property string user: Quickshell.env("USER")
@@ -47,12 +44,6 @@ Singleton {
             root.osPrettyName = fd("PRETTY_NAME");
             root.osId = fd("ID");
             root.osIdLike = fd("ID_LIKE").split(" ");
-
-            const logo = Quickshell.iconPath(fd("LOGO"), true);
-            if (logo) {
-                root.osLogo = logo;
-                root.isDefaultLogo = false;
-            }
         }
     }
 
