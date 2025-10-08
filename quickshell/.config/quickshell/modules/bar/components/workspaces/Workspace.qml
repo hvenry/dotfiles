@@ -28,31 +28,34 @@ ColumnLayout {
 
     spacing: 0
 
-    StyledText {
-        id: indicator
-
+    Item {
         Layout.fillWidth: true
-        Layout.alignment: Qt.AlignVCenter
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         Layout.preferredHeight: Config.bar.sizes.innerWidth - Appearance.padding.small * 2
 
-        animate: true
-        text: {
-            const ws = Hypr.workspaces.values.find(w => w.id === root.ws);
-            const wsName = !ws || ws.name == root.ws ? root.ws : ws.name[0];
-            let displayName = wsName.toString();
-            if (Config.bar.workspaces.capitalisation.toLowerCase() === "upper") {
-                displayName = displayName.toUpperCase();
-            } else if (Config.bar.workspaces.capitalisation.toLowerCase() === "lower") {
-                displayName = displayName.toLowerCase();
+        StyledText {
+            id: indicator
+
+            x: (parent.width - contentWidth) / 2
+            y: (parent.height - contentHeight) / 2
+
+            animate: true
+            text: {
+                const ws = Hypr.workspaces.values.find(w => w.id === root.ws);
+                const wsName = !ws || ws.name == root.ws ? root.ws : ws.name[0];
+                let displayName = wsName.toString();
+                if (Config.bar.workspaces.capitalisation.toLowerCase() === "upper") {
+                    displayName = displayName.toUpperCase();
+                } else if (Config.bar.workspaces.capitalisation.toLowerCase() === "lower") {
+                    displayName = displayName.toLowerCase();
+                }
+                const label = Config.bar.workspaces.label || displayName;
+                const occupiedLabel = Config.bar.workspaces.occupiedLabel || label;
+                const activeLabel = Config.bar.workspaces.activeLabel || (root.isOccupied ? occupiedLabel : label);
+                return root.activeWsId === root.ws ? activeLabel : root.isOccupied ? occupiedLabel : label;
             }
-            const label = Config.bar.workspaces.label || displayName;
-            const occupiedLabel = Config.bar.workspaces.occupiedLabel || label;
-            const activeLabel = Config.bar.workspaces.activeLabel || (root.isOccupied ? occupiedLabel : label);
-            return root.activeWsId === root.ws ? activeLabel : root.isOccupied ? occupiedLabel : label;
+            color: Config.bar.workspaces.occupiedBg || root.isOccupied || root.activeWsId === root.ws ? Colours.palette.m3onSurface : Colours.layer(Colours.palette.m3outlineVariant, 2)
         }
-        color: Config.bar.workspaces.occupiedBg || root.isOccupied || root.activeWsId === root.ws ? Colours.palette.m3onSurface : Colours.layer(Colours.palette.m3outlineVariant, 2)
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
     }
 
     Loader {
