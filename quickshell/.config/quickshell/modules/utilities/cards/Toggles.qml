@@ -26,11 +26,6 @@ StyledRect {
         anchors.margins: Appearance.padding.large
         spacing: Appearance.spacing.normal
 
-        StyledText {
-            text: qsTr("Quick Toggles")
-            font.pointSize: Appearance.font.size.normal
-        }
-
         RowLayout {
             Layout.alignment: Qt.AlignHCenter
             spacing: Appearance.spacing.small
