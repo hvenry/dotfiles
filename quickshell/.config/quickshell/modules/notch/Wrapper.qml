@@ -8,15 +8,21 @@ Item {
     id: root
 
     required property var visibilities
-    readonly property alias notchX: bg.notchX
-    readonly property alias notchWidth: bg.notchWidth
-    readonly property alias notchHeight: bg.notchHeight
+    readonly property real notchWidth: content.implicitWidth + Config.notch.sizes.padding * 4
+    readonly property real notchHeight: Config.notch.sizes.height
 
     anchors.fill: parent
 
     Background {
-        id: bg
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
 
-        Content {}
+        notchWidth: root.notchWidth
+        notchHeight: root.notchHeight
+
+        Content {
+            id: content
+            anchors.centerIn: parent
+        }
     }
 }

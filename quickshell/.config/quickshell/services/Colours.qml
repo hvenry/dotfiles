@@ -84,11 +84,11 @@ Singleton {
         readonly property color m3surface: root.layer(root.palette.m3surface, 0)
         readonly property color m3surfaceDim: root.layer(root.palette.m3surfaceDim, 0)
         readonly property color m3surfaceBright: root.layer(root.palette.m3surfaceBright, 0)
-        readonly property color m3surfaceContainerLowest: root.layer(root.palette.m3surfaceContainerLowest)
-        readonly property color m3surfaceContainerLow: root.layer(root.palette.m3surfaceContainerLow)
-        readonly property color m3surfaceContainer: root.layer(root.palette.m3surfaceContainer)
-        readonly property color m3surfaceContainerHigh: root.layer(root.palette.m3surfaceContainerHigh)
-        readonly property color m3surfaceContainerHighest: root.layer(root.palette.m3surfaceContainerHighest)
+        readonly property color m3surfaceContainerLowest: root.layer(root.palette.m3surfaceContainerLowest, 0)
+        readonly property color m3surfaceContainerLow: root.layer(root.palette.m3surfaceContainerLow, 0)
+        readonly property color m3surfaceContainer: root.layer(root.palette.m3surfaceContainer, 0)
+        readonly property color m3surfaceContainerHigh: root.layer(root.palette.m3surfaceContainerHigh, 0)
+        readonly property color m3surfaceContainerHighest: root.layer(root.palette.m3surfaceContainerHighest, 0)
         readonly property color m3onSurface: root.layer(root.palette.m3onSurface)
         readonly property color m3surfaceVariant: root.layer(root.palette.m3surfaceVariant, 0)
         readonly property color m3onSurfaceVariant: root.layer(root.palette.m3onSurfaceVariant)
@@ -147,7 +147,7 @@ Singleton {
         property color m3surfaceBright: "#2e2e2e"
         property color m3surfaceContainerLowest: "#050505"
         property color m3surfaceContainerLow: "#121212"
-        property color m3surfaceContainer: "#181818"
+        property color m3surfaceContainer: "#0f0f0f"
         property color m3surfaceContainerHigh: "#232323"
         property color m3surfaceContainerHighest: "#2e2e2e"
         property color m3onSurface: "#e8e8e8"

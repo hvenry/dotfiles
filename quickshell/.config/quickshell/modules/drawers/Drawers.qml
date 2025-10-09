@@ -38,11 +38,6 @@ Variants {
             bar: bar
         }
 
-        Notch.NotchWindow {
-            screen: scope.modelData
-            visibilities: visibilities
-        }
-
         StyledWindow {
             id: win
 
@@ -132,9 +127,7 @@ Variants {
                 opacity: Colours.transparency.enabled ? Colours.transparency.base : 1
                 layer.enabled: true
                 layer.effect: MultiEffect {
-                    shadowEnabled: true
-                    blurMax: 15
-                    shadowColor: Qt.alpha(Colours.palette.m3shadow, 0.7)
+                    shadowEnabled: false
                 }
 
                 Border {
@@ -173,6 +166,22 @@ Variants {
                     popouts: panels.popouts
 
                     Component.onCompleted: Visibilities.bars.set(scope.modelData, this)
+                }
+            }
+
+            Notch.Wrapper {
+                anchors.fill: parent
+                anchors.margins: Config.border.thickness
+                anchors.leftMargin: bar.implicitWidth
+
+                visibilities: visibilities
+                opacity: visibilities.dashboard ? 0 : 1
+
+                Behavior on opacity {
+                    Anim {
+                        duration: Appearance.anim.durations.normal
+                        easing.bezierCurve: Appearance.anim.curves.emphasized
+                    }
                 }
             }
         }
