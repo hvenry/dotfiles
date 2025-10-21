@@ -72,6 +72,12 @@ StyledRect {
                 checked: Notifs.dnd
                 onClicked: Notifs.dnd = !Notifs.dnd
             }
+
+            Toggle {
+                icon: Colours.light ? "light_mode" : "dark_mode"
+                checked: Colours.light
+                onClicked: Colours.light = !Colours.light
+            }
         }
     }
 

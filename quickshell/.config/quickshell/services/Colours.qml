@@ -28,12 +28,23 @@ Singleton {
     id: root
 
     readonly property string scheme: "monochrome"
-    readonly property string flavour: "dark"
-    readonly property bool light: false
-    readonly property M3Palette palette: M3Palette {}
+    readonly property string flavour: light ? "light" : "dark"
+    property bool light: props.lightMode
+    readonly property QtObject palette: light ? lightPalette : darkPalette
     readonly property M3TPalette tPalette: M3TPalette {}
     readonly property Transparency transparency: Transparency {}
     readonly property real wallLuminance: 0
+
+    PersistentProperties {
+        id: props
+
+        property bool lightMode: false
+
+        reloadableId: "colours"
+    }
+
+    readonly property M3DarkPalette darkPalette: M3DarkPalette {}
+    readonly property M3LightPalette lightPalette: M3LightPalette {}
 
     function getLuminance(c: color): real {
         if (c.r == 0 && c.g == 0 && c.b == 0)
@@ -68,8 +79,8 @@ Singleton {
 
 
     component Transparency: QtObject {
-        readonly property bool enabled: Appearance.transparency.enabled
-        readonly property real base: Appearance.transparency.base - (root.light ? 0.1 : 0)
+        readonly property bool enabled: root.light ? false : Appearance.transparency.enabled
+        readonly property real base: Appearance.transparency.base
         readonly property real layers: Appearance.transparency.layers
     }
 
@@ -134,7 +145,7 @@ Singleton {
         readonly property color m3onTertiaryFixedVariant: root.layer(root.palette.m3onTertiaryFixedVariant)
     }
 
-    component M3Palette: QtObject {
+    component M3DarkPalette: QtObject {
         property color m3primary_paletteKeyColor: "#ffffff"
         property color m3secondary_paletteKeyColor: "#b0b0b0"
         property color m3tertiary_paletteKeyColor: "#808080"
@@ -209,5 +220,82 @@ Singleton {
         property color term13: "#e0e0e0"
         property color term14: "#f0f0f0"
         property color term15: "#ffffff"
+    }
+
+    component M3LightPalette: QtObject {
+        property color m3primary_paletteKeyColor: "#000000"
+        property color m3secondary_paletteKeyColor: "#000000"
+        property color m3tertiary_paletteKeyColor: "#000000"
+        property color m3neutral_paletteKeyColor: "#F8FAFC"
+        property color m3neutral_variant_paletteKeyColor: "#F8FAFC"
+        property color m3background: "#FFFFFF"
+        property color m3onBackground: "#000000"
+        property color m3surface: "#FFFFFF"
+        property color m3surfaceDim: "#FFFFFF"
+        property color m3surfaceBright: "#FFFFFF"
+        property color m3surfaceContainerLowest: "#FFFFFF"
+        property color m3surfaceContainerLow: "#FFFFFF"
+        property color m3surfaceContainer: "#F8FAFC"
+        property color m3surfaceContainerHigh: "#F8FAFC"
+        property color m3surfaceContainerHighest: "#F8FAFC"
+        property color m3onSurface: "#000000"
+        property color m3surfaceVariant: "#F8FAFC"
+        property color m3onSurfaceVariant: "#1a1a1a"
+        property color m3inverseSurface: "#000000"
+        property color m3inverseOnSurface: "#FFFFFF"
+        property color m3outline: "#334155"
+        property color m3outlineVariant: "#64748B"
+        property color m3shadow: "#000000"
+        property color m3scrim: "#000000"
+        property color m3surfaceTint: "#000000"
+        property color m3primary: "#000000"
+        property color m3onPrimary: "#FFFFFF"
+        property color m3primaryContainer: "#F8FAFC"
+        property color m3onPrimaryContainer: "#000000"
+        property color m3inversePrimary: "#FFFFFF"
+        property color m3secondary: "#000000"
+        property color m3onSecondary: "#FFFFFF"
+        property color m3secondaryContainer: "#F8FAFC"
+        property color m3onSecondaryContainer: "#000000"
+        property color m3tertiary: "#000000"
+        property color m3onTertiary: "#FFFFFF"
+        property color m3tertiaryContainer: "#F8FAFC"
+        property color m3onTertiaryContainer: "#000000"
+        property color m3error: "#DC2626"
+        property color m3onError: "#FFFFFF"
+        property color m3errorContainer: "#FEE2E2"
+        property color m3onErrorContainer: "#7F1D1D"
+        property color m3success: "#000000"
+        property color m3onSuccess: "#FFFFFF"
+        property color m3successContainer: "#F8FAFC"
+        property color m3onSuccessContainer: "#000000"
+        property color m3primaryFixed: "#F8FAFC"
+        property color m3primaryFixedDim: "#E2E8F0"
+        property color m3onPrimaryFixed: "#000000"
+        property color m3onPrimaryFixedVariant: "#000000"
+        property color m3secondaryFixed: "#F8FAFC"
+        property color m3secondaryFixedDim: "#E2E8F0"
+        property color m3onSecondaryFixed: "#000000"
+        property color m3onSecondaryFixedVariant: "#000000"
+        property color m3tertiaryFixed: "#F8FAFC"
+        property color m3tertiaryFixedDim: "#E2E8F0"
+        property color m3onTertiaryFixed: "#000000"
+        property color m3onTertiaryFixedVariant: "#000000"
+        property color term0: "#FFFFFF"
+        property color term1: "#000000"
+        property color term2: "#000000"
+        property color term3: "#000000"
+        property color term4: "#000000"
+        property color term5: "#000000"
+        property color term6: "#000000"
+        property color term7: "#000000"
+        property color term8: "#F8FAFC"
+        property color term9: "#E2E8F0"
+        property color term10: "#CBD5E1"
+        property color term11: "#94A3B8"
+        property color term12: "#64748B"
+        property color term13: "#475569"
+        property color term14: "#334155"
+        property color term15: "#000000"
     }
 }
