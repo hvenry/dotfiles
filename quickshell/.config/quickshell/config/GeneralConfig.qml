@@ -1,15 +1,10 @@
 /**
- * General configuration object - defines system behavior
- *
  * GeneralConfig defines general system settings
  * and battery warning levels.
  *
  * Key features:
  * - Battery warning levels with custom messages and icons
  * - Critical battery level threshold
- *
- * Used by: modules/utilities/, modules/BatteryMonitor.qml
- * Reads from: shell.json → general section
  */
 import Quickshell.Io
 

@@ -74,13 +74,23 @@ Variants {
                 height: win.height - Config.border.thickness * 2 - win.dragMaskPadding * 2
                 intersection: Intersection.Xor
 
-                regions: regions.instances
+                regions: [notchRegion, ...regions.instances]
             }
 
             anchors.top: true
             anchors.bottom: true
             anchors.left: true
             anchors.right: true
+
+            Region {
+                id: notchRegion
+
+                x: Config.notch.enabled && !visibilities.dashboard ? notchWrapper.notchX + bar.implicitWidth : 0
+                y: Config.notch.enabled && !visibilities.dashboard ? Config.border.thickness : 0
+                width: Config.notch.enabled && !visibilities.dashboard ? notchWrapper.notchWidth : 0
+                height: Config.notch.enabled && !visibilities.dashboard ? notchWrapper.notchHeight : 0
+                intersection: Intersection.Subtract
+            }
 
             Variants {
                 id: regions
@@ -170,11 +180,14 @@ Variants {
             }
 
             Notch.Wrapper {
+                id: notchWrapper
+
                 anchors.fill: parent
                 anchors.margins: Config.border.thickness
                 anchors.leftMargin: bar.implicitWidth
 
                 visibilities: visibilities
+                enabled: !visibilities.dashboard
                 opacity: visibilities.dashboard ? 0 : 1
 
                 Behavior on opacity {

@@ -1,12 +1,6 @@
 /**
- * Sidebar (notification center) configuration object
- *
  * SidebarConfig defines settings for the right sidebar notification center
  * including enable/disable and show-on-hover behavior.
- *
- * Used by: modules/sidebar/
- * Reads from: shell.json → sidebar section
- * Provides: Config.sidebar
  */
 import Quickshell.Io
 

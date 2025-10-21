@@ -78,7 +78,6 @@ RowLayout {
         Layout.preferredWidth: Players.active ? 1 : 0
         Layout.preferredHeight: Config.notch.sizes.height * 0.5
         color: Colours.palette.m3outlineVariant
-        visible: Layout.preferredWidth > 0
 
         Behavior on Layout.preferredWidth {
             Anim {
@@ -96,7 +95,6 @@ RowLayout {
         Layout.preferredWidth: (Players.active && (Players.active.trackTitle || Players.active.trackArtist)) ? mediaContent.implicitWidth + Appearance.padding.small * 2 : 0
         Layout.preferredHeight: mediaContent.implicitHeight + Appearance.padding.small * 2
 
-        visible: Layout.preferredWidth > 0
         clip: true
 
         Behavior on Layout.preferredWidth {
@@ -177,7 +175,6 @@ RowLayout {
         Layout.preferredWidth: Players.active?.isPlaying ? 120 : 0
         Layout.preferredHeight: Config.notch.sizes.height - 8
 
-        visible: Layout.preferredWidth > 0
         spacing: 2
         clip: true
 

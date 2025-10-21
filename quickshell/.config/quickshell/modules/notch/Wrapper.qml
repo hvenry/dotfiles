@@ -10,6 +10,7 @@ Item {
     required property var visibilities
     readonly property real notchWidth: content.implicitWidth + Config.notch.sizes.padding * 4
     readonly property real notchHeight: Config.notch.sizes.height
+    readonly property real notchX: (parent.width - notchWidth) / 2
 
     anchors.fill: parent
 

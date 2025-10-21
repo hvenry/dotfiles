@@ -1,6 +1,4 @@
 /**
- * Bar configuration object - defines bar layout and behavior
- *
  * BarConfig defines all settings for the main bar including layout entries,
  * workspace configuration, tray settings, status icons, and sizing.
  *
@@ -12,10 +10,6 @@
  * - Status icon visibility toggles (audio, network, battery, etc.)
  * - Scroll action bindings for workspaces, volume, brightness
  * - Size settings for popouts and menus
- *
- * Used by: modules/bar/
- * Reads from: shell.json → bar section
- * Provides: Config.bar with typed bar settings
  */
 import Quickshell.Io
 

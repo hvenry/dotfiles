@@ -1,11 +1,5 @@
 /**
- * Utilities configuration object
- *
  * UtilitiesConfig defines settings for utility features
- *
- * Used by: modules/utilities/
- * Reads from: shell.json → utilities section
- * Provides: Config.utilities
  */
 import Quickshell.Io
 

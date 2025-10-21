@@ -1,6 +1,4 @@
 /**
- * Appearance configuration object - defines visual settings
- *
  * AppearanceConfig defines all visual settings for the UI including rounding,
  * spacing, padding, fonts, animations, and transparency. Loaded from shell.json.
  *
@@ -12,10 +10,6 @@
  * - Animations: easing curves (Material Design 3) and durations
  * - Transparency: base and layer transparency settings
  * - Scale properties for proportional resizing
- *
- * Used by: All components via Appearance singleton
- * Reads from: shell.json → appearance section
- * Provides: Typed visual configuration with defaults
  */
 import Quickshell.Io
 
@@ -105,7 +99,7 @@ JsonObject {
 
     component Transparency: JsonObject {
         property bool enabled: true
-        property real base: 0.50
-        property real layers: 0.65
+        property real base: 0.40
+        property real layers: 0.40
     }
 }

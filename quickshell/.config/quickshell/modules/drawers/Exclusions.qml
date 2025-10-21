@@ -18,6 +18,7 @@ Scope {
 
     ExclusionZone {
         anchors.top: true
+        exclusiveZone: Config.notch.enabled ? Config.notch.sizes.height + Config.notch.sizes.gap : Config.border.thickness
     }
 
     ExclusionZone {

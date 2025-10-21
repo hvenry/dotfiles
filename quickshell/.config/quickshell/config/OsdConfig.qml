@@ -1,12 +1,6 @@
 /**
- * OSD (On-Screen Display) configuration object
- *
- * OsdConfig defines settings for OSD popups that show volume, brightness,
+ * OSD (On-Screen Display) configuration object, defines settings for OSD popups that show volume, brightness,
  * and media controls with visual feedback.
- *
- * Used by: modules/osd/
- * Reads from: shell.json → osd section
- * Provides: Config.osd
  */
 import Quickshell.Io
 

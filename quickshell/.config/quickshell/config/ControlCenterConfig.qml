@@ -1,12 +1,6 @@
 /**
- * Control Center configuration object
- *
  * ControlCenterConfig defines settings for the control center UI
  * (alternative to sidebar, currently disabled).
- *
- * Used by: modules/controlcenter/ (disabled module)
- * Reads from: shell.json → controlCenter section
- * Provides: Config.controlCenter
  */
 import Quickshell.Io
 

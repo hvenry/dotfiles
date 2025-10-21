@@ -1,12 +1,6 @@
 /**
- * Notification configuration object
- *
  * NotifsConfig defines settings for the notification system including
  * expiration behavior and timeout durations.
- *
- * Used by: modules/notifications/, modules/sidebar/
- * Reads from: shell.json → notifs section
- * Provides: Config.notifs
  */
 import Quickshell.Io
 
