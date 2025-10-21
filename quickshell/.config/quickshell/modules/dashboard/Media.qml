@@ -74,7 +74,7 @@ Item {
                 Layout.alignment: Qt.AlignTop
 
                 color: Colours.tPalette.m3surfaceContainerHigh
-                radius: 0
+                radius: Appearance.rounding.small
 
                 MaterialIcon {
                     anchors.centerIn: parent
@@ -207,8 +207,8 @@ Item {
         // Progress bar section with timers
         ColumnLayout {
             Layout.fillWidth: true
-            Layout.topMargin: Appearance.spacing.small
-            spacing: Appearance.spacing.smaller
+            Layout.topMargin: Appearance.spacing.smaller
+            spacing: Appearance.spacing.smaller / 2
 
             // Progress bar (thin rectangle)
             Rectangle {
@@ -288,28 +288,15 @@ Item {
 
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: 0
+            Layout.topMargin: Appearance.spacing.smaller / 2
             Layout.bottomMargin: 0
-            spacing: Appearance.spacing.smaller
-
-            PlayerControl {
-                type: IconButton.Text
-                icon: Players.active?.shuffleState === MprisPlayer.On ? "shuffle_on" : "shuffle"
-                inactiveOnColour: Players.active?.shuffleState === MprisPlayer.On ? Colours.palette.m3primary : Colours.palette.m3onSurface
-                padding: 0
-                font.pointSize: Appearance.font.size.large
-                disabled: !Players.active
-                onClicked: {
-                    if (Players.active)
-                        Players.active.shuffleState = Players.active.shuffleState === MprisPlayer.On ? MprisPlayer.Off : MprisPlayer.On;
-                }
-            }
+            spacing: Appearance.spacing.large
 
             PlayerControl {
                 type: IconButton.Text
                 icon: "skip_previous"
                 padding: 0
-                font.pointSize: Math.round(Appearance.font.size.large * 1.5)
+                font.pointSize: Math.round(Appearance.font.size.large * 1.3)
                 disabled: !Players.active?.canGoPrevious
                 onClicked: Players.active?.previous()
             }
@@ -319,7 +306,7 @@ Item {
                 icon: Players.active?.isPlaying ? "pause" : "play_arrow"
                 label.animate: true
                 padding: 0
-                font.pointSize: Math.round(Appearance.font.size.extraLarge * 1.2)
+                font.pointSize: Math.round(Appearance.font.size.extraLarge * 1.3)
                 disabled: !Players.active?.canTogglePlaying
                 onClicked: Players.active?.togglePlaying()
             }
@@ -328,26 +315,16 @@ Item {
                 type: IconButton.Text
                 icon: "skip_next"
                 padding: 0
-                font.pointSize: Math.round(Appearance.font.size.large * 1.5)
+                font.pointSize: Math.round(Appearance.font.size.large * 1.3)
                 disabled: !Players.active?.canGoNext
                 onClicked: Players.active?.next()
-            }
-
-            PlayerControl {
-                type: IconButton.Text
-                icon: "favorite"
-                inactiveOnColour: Colours.palette.m3error
-                padding: 0
-                font.pointSize: Appearance.font.size.large
-                disabled: !Players.active
-                onClicked:
-                // Like functionality - placeholder for now
-                {}
             }
         }
     }
 
     component PlayerControl: IconButton {
-        radius: 0
+        // Keep default circular radius (implicitHeight / 2)
+        // Override fill behavior to prevent filled icons
+        label.fill: 0
     }
 }
