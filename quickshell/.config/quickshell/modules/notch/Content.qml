@@ -10,17 +10,27 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Shapes
 
-RowLayout {
-    id: root
+Item {
+    implicitWidth: layout.implicitWidth
+    implicitHeight: layout.implicitHeight
 
-    spacing: Config.notch.sizes.padding
+    RowLayout {
+        id: layout
 
-    // Activate audio visualization services
-    ServiceRef {
-        service: Audio.cava
-    }
+        anchors.centerIn: parent
+        spacing: Appearance.spacing.small
 
-    // Time display (12-hour with seconds and date)
+        // Activate audio visualization services
+        ServiceRef {
+            service: Audio.cava
+        }
+
+        // Left spacer for balance when no media
+        Item {
+            Layout.preferredWidth: Players.active ? 0 : Appearance.padding.small
+        }
+
+        // Time display (12-hour with seconds and date)
     StyledText {
         id: timeText
 
@@ -135,7 +145,7 @@ RowLayout {
                 id: mediaText
 
                 Layout.alignment: Qt.AlignVCenter
-                spacing: 0
+                spacing: -2
 
                 StyledText {
                     id: trackTitle
@@ -161,7 +171,7 @@ RowLayout {
                         return artist.length > 24 ? artist.substring(0, 24) + "..." : artist;
                     }
                     color: Colours.palette.m3outline
-                    font.pointSize: Appearance.font.size.smaller
+                    font.pointSize: Appearance.font.size.smaller * 0.8
                 }
             }
         }
@@ -214,4 +224,5 @@ RowLayout {
 
     // Initialize weather on startup
     Component.onCompleted: Weather.reload()
+    }
 }

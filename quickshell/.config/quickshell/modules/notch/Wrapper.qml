@@ -8,14 +8,14 @@ Item {
     id: root
 
     required property var visibilities
-    readonly property real notchWidth: content.implicitWidth + Config.notch.sizes.padding * 4
+    readonly property real notchWidth: content.implicitWidth + Appearance.padding.normal * 2
     readonly property real notchHeight: Config.notch.sizes.height
     readonly property real notchX: (parent.width - notchWidth) / 2
 
     anchors.fill: parent
 
     Background {
-        anchors.top: parent.top
+        y: -Config.notch.sizes.rounding / 2
         anchors.horizontalCenter: parent.horizontalCenter
 
         notchWidth: root.notchWidth
