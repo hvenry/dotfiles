@@ -6,15 +6,15 @@ return {
     {
       "<leader>F",
       function()
-        require("conform").format({ async = true })
+        -- manual trigger; keep fallback if you like
+        require("conform").format({ async = true, lsp_format = "fallback" })
       end,
       mode = "",
       desc = "Format buffer",
     },
   },
-  -- This will provide type hinting with LuaLS
   opts = {
-    -- Define your formatters
+    -- 1) Define your formatters
     formatters_by_ft = {
       -- prettier
       javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -28,9 +28,8 @@ return {
       yaml = { "prettierd", "prettier", stop_after_first = true },
       markdown = { "prettierd", "prettier", stop_after_first = true },
 
-      -- misc
       lua = { "stylua" },
-      python = { "ruff_format", "ruff_organize_imports" },
+      python = { "ruff_fix", "ruff_format" },
       go = { "gofumpt", "goimports" },
       rust = { "rustfmt" },
       sql = { "sqlfmt" },
@@ -40,13 +39,16 @@ return {
       bash = { "shfmt" },
       zsh = { "shfmt" },
     },
-    -- Set default options
+
     default_format_opts = {
       lsp_format = "fallback",
     },
-    -- Set up format-on-save
-    format_on_save = { timeout_ms = 500 },
-    -- Customize formatters
+
+    format_on_save = {
+      timeout_ms = 500,
+      lsp_format = "never",
+    },
+
     formatters = {
       shfmt = {
         prepend_args = { "-i", "2" },

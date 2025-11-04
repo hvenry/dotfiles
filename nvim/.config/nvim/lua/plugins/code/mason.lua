@@ -7,106 +7,44 @@ return {
   config = function()
     require("mason").setup()
 
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
+    -- LSP servers Mason should install (we start them ourselves in lspconfig.lua)
     require("mason-lspconfig").setup({
-      ensure_installed = { "lua_ls", "pyright", "ts_ls", "tailwindcss", "html", "cssls", "emmet_ls" },
-      handlers = {
-        function(server_name)
-          local lspconfig = require("lspconfig")
-          lspconfig[server_name].setup({ capabilities = capabilities })
-        end,
-        ["lua_ls"] = function()
-          require("lspconfig").lua_ls.setup({ capabilities = capabilities })
-        end,
-        ["emmet_ls"] = function()
-          require("lspconfig").emmet_ls.setup({
-            capabilities = capabilities,
-            filetypes = {
-              "html",
-              "css",
-              "scss",
-              "sass",
-              "less",
-              "javascriptreact",
-              "typescriptreact",
-              "vue",
-              "svelte",
-            },
-          })
-        end,
-        ["pyright"] = function()
-          local lspconfig = require("lspconfig")
-          local util = require("lspconfig.util")
-          lspconfig.pyright.setup({
-            capabilities = capabilities,
-            root_dir = util.root_pattern(
-              "pyproject.toml",
-              "setup.py",
-              "setup.cfg",
-              "requirements.txt",
-              "Pipfile",
-              "pyrightconfig.json",
-              ".git"
-            ),
-            settings = {
-              python = {
-                analysis = {
-                  autoSearchPaths = true,
-                  useLibraryCodeForTypes = true,
-                  autoImportCompletions = true,
-                },
-              },
-            },
-          })
-        end,
-        ["qmlls"] = function()
-          local lspconfig = require("lspconfig")
-          local util = require("lspconfig.util")
-
-          lspconfig.qmlls.setup({
-            cmd = {
-              "qmlls",
-              "--ini",
-              vim.fn.expand("~/dotfiles/quickshell/.config/quickshell/build/.qmlls.ini"),
-            },
-            root_dir = util.root_pattern(".qmlls.ini", ".git"),
-            on_attach = function(client, bufnr)
-              vim.diagnostic.config({
-                virtual_text = {
-                  severity = { min = vim.diagnostic.severity.ERROR },
-                },
-                signs = {
-                  severity = { min = vim.diagnostic.severity.ERROR },
-                },
-                underline = {
-                  severity = { min = vim.diagnostic.severity.ERROR },
-                },
-              }, bufnr)
-            end,
-          })
-        end,
+      ensure_installed = {
+        "clangd",
+        "cssls", -- css-lsp
+        "emmet_ls", -- emmet-ls
+        "html", -- html-lsp
+        "lua_ls", -- lua-language-server
+        "pyright",
+        "tailwindcss", -- tailwindcss-language-server
+        "ts_ls", -- typescript-language-server
+        "qmlls",
       },
+      automatic_installation = true,
     })
+
+    -- Non-LSP tools (formatters/linters/aux)
     require("mason-tool-installer").setup({
       ensure_installed = {
-        -- Formatters
-        "stylua", -- Lua
-        "prettierd", -- JS/TS/HTML/CSS/JSON/YAML/Markdown
-        "gofumpt", -- Go formatting
-        "goimports", -- Go imports
-        "rustfmt", -- Rust
-        "sqlfmt", -- SQL
-        "taplo", -- TOML
-        "xmlformatter", -- XML
-        "shfmt", -- Shell
-
-        -- Linters
-        "eslint_d", -- JS/TS linting
-        "golangci-lint", -- Go
-        "shellcheck", -- Shell
+        -- formatters
+        "stylua",
+        "prettierd",
+        "gofumpt",
+        "goimports",
+        "rustfmt",
+        "sqlfmt",
+        "taplo",
+        "xmlformatter",
+        "shfmt",
+        -- linters / others
+        "eslint_d",
+        "golangci-lint",
+        "shellcheck",
+        "ruff",
       },
+      run_on_start = true,
+      start_delay = 0,
+      debounce_hours = 24,
     })
   end,
 }
