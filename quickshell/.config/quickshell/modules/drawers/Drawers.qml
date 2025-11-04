@@ -6,6 +6,7 @@ import qs.services
 import qs.config
 import qs.modules.bar
 import qs.modules.notch as Notch
+
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
@@ -38,6 +39,7 @@ Variants {
             bar: bar
         }
 
+        // qs.components.containers
         StyledWindow {
             id: win
 

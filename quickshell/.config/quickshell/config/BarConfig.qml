@@ -69,7 +69,7 @@ JsonObject {
         property int shown: 5
         property bool activeIndicator: true
         property bool occupiedBg: false
-        property bool showWindows: true
+        property bool showWindows: false
         property bool activeTrail: false
         property bool perMonitorWorkspaces: true
         property string label: "○"
