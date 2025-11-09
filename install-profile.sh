@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROFILES_DIR="$DOTFILES_DIR/profiles"
 
 # Function to remove existing configurations
