@@ -10,7 +10,6 @@ xdg-desktop-portal-hyprland
 # Display server and session management
 wayland
 wayland-protocols
-sddm
 
 # Audio system
 pipewire
@@ -38,7 +37,6 @@ waybar
 
 # App launcher and menus
 rofi-wayland
-wofi
 
 # Notification daemon
 swaync

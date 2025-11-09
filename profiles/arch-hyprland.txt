@@ -15,6 +15,7 @@ waybar
 rofi
 scripts
 systemd
+ly
 
 # Theming and environment
 gtk

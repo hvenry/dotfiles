@@ -96,12 +96,6 @@ remove_existing_configs() {
         rm -rf ~/.config/rofi
       fi
       ;;
-    "gui")
-      if [ -d ~/.config/gui ]; then
-        echo "Removing existing gui config..."
-        rm -rf ~/.config/gui
-      fi
-      ;;
     "scripts")
       if [ -d ~/.config/scripts ]; then
         echo "Removing existing scripts config..."
@@ -132,9 +126,9 @@ remove_existing_configs() {
         rm -rf ~/.config/environment.d
       fi
       ;;
-    "sddm")
-      echo "Note: SDDM config removal requires sudo and affects system-wide settings"
-      echo "Skipping automatic removal for sddm - please handle manually if needed"
+    "ly")
+      echo "Note: Ly is a display manager and may require special handling"
+      echo "Skipping automatic removal for ly - please handle manually if needed"
       ;;
     esac
   done
@@ -236,7 +230,18 @@ fi
 # Change to dotfiles directory
 cd "$DOTFILES_DIR"
 
+# Verify stow is available
+if ! command -v stow >/dev/null 2>&1; then
+  echo "Error: stow is not installed"
+  echo "Install with: sudo pacman -S stow (Arch) or apt-get install stow (Debian/Ubuntu)"
+  exit 1
+fi
+
 # Install packages using stow
+# Note: stow will read .stowrc and .stow-local-ignore from the current directory
+echo "Installing packages using stow (reading .stowrc for options)..."
+echo ""
+
 for package in $PACKAGES; do
   if [ -d "$package" ]; then
     echo "Installing package: $package"
@@ -248,3 +253,8 @@ done
 
 echo ""
 echo "Profile '$PROFILE_NAME' installed successfully!"
+echo ""
+echo "Next steps:"
+echo "1. Source your shell config: source ~/.zshrc"
+echo "2. Restart your terminal or shell to load changes"
+echo "3. If you cloned for Hyprland, run: sudo $DOTFILES_DIR/bootstrap/arch-install.sh"

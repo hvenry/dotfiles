@@ -2,10 +2,12 @@
 set -euo pipefail
 
 # --- Settings ---------------------------------------------------------------
-PACMAN_LIST="${PACMAN_LIST:-bootstrap/pacman.txt}"
-AUR_LIST="${AUR_LIST:-bootstrap/aur.txt}"
+# Detect this script's directory (repo root)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PACMAN_LIST="${PACMAN_LIST:-$SCRIPT_DIR/bootstrap/pacman.txt}"
+AUR_LIST="${AUR_LIST:-$SCRIPT_DIR/bootstrap/aur.txt}"
 PROFILE="${PROFILE:-arch-hyprland}"
-DOTS_DIR="${DOTS_DIR:-$HOME/dotfiles}"
+DOTS_DIR="${DOTS_DIR:-$SCRIPT_DIR}"
 
 # --- Helpers ----------------------------------------------------------------
 have() { command -v "$1" >/dev/null 2>&1; }
@@ -40,6 +42,10 @@ install_pacman_packages() {
   echo "Installing pacman packages from $PACMAN_LIST ..."
   # strip comments/blank lines
   pkgs=$(sed -E 's/#.*$//; /^\s*$/d' "$PACMAN_LIST" | xargs)
+  if [[ -z "$pkgs" ]]; then
+    echo "No pacman packages to install."
+    return 0
+  fi
   need_root "pacman -Syu --needed --noconfirm $pkgs"
 }
 
@@ -70,30 +76,48 @@ ensure_nvidia_tweaks() {
 }
 
 enable_services() {
-  echo "Enabling user services (PipeWire/WirePlumber via system packages is usually enough)..."
-  # SDDM likely already enabled by KDE install; uncomment if needed:
-  # need_root "systemctl enable --now sddm"
+  echo "Enabling user services (PipeWire/WirePlumber)..."
+  # Ly is typically enabled by the package, but you can enable it manually if needed:
+  # need_root "systemctl enable --now ly"
 }
 
 apply_stow_profile() {
   echo "Applying Stow profile: $PROFILE"
+
+  # Verify stow is installed
+  if ! have stow; then
+    echo "Error: stow is not installed. Install it with: pacman -S stow"
+    exit 1
+  fi
+
   cd "$DOTS_DIR"
 
-  # ensure local ignore exists
-  [[ -f ".stow-local-ignore" ]] || cat >.stow-local-ignore <<'EOF'
-^(\.git|README\.md|profiles|bootstrap|scripts|\.stow.*)$
-EOF
+  # Verify profile file exists
+  if [[ ! -f "profiles/$PROFILE.txt" ]]; then
+    echo "Error: Profile file 'profiles/$PROFILE.txt' not found!"
+    exit 1
+  fi
 
   # read package names, ignoring comments/blank lines
   mapfile -t pkgs < <(sed -E 's/#.*$//; /^\s*$/d' "profiles/$PROFILE.txt")
 
-  echo "Previewing stow actions:"
+  if [[ ${#pkgs[@]} -eq 0 ]]; then
+    echo "Error: No packages found in profile '$PROFILE'!"
+    exit 1
+  fi
+
+  echo "Previewing stow actions for packages: ${pkgs[*]}"
   printf '%s\n' "${pkgs[@]}" | xargs -I{} stow -nvt "$HOME" {}
 
+  echo "Applying stow symlinks..."
   printf '%s\n' "${pkgs[@]}" | xargs -I{} stow -vt "$HOME" {}
 
+  # Check for host-specific package
   HOST_PACKAGE="host-$(hostname)"
-  [[ -d "$HOST_PACKAGE" ]] && stow -vt "$HOME" "$HOST_PACKAGE"
+  if [[ -d "$HOST_PACKAGE" ]]; then
+    echo "Found host-specific package: $HOST_PACKAGE"
+    stow -vt "$HOME" "$HOST_PACKAGE"
+  fi
 }
 
 post_install_hints() {
@@ -102,17 +126,20 @@ post_install_hints() {
 Done ✔
 
 Next steps:
-1) Log out to SDDM and select the "Hyprland" session.
+1) Reboot and log in with Ly display manager.
+   - Ly should auto-detect Hyprland session
+   - Use arrow keys to select session if needed
 2) Ensure your Hyprland config autostarts:
      exec-once = waybar
      exec-once = polkit-kde-agent
    and sets a terminal bind, e.g.:
      bind = SUPER, Return, exec, ghostty
 3) NVIDIA users: after editing GRUB kernel params, reboot.
-4) Test: waybar, wofi (--show drun), wl-clipboard
+4) Test: waybar, rofi (--show drun), wl-clipboard
 
 Troubleshooting:
 - Hyprland log:  journalctl --user -b -u hyprland
+- Ly log:        journalctl -b -u ly
 - Cursor glitches on NVIDIA? In hyprland.conf add:
     env = WLR_NO_HARDWARE_CURSORS,1
     env = LIBVA_DRIVER_NAME,nvidia
@@ -123,6 +150,18 @@ EOF
 }
 
 main() {
+  echo "=== Arch Linux + Hyprland Dotfiles Setup ==="
+  echo "Repository: $DOTS_DIR"
+  echo "Profile: $PROFILE"
+  echo ""
+
+  # Verify we're in the repo or it's cloned correctly
+  if [[ ! -d "$DOTS_DIR/bootstrap" ]]; then
+    echo "Error: This script must be run from the dotfiles repository root"
+    echo "       or DOTS_DIR must be set to the repo path."
+    exit 1
+  fi
+
   install_pacman_packages
   install_yay
   install_aur_packages
