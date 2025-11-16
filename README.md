@@ -2,7 +2,7 @@
 
 This is a dotfiles repo containing my configurations for certain programs. These configurations are kept in sync by using [GNU Stow](https://www.gnu.org/software/stow/), a symlink farm manager that creates symlinks from my dotfile repo to `~/`.
 
-## Quick Start with Profiles
+### Quick Start with Profiles
 
 This repository includes profile-based installation for common setups:
 
@@ -16,11 +16,17 @@ cd dotfiles
 ./install-profile.sh <profile_name>
 ```
 
-### Available Profiles
+#### Available Profiles
 
-- **`macos`**: Core development environment for macOS (zsh, nvim, tmux, ghostty, vscode)
-- **`arch-hyprland`**: Full Wayland desktop with Hyprland (includes all desktop components)
-- **`server`**: Minimal headless server setup (zsh, nvim, tmux)
+- **`macos`**: Core development environment for macOS (zsh, nvim, tmux, ghostty, vscode).
+- **`arch-hyprland`**: Full Wayland desktop with Hyprland (includes all desktop components).
+- **`server`**: Minimal headless server setup (zsh, nvim, tmux).
+
+#### Additional Notes
+
+- **Missing packages**: If a profile references packages that don't exist in your dotfiles, they're skipped with warnings.
+- **Clean mode**: Use `--clean` flag to remove existing configurations before installation.
+- **Cross-platform**: All scripts work on both macOS and Linux.
 
 ## macOS Setup
 
@@ -49,9 +55,9 @@ Install Tmux Plugin Manager (TPM) for tmux themes and plugins:
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-## Arch Linux Setup
+Good to go!
 
-### Option 1: Fully Automated Bootstrap (Recommended for Fresh Systems)
+## Arch Linux Setup
 
 For a fresh Arch system, the automated bootstrap installer handles everything:
 
@@ -74,82 +80,7 @@ This comprehensive script will:
 - Create symlinks for all dotfiles configurations
 - Run post-install setup script to finalize configuration
 
-### Option 2: Step-by-Step Manual Installation
-
-If you prefer more control, follow these steps:
-
-**2a. Install Stow (Dotfiles Manager)**
-
-```bash
-sudo pacman -S stow git
-```
-
-**2b. Clone the Dotfiles Repository**
-
-```bash
-cd ~
-git clone git@github.com:hvenry/dotfiles.git
-cd dotfiles
-```
-
-**2c. Install Pacman Packages**
-
-```bash
-# View all packages that will be installed
-cat bootstrap/pacman.txt
-
-# Install them
-sudo pacman -Syu --needed --noconfirm $(cat bootstrap/pacman.txt | grep -v '^#' | grep -v '^$' | tr '\n' ' ')
-```
-
-The pacman packages include:
-
-- **Core tools**: git, stow, zsh, neovim, tmux
-- **Terminal utilities**: less, ripgrep, fd, bat, exa, jq, imagemagick, wget
-- **Development environments**: Go, Rust, Ruby, PHP, Node.js, Python, Lua, Julia, JDK
-- **Hyprland ecosystem**: hyprland, waybar, rofi, swaync, hyprpaper, hypridle, hyprlock
-- **Audio**: pipewire, wireplumber, playerctl
-- **System tools**: networkmanager, polkit-kde-agent, brightnessctl, wl-clipboard
-- **Display manager**: Ly
-- **GUI toolkits**: GTK3/4, Qt6
-- **File managers**: Thunar
-
-**2d. Install Yay (AUR Helper)**
-
-```bash
-sudo pacman -S --needed base-devel git
-git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin
-cd /tmp/yay-bin
-makepkg -si --noconfirm
-```
-
-**2e. Install AUR Packages**
-
-```bash
-# View AUR packages
-cat bootstrap/aur.txt
-
-# Install them
-yay -S --needed --noconfirm $(cat bootstrap/aur.txt | grep -v '^#' | grep -v '^$' | tr '\n' ' ')
-```
-
-The AUR packages include:
-
-- **Terminal**: ghostty
-- **Development**: claude-code, visual-studio-code-bin, goimports
-- **Fonts and themes**: various fonts, bibata-cursor-theme
-- **GUI utilities**: hyprshot
-
-**2f. Clone/Reinstall Dotfiles**
-
-```bash
-cd ~/dotfiles
-
-# Install the arch-hyprland profile (creates symlinks)
-./install-profile.sh --clean arch-hyprland
-```
-
-**2g. Configure Display Manager**
+### Configure Display Manager\*\*
 
 ```bash
 # Set Ly as primary display manager
@@ -157,7 +88,7 @@ sudo systemctl disable sddm
 sudo systemctl enable ly
 ```
 
-**2h. Run Post-Install Setup**
+### Run Post-Install Setup\*\*
 
 ```bash
 # This handles additional configuration
@@ -173,6 +104,12 @@ The post-install script:
 - Sets up Python environment
 - Provides next steps guidance
 
+### Setup Monitor
+
+For monitor specifics (resolution, name, etc), copy a configuration example from `hyrpland/.config/hypr/machines/` to `hyprland/.config/hypr/local.conf` in order to get hyprland setup with the correct monitor configurations.
+
+You will need to set the specific monitor value one more time in `waybar/.config/waybar/.local`, see `.local.example` for instructions.
+
 ## Platform-Specific Notes
 
 ### VS Code (Cross-Platform)
@@ -183,12 +120,6 @@ The `vscode` package contains VS Code configuration files that work across platf
 - **Linux**: `~/.config/Code/User/`
 
 The install script automatically detects your OS and uses the correct path.
-
-### Profile Installation Safety
-
-- **Missing packages**: If a profile references packages that don't exist in your dotfiles, they're skipped with warnings
-- **Clean mode**: Use `--clean` flag to remove existing configurations before installation
-- **Cross-platform**: All scripts work on both macOS and Linux
 
 ## Post Installation
 
@@ -216,13 +147,19 @@ tmux new-session -s main
 - On first launch, run `:Mason` to install language servers
 - LSP servers will auto-install on first file type detection
 
-### 4. Test Your Desktop (Arch Hyprland)
+## Refrences
 
-```bash
-# Reboot to apply all settings
-sudo reboot
+- [GNU Stow](https://www.gnu.org/software/stow/)
+- [Ghostty](https://ghostty.org/)
+- [neovim](https://neovim.io/)
+- [tmux](https://github.com/tmux/tmux/wiki)
+- [tpm](https://github.com/tmux-plugins/tpm)
 
-# Log in with Ly
-# Hyprland should auto-start
-# Test with: Super+Return to open terminal, Super+D to open rofi
-```
+Arch Specific:
+
+- [Pacman](https://wiki.archlinux.org/title/Pacman)
+- [Hyprland](https://wiki.hypr.land/)
+- [Rofi](https://github.com/davatorium/rofi)
+- [Waybar](https://github.com/Alexays/Waybar)
+- [Ly](https://github.com/fairyglade/ly)
+- [systemd](https://github.com/systemd/systemd)
