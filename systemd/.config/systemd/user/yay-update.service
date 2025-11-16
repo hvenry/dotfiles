@@ -1,0 +1,10 @@
+[Unit]
+Description=Update AUR packages with yay
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/yay -Syu --noconfirm
+StandardOutput=journal
+StandardError=journal

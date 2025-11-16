@@ -102,6 +102,26 @@ setup_python() {
 }
 
 # --- Create symlinks for convenience -----------------------------------------
+setup_systemd_timers() {
+  echo "=== Setting up systemd user timers ==="
+
+  if [[ ! -f ~/.config/systemd/user/yay-update.timer ]]; then
+    echo "Systemd timer files not found. They should have been installed with stow."
+    echo "Skipping systemd timer setup."
+    return
+  fi
+
+  echo "Enabling yay-update timer..."
+  systemctl --user daemon-reload
+  systemctl --user enable yay-update.timer
+  systemctl --user start yay-update.timer
+
+  echo "✓ Yay update timer enabled"
+  echo "  Timer will run daily at 2 AM and on boot (5 min delay)"
+  echo "  Check status: systemctl --user status yay-update.timer"
+  echo "  View logs: journalctl --user -u yay-update.service"
+}
+
 setup_symlinks() {
   echo "=== Setting up convenience symlinks ==="
 
@@ -138,18 +158,26 @@ Next steps:
    - Run :Mason to install language servers
    - LSP servers will auto-install on first use
 
-5. OPTIONAL CONFIGURATIONS:
+5. AUTOMATIC PACKAGE UPDATES (AUR):
+   - Systemd timer is enabled to check for updates daily at 2 AM
+   - Also runs 5 minutes after boot
+   - To manually check for updates: yay -Syu
+   - Check timer status: systemctl --user status yay-update.timer
+   - View update logs: journalctl --user -u yay-update.service
+   - Discord and other AUR packages will stay current
+
+6. OPTIONAL CONFIGURATIONS:
    - Check ~/.config for application configs
    - Customize Hyprland at ~/.config/hypr/hyprland.conf
    - Customize Waybar at ~/.config/waybar/
    - Customize rofi at ~/.config/rofi/
 
-6. NVIDIA USERS:
+7. NVIDIA USERS:
    - If using NVIDIA GPU, ensure kernel params are set:
      sudo cat /etc/default/grub | grep nvidia
    - Add if missing: nvidia-drm.modeset=1
 
-7. FIRST REBOOT:
+8. FIRST REBOOT:
    - Log in with the configured display manager
    - Hyprland should auto-detect and start
    - If issues, check: journalctl --user -xe
@@ -179,6 +207,9 @@ main() {
   echo ""
 
   setup_display_manager
+  echo ""
+
+  setup_systemd_timers
   echo ""
 
   setup_npm_globals

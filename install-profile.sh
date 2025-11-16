@@ -84,6 +84,12 @@ remove_existing_configs() {
         rm -rf ~/.config/scripts
       fi
       ;;
+    "systemd")
+      if [ -d ~/.config/systemd ]; then
+        echo "Removing existing systemd user config..."
+        rm -rf ~/.config/systemd
+      fi
+      ;;
     "gtk")
       if [ -d ~/.config/gtk-3.0 ] || [ -d ~/.config/gtk-4.0 ] || [ -f ~/.gtkrc-2.0 ]; then
         echo "Removing existing GTK configs..."
