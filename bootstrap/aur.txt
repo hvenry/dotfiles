@@ -1,4 +1,3 @@
-# AUR-only picks
 # Terminal emulator
 ghostty
 
@@ -6,20 +5,26 @@ ghostty
 claude-code
 visual-studio-code-bin
 
+# Go tools
+goimports
+
 # Fonts
 ttf-jetbrains-mono-nerd
 cozette-otb
 cozette-ttf
 
 # Hyprland ecosystem
-eww
 hyprshot
 
 # Cursor theme
 bibata-cursor-theme
 
-# GUI backend dependencies (for waybar custom GUI system)
-python-flask
-python-flask-cors
-chromium
+# Quickshell dependencies
+cmake
+ninja
+jsoncpp
+quickshell-git
+
+# Display managers (optional, choose one)
+# ly
 

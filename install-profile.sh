@@ -66,24 +66,6 @@ remove_existing_configs() {
         rm -rf ~/.config/waybar
       fi
       ;;
-    "wofi")
-      if [ -d ~/.config/wofi ]; then
-        echo "Removing existing wofi config..."
-        rm -rf ~/.config/wofi
-      fi
-      ;;
-    "eww")
-      if [ -d ~/.config/eww ]; then
-        echo "Removing existing eww config..."
-        rm -rf ~/.config/eww
-      fi
-      ;;
-    "swww")
-      if [ -d ~/.config/swww ]; then
-        echo "Removing existing swww config..."
-        rm -rf ~/.config/swww
-      fi
-      ;;
     "hyprlock")
       if [ -d ~/.config/hypr ] && [ -f ~/.config/hypr/hyprlock.conf ]; then
         echo "Removing existing hyprlock config..."
@@ -100,12 +82,6 @@ remove_existing_configs() {
       if [ -d ~/.config/scripts ]; then
         echo "Removing existing scripts config..."
         rm -rf ~/.config/scripts
-      fi
-      ;;
-    "systemd")
-      if [ -d ~/.config/systemd ]; then
-        echo "Removing existing systemd user config..."
-        rm -rf ~/.config/systemd
       fi
       ;;
     "gtk")
@@ -254,7 +230,26 @@ done
 echo ""
 echo "Profile '$PROFILE_NAME' installed successfully!"
 echo ""
-echo "Next steps:"
-echo "1. Source your shell config: source ~/.zshrc"
-echo "2. Restart your terminal or shell to load changes"
-echo "3. If you cloned for Hyprland, run: sudo $DOTFILES_DIR/bootstrap/arch-install.sh"
+
+# Check if this is an Arch system with Hyprland profile
+if [[ "$PROFILE_NAME" == "arch-hyprland" ]]; then
+  echo "Next steps for Arch + Hyprland:"
+  echo "1. Install packages: sudo pacman -S \$(cat $DOTFILES_DIR/bootstrap/pacman.txt | grep -v '^#' | grep -v '^$' | tr '\n' ' ')"
+  echo "2. Install yay (AUR helper) if not already installed"
+  echo "3. Install AUR packages: yay -S \$(cat $DOTFILES_DIR/bootstrap/aur.txt | grep -v '^#' | grep -v '^$' | tr '\n' ' ')"
+  echo "4. Run post-install setup: bash $DOTFILES_DIR/bootstrap/post-install.sh"
+  echo ""
+  echo "Or for a fully automated setup:"
+  echo "   sudo bash $DOTFILES_DIR/bootstrap/arch-install.sh"
+else
+  echo "Next steps:"
+  echo "1. Source your shell config: source ~/.zshrc"
+  echo "2. Restart your terminal or shell to load changes"
+fi
+
+echo ""
+echo "For Tmux users:"
+echo "  - Start tmux: tmux new-session -s main"
+echo "  - Press Ctrl+b + I to install plugins"
+echo ""
+echo "For more details, see: $DOTFILES_DIR/README.md"

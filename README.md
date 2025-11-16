@@ -2,18 +2,6 @@
 
 This is a dotfiles repo containing my configurations for certain programs. These configurations are kept in sync by using [GNU Stow](https://www.gnu.org/software/stow/), a symlink farm manager that creates symlinks from my dotfile repo to `~/`.
 
-## Important Distinction
-
-This repository manages **configuration files only**, not software installation. You need to:
-
-1. **First**: Install the actual software using your system's package manager
-2. **Then**: Use this repository to install/sync the configuration files
-
-For example:
-
-- Install `neovim` using `brew install neovim` (macOS) or `sudo pacman -S neovim` (Arch)
-- Then use this repo to install the Neovim configuration files
-
 ## Quick Start with Profiles
 
 This repository includes profile-based installation for common setups:
@@ -24,23 +12,17 @@ cd ~
 git clone git@github.com:hvenry/dotfiles.git
 cd dotfiles
 
-# Install a complete profile (configs only - see software installation below)
-./install-profile.sh macos           # macOS development setup
-./install-profile.sh arch-hyprland   # Arch Linux + Hyprland desktop
-./install-profile.sh server          # Minimal server setup
+# Install a complete profile
+./install-profile.sh <profile_name>
 ```
 
-## Available Profiles
+### Available Profiles
 
 - **`macos`**: Core development environment for macOS (zsh, nvim, tmux, ghostty, vscode)
 - **`arch-hyprland`**: Full Wayland desktop with Hyprland (includes all desktop components)
 - **`server`**: Minimal headless server setup (zsh, nvim, tmux)
 
-## Software Installation (Required First)<!--  -->
-
-**You must install the actual software before using the configuration files.**
-
-### macOS Setup
+## macOS Setup
 
 First, install [Homebrew](https://brew.sh/) (if not already installed):
 
@@ -59,9 +41,6 @@ brew install tmux fzf neovim
 
 # Terminal emulator
 brew install --cask ghostty
-
-# VS Code (optional, for macOS profile)
-brew install --cask visual-studio-code
 ```
 
 Install Tmux Plugin Manager (TPM) for tmux themes and plugins:
@@ -70,11 +49,11 @@ Install Tmux Plugin Manager (TPM) for tmux themes and plugins:
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-### Arch Linux Setup
+## Arch Linux Setup
 
-**Option 1: Automated Bootstrap (Recommended)**
+### Option 1: Fully Automated Bootstrap (Recommended for Fresh Systems)
 
-For a fresh Arch system, use the automated bootstrap installer:
+For a fresh Arch system, the automated bootstrap installer handles everything:
 
 ```bash
 # Clone the repository
@@ -82,43 +61,30 @@ cd ~
 git clone git@github.com:hvenry/dotfiles.git
 cd dotfiles
 
-# Run the complete Arch + Hyprland setup (installs packages + dotfiles)
-./bootstrap/arch-install.sh
+# Run the complete setup (requires sudo)
+sudo ./bootstrap/arch-install.sh
 ```
 
-This will:
-- Install all required packages from `bootstrap/pacman.txt` and `bootstrap/aur.txt`
-- Set up services (SDDM, PipeWire, etc.)
-- Handle NVIDIA configuration if detected
-- Apply the `arch-hyprland` dotfiles profile
+This comprehensive script will:
 
-**Option 2: Manual Package Installation**
+- Install all core system packages from `bootstrap/pacman.txt`
+- Install yay (AUR helper) if not present
+- Install all AUR packages from `bootstrap/aur.txt`
+- Set up Ly as the primary display manager
+- Create symlinks for all dotfiles configurations
+- Run post-install setup script to finalize configuration
 
-If you prefer manual control, install required packages:
+### Option 2: Step-by-Step Manual Installation
+
+If you prefer more control, follow these steps:
+
+**2a. Install Stow (Dotfiles Manager)**
 
 ```bash
-# Core packages
-sudo pacman -S git stow tmux fzf neovim
-
-# For Hyprland desktop environment (see bootstrap/pacman.txt for complete list):
-sudo pacman -S hyprland waybar wofi rofi-wayland swaync pipewire pipewire-pulse
-sudo pacman -S hyprpaper hypridle hyprlock networkmanager polkit-kde-agent
-
-# AUR packages (see bootstrap/aur.txt for complete list):
-yay -S ghostty visual-studio-code-bin eww hyprshot bibata-cursor-theme-bin
+sudo pacman -S stow git
 ```
 
-Install Tmux Plugin Manager (TPM) for tmux themes and plugins:
-
-```bash
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-```
-
-## Configuration Installation
-
-**After installing the software above**, clone this repository and install configurations:
-
-Clone this repository to your home directory:
+**2b. Clone the Dotfiles Repository**
 
 ```bash
 cd ~
@@ -126,92 +92,87 @@ git clone git@github.com:hvenry/dotfiles.git
 cd dotfiles
 ```
 
-### Option 1: Profile-Based Installation (Recommended)
-
-Use the profile installer to automatically install configurations for your environment:
+**2c. Install Pacman Packages**
 
 ```bash
-# Choose one based on your system:
-./install-profile.sh macos           # macOS development setup
-./install-profile.sh arch-hyprland   # Arch Linux + Hyprland desktop
-./install-profile.sh server          # Minimal server setup
+# View all packages that will be installed
+cat bootstrap/pacman.txt
 
-# Clean install (removes existing configs first):
-./install-profile.sh --clean macos
-
-# See all available profiles and options:
-./install-profile.sh
+# Install them
+sudo pacman -Syu --needed --noconfirm $(cat bootstrap/pacman.txt | grep -v '^#' | grep -v '^$' | tr '\n' ' ')
 ```
 
-**Profile Options:**
+The pacman packages include:
 
-- **No flags**: Keeps existing configurations, may cause conflicts
-- **`--clean`**: Removes existing configurations before installing (recommended)
+- **Core tools**: git, stow, zsh, neovim, tmux
+- **Terminal utilities**: less, ripgrep, fd, bat, exa, jq, imagemagick, wget
+- **Development environments**: Go, Rust, Ruby, PHP, Node.js, Python, Lua, Julia, JDK
+- **Hyprland ecosystem**: hyprland, waybar, rofi, swaync, hyprpaper, hypridle, hyprlock
+- **Audio**: pipewire, wireplumber, playerctl
+- **System tools**: networkmanager, polkit-kde-agent, brightnessctl, wl-clipboard
+- **Display manager**: Ly
+- **GUI toolkits**: GTK3/4, Qt6
+- **File managers**: Thunar
 
-### Option 2: Manual Installation
-
-**IMPORTANT**: Remove any existing configurations before stowing to avoid conflicts:
+**2d. Install Yay (AUR Helper)**
 
 ```bash
-# Remove existing configs if they exist
-rm -rf ~/.config/nvim
-rm -rf ~/.config/tmux
-rm -rf ~/.config/ghostty
-rm -f ~/.zshrc ~/.p10k.zsh
-
-# Remove VS Code configs (cross-platform)
-# macOS:
-rm -rf ~/Library/Application\ Support/Code/User
-# Linux:
-rm -rf ~/.config/Code/User
+sudo pacman -S --needed base-devel git
+git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin
+cd /tmp/yay-bin
+makepkg -si --noconfirm
 ```
 
-#### Stow Individual Packages (Sync Configurations)
-
-You can install specific configurations using stow:
+**2e. Install AUR Packages**
 
 ```bash
-# Install Zsh configuration
-stow -t ~ zsh
+# View AUR packages
+cat bootstrap/aur.txt
 
-# Install VS Code configuration (cross-platform)
-stow -t ~ vscode
-
-# Install Neovim configuration
-stow -t ~ nvim
-
-# Install Ghostty terminal configuration
-stow -t ~ ghostty
-
-# Install Tmux configuration
-stow -t ~ tmux
-
-# Install all configurations at once
-stow -t ~ .
+# Install them
+yay -S --needed --noconfirm $(cat bootstrap/aur.txt | grep -v '^#' | grep -v '^$' | tr '\n' ' ')
 ```
 
-## What Each Profile Installs
+The AUR packages include:
 
-### macOS Profile
+- **Terminal**: ghostty
+- **Development**: claude-code, visual-studio-code-bin, goimports
+- **Build tools**: cmake, ninja, jsoncpp
+- **Fonts and themes**: various fonts, bibata-cursor-theme
+- **GUI utilities**: hyprshot, quickshell-git
 
-- **zsh**: Shell configuration with Oh My Zsh and Powerlevel10k
-- **nvim**: Neovim configuration
-- **tmux**: Terminal multiplexer configuration
-- **ghostty**: Terminal emulator configuration
-- **vscode**: VS Code settings and keybindings
+**2f. Clone/Reinstall Dotfiles**
 
-### Arch Hyprland Profile
+```bash
+cd ~/dotfiles
 
-- **Core tools**: zsh, nvim, tmux, ghostty
-- **Desktop environment**: hyprland, waybar, wofi, eww, swww, sddm
+# Install the arch-hyprland profile (creates symlinks)
+./install-profile.sh --clean arch-hyprland
+```
 
-**Note**: Only packages with existing configuration folders will be installed. Missing packages are skipped with warnings.
+**2g. Configure Display Manager**
 
-### Server Profile
+```bash
+# Set Ly as primary display manager
+sudo systemctl disable sddm
+sudo systemctl enable ly
+```
 
-- **zsh**: Shell configuration
-- **nvim**: Neovim configuration
-- **tmux**: Terminal multiplexer configuration
+**2h. Run Post-Install Setup**
+
+```bash
+# This handles additional configuration
+bash bootstrap/post-install.sh
+```
+
+The post-install script:
+
+- Installs Tmux Plugin Manager (TPM)
+- Sources your zsh configuration
+- Enables Ly display manager
+- Installs global npm packages (neovim)
+- Sets up Python environment
+- Provides next steps guidance
 
 ## Platform-Specific Notes
 
@@ -230,110 +191,39 @@ The install script automatically detects your OS and uses the correct path.
 - **Clean mode**: Use `--clean` flag to remove existing configurations before installation
 - **Cross-platform**: All scripts work on both macOS and Linux
 
-## Sourcing Configuration Files
+## Post Installation
 
-After stowing your configurations, source the relevant files to apply changes:
+After your installation completes, these are the immediate next steps:
 
-### Zsh
-
-Source the zsh config:
+### 1. Source Your Shell
 
 ```bash
 source ~/.zshrc
 ```
 
-### Tmux
-
-With an instance of tmux running, source the tmux configuration with:
+### 2. Set Up Tmux Plugins (if using tmux)
 
 ```bash
-tmux source ~/.config/tmux/tmux.conf
+# Start a new tmux session
+tmux new-session -s main
+
+# Inside tmux, press Ctrl+b (or your prefix) then I to install plugins
+# The TPM script should have been installed by post-install.sh
 ```
 
-Then, install the packages with `prefix` + `I` in tmux to install custom plugins.
+### 3. Configure Neovim
 
-### Neovim
+- Launch neovim: `nvim`
+- On first launch, run `:Mason` to install language servers
+- LSP servers will auto-install on first file type detection
 
-For neovim, restart nvim or run `:source $MYVIMRC` inside nvim.
-
-### VS Code
-
-Restart VS Code to load new settings (works on both macOS and Linux).
-
-### Ghostty
-
-Simply restart the terminal application.
-
-## Complete Setup Examples
-
-### macOS Setup
+### 4. Test Your Desktop (Arch Hyprland)
 
 ```bash
-# 1. Install software
-brew install git stow tmux fzf neovim
-brew install --cask ghostty visual-studio-code
+# Reboot to apply all settings
+sudo reboot
 
-# 2. Install TPM for tmux
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
-# 3. Clone and install dotfiles
-cd ~
-git clone git@github.com:hvenry/dotfiles.git
-cd dotfiles
-./install-profile.sh --clean macos
-
-# 4. Source configurations
-source ~/.zshrc
+# Log in with Ly
+# Hyprland should auto-start
+# Test with: Super+Return to open terminal, Super+D to open rofi
 ```
-
-### Arch Linux Setup (Server)
-
-```bash
-# 1. Install software
-sudo pacman -S git stow tmux fzf neovim
-
-# 2. Install TPM for tmux
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
-# 3. Clone and install dotfiles
-cd ~
-git clone git@github.com:hvenry/dotfiles.git
-cd dotfiles
-./install-profile.sh --clean server
-
-# 4. Source configurations
-source ~/.zshrc
-```
-
-### Arch Linux Setup (Hyprland Desktop)
-
-**Option 1: Automated Bootstrap (Recommended)**
-
-```bash
-# Clone and run complete setup
-cd ~
-git clone git@github.com:hvenry/dotfiles.git
-cd dotfiles
-./bootstrap/arch-install.sh
-```
-
-**Option 2: Manual Setup**
-
-```bash
-# 1. Install software (see bootstrap files for complete lists)
-sudo pacman -S git stow tmux fzf neovim hyprland waybar rofi-wayland swaync
-yay -S ghostty visual-studio-code-bin eww hyprshot
-
-# 2. Install TPM for tmux
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
-# 3. Clone and install dotfiles
-cd ~
-git clone git@github.com:hvenry/dotfiles.git
-cd dotfiles
-./install-profile.sh --clean arch-hyprland
-
-# 4. Source configurations
-source ~/.zshrc
-```
-

@@ -120,33 +120,14 @@ apply_stow_profile() {
   fi
 }
 
-post_install_hints() {
-  cat <<'EOF'
-
-Done ✔
-
-Next steps:
-1) Reboot and log in with Ly display manager.
-   - Ly should auto-detect Hyprland session
-   - Use arrow keys to select session if needed
-2) Ensure your Hyprland config autostarts:
-     exec-once = waybar
-     exec-once = polkit-kde-agent
-   and sets a terminal bind, e.g.:
-     bind = SUPER, Return, exec, ghostty
-3) NVIDIA users: after editing GRUB kernel params, reboot.
-4) Test: waybar, rofi (--show drun), wl-clipboard
-
-Troubleshooting:
-- Hyprland log:  journalctl --user -b -u hyprland
-- Ly log:        journalctl -b -u ly
-- Cursor glitches on NVIDIA? In hyprland.conf add:
-    env = WLR_NO_HARDWARE_CURSORS,1
-    env = LIBVA_DRIVER_NAME,nvidia
-    env = GBM_BACKEND,nvidia-drm
-    env = __GLX_VENDOR_LIBRARY_NAME,nvidia
-
-EOF
+run_post_install() {
+  local post_install_script="$SCRIPT_DIR/bootstrap/post-install.sh"
+  if [[ -f "$post_install_script" ]]; then
+    echo "Running post-install setup..."
+    bash "$post_install_script"
+  else
+    echo "Warning: post-install script not found at $post_install_script"
+  fi
 }
 
 main() {
@@ -168,7 +149,7 @@ main() {
   ensure_nvidia_tweaks
   enable_services
   apply_stow_profile
-  post_install_hints
+  run_post_install
 }
 
 main "$@"

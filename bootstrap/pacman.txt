@@ -1,3 +1,49 @@
+# Core development and shells
+git
+stow
+base-devel
+zsh
+tmux
+neovim
+
+# Terminal utilities and core tools
+wl-clipboard
+less
+ripgrep
+fd
+bat
+exa
+jq
+imagemagick
+wget
+
+# Tmux plugins manager dependency
+git
+
+# Zoxide for directory navigation
+zoxide
+
+# Programming language toolchains
+go
+rust
+ruby
+php
+composer
+jdk-openjdk
+julia
+lua
+luarocks
+python-pip
+npm
+tree-sitter
+
+# Language-specific formatters and tools
+gofumpt
+gopls
+
+# Rofi (app launcher)
+rofi-wayland
+
 # Wayland/Hyprland stack
 # Core Hyprland environment
 hyprland
@@ -28,15 +74,11 @@ network-manager-applet
 polkit
 polkit-kde-agent
 brightnessctl
-wl-clipboard
 grim
 slurp
 
 # Status bar and widgets
 waybar
-
-# App launcher and menus
-rofi-wayland
 
 # Notification daemon
 swaync
@@ -51,11 +93,8 @@ xsettingsd
 ttf-jetbrains-mono-nerd
 
 # File management
-dolphin
 thunar
 
-# Development tools
-git
-stow
-base-devel
+# Display manager (ly is the primary)
+ly
 
