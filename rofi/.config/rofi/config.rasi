@@ -6,10 +6,10 @@ configuration {
 
 * {
     font: "JetBrainsMono Nerd Font 12";
-    background: rgba(0, 0, 0, 0.2);
-    background-alt: rgba(0, 0, 0, 0.3);
-    foreground: #b0b0b0;
-    selected: #b0b0b0;
+    background: rgba(0, 0, 0, 0.33);
+    background-alt: rgba(0, 0, 0, 0.34);
+    foreground: #eeeeee;
+    selected: #eeeeee;
     urgent: #f85149;
 }
 
@@ -23,7 +23,7 @@ window {
     margin:                      0px;
     padding:                     0px;
     border:                      0px;
-    border-radius:               8px;
+    border-radius:               0px;
     background-color:            @background;
 }
 
@@ -41,7 +41,7 @@ inputbar {
     padding:                     3px 8px;
     border:                      0px;
     outline:                     0px;
-    border-radius:               8px;
+    border-radius:               0px;
     background-color:            @background-alt;
     text-color:                  @foreground;
     children:                    [ "textbox-prompt-colon", "entry" ];
@@ -81,7 +81,7 @@ element {
     margin:                      0px;
     padding:                     6px;
     border:                      0px;
-    border-radius:               8px;
+    border-radius:               0px;
     background-color:            transparent;
     text-color:                  @foreground;
     cursor:                      pointer;
