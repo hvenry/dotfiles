@@ -78,6 +78,12 @@ remove_existing_configs() {
         rm -rf ~/.config/rofi
       fi
       ;;
+    "mako")
+      if [ -d ~/.config/mako ]; then
+        echo "Removing existing mako config..."
+        rm -rf ~/.config/mako
+      fi
+      ;;
     "scripts")
       if [ -d ~/.config/scripts ]; then
         echo "Removing existing scripts config..."

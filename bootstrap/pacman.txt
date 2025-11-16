@@ -81,7 +81,7 @@ slurp
 waybar
 
 # Notification daemon
-swaync
+mako
 libnotify
 
 # Theming and fonts
