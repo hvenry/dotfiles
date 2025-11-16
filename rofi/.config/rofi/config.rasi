@@ -5,7 +5,7 @@ configuration {
 }
 
 * {
-    font: "JetBrainsMono Nerd Font 11";
+    font: "JetBrainsMono Nerd Font 12";
     background: rgba(0, 0, 0, 0.2);
     background-alt: rgba(0, 0, 0, 0.3);
     foreground: #b0b0b0;
@@ -18,7 +18,7 @@ window {
     location:                    center;
     anchor:                      center;
     fullscreen:                  false;
-    width:                       300px;
+    width:                       275;
     height:                      200px;
     margin:                      0px;
     padding:                     0px;
