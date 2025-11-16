@@ -137,9 +137,8 @@ The AUR packages include:
 
 - **Terminal**: ghostty
 - **Development**: claude-code, visual-studio-code-bin, goimports
-- **Build tools**: cmake, ninja, jsoncpp
 - **Fonts and themes**: various fonts, bibata-cursor-theme
-- **GUI utilities**: hyprshot, quickshell-git
+- **GUI utilities**: hyprshot
 
 **2f. Clone/Reinstall Dotfiles**
 

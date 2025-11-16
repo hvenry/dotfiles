@@ -226,11 +226,6 @@ return {
       if dir then
         return util.path.join(dir, ".qmlls.ini")
       end
-      -- personal fallback (keep if useful)
-      local user_ini = vim.fn.expand("~/dotfiles/quickshell/.config/quickshell/build/.qmlls.ini")
-      if util.path.exists(user_ini) then
-        return user_ini
-      end
       return nil
     end
 

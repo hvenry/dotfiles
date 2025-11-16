@@ -19,12 +19,6 @@ hyprshot
 # Cursor theme
 bibata-cursor-theme
 
-# Quickshell dependencies
-cmake
-ninja
-jsoncpp
-quickshell-git
-
 # Display managers (optional, choose one)
 # ly
 
