@@ -1,0 +1,5 @@
+# Machine-specific configuration
+# Copy one of the configs from machines/ directory:
+#   cp machines/laptop.conf local.conf
+#   cp machines/desktop.conf local.conf
+local.conf
