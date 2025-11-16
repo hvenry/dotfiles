@@ -16,6 +16,9 @@
   "modules-right": ["network", "pulseaudio", "battery"],
 
   "hyprland/workspaces": {
+    "persistent-workspaces": {
+      "$PRIMARY_MONITOR": [1, 2, 3, 4, 5],
+    },
     "format": "{icon}",
     "format-icons": {
       "1": "1",
