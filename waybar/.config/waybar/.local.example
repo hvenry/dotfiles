@@ -1,5 +1,5 @@
 # For laptop
-PRIMARY_MONITOR=e-DP-1
+PRIMARY_MONITOR=eDP-1
 
 # For desktop:
 PRIMARY_MONITOR=DP-4
