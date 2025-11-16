@@ -89,6 +89,7 @@ gtk3
 gtk4
 qt6ct
 adwaita-qt
+gnome-themes-extra
 xsettingsd
 ttf-jetbrains-mono-nerd
 
