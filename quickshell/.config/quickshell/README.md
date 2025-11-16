@@ -1,3 +1,5 @@
+# THIS BRANCH EXISTS ONLY IF I EVER DARE TRY TO COME BACK TO THIS QUICKCOOKED CONFIGURATION
+
 # Quickshell Configuration
 
 A minimal monochrome Wayland shell for Hyprland, forked from [Caelestia](https://github.com/caelestia-dots/shell) and extensively refactored for simplicity.
