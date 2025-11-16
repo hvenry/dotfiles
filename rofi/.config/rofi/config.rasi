@@ -1,6 +1,6 @@
 configuration {
     modi:                       "drun";
-    show-icons:                 true;
+    show-icons:                 false;
     drun-display-format:        "{name}";
 }
 
@@ -108,6 +108,3 @@ element-text {
     cursor:                      inherit;
 }
 
-element-icon {
-    size:                        24px;
-}
