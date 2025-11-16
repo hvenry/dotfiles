@@ -5,7 +5,7 @@ configuration {
 }
 
 * {
-    font: "JetBrainsMono Nerd Font 12";
+    font: "Inter 12";
     background: rgba(0, 0, 0, 0.33);
     background-alt: rgba(0, 0, 0, 0.34);
     foreground: #eeeeee;

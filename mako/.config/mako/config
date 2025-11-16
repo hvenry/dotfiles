@@ -7,10 +7,10 @@ height=100
 margin=8
 padding=8
 border-size=0
-border-radius=12
+border-radius=0
 background-color=#00000055
 text-color=#d0d0d0
-font=JetBrainsMono Nerd Font 11
+font=Inter 11
 
 # Default action
 default-timeout=6000

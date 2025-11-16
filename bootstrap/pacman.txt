@@ -92,6 +92,7 @@ adwaita-qt
 gnome-themes-extra
 xsettingsd
 ttf-jetbrains-mono-nerd
+inter-font
 
 # File management
 thunar
