@@ -131,6 +131,53 @@ setup_symlinks() {
   echo "✓ Config directories verified"
 }
 
+# --- Validation checks -------------------------------------------------------
+validate_dependencies() {
+  echo "=== Validating critical dependencies ==="
+  local missing=()
+
+  if ! have fzf; then
+    missing+=("fzf")
+  fi
+
+  if ! have gettext; then
+    missing+=("gettext")
+  fi
+
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    echo "⚠️  Warning: Missing packages detected:"
+    for pkg in "${missing[@]}"; do
+      echo "   - $pkg"
+    done
+    echo "Install with: sudo pacman -S ${missing[*]}"
+  else
+    echo "✓ All critical dependencies found"
+  fi
+}
+
+validate_manual_configs() {
+  echo "=== Checking for manual configuration requirements ==="
+
+  if [[ ! -f ~/.config/hypr/local.conf ]]; then
+    echo "⚠️  Hyprland: ~/.config/hypr/local.conf not found"
+    echo "   You must configure monitor settings. Copy one of:"
+    echo "   - cp ~/.config/hypr/machines/laptop.conf ~/.config/hypr/local.conf"
+    echo "   - cp ~/.config/hypr/machines/desktop.conf ~/.config/hypr/local.conf"
+    echo "   Or create a custom local.conf with your monitor configuration"
+  else
+    echo "✓ Hyprland local.conf found"
+  fi
+
+  if [[ ! -f ~/.config/waybar/.local ]]; then
+    echo "⚠️  Waybar: ~/.config/waybar/.local not found"
+    echo "   You must configure the primary monitor. Run:"
+    echo "   - cp ~/.config/waybar/.local.example ~/.config/waybar/.local"
+    echo "   - Edit ~/.config/waybar/.local and set PRIMARY_MONITOR (e.g., DP-4)"
+  else
+    echo "✓ Waybar .local found"
+  fi
+}
+
 # --- Post-install hints and next steps ---------------------------------------
 print_next_steps() {
   cat <<'EOF'
@@ -166,18 +213,26 @@ Next steps:
    - View update logs: journalctl --user -u yay-update.service
    - Discord and other AUR packages will stay current
 
-6. OPTIONAL CONFIGURATIONS:
-   - Check ~/.config for application configs
-   - Customize Hyprland at ~/.config/hypr/hyprland.conf
-   - Customize Waybar at ~/.config/waybar/
-   - Customize rofi at ~/.config/rofi/
+6. REQUIRED CONFIGURATIONS (BEFORE FIRST BOOT):
+   - HYPRLAND: Create ~/.config/hypr/local.conf
+     cp ~/.config/hypr/machines/laptop.conf ~/.config/hypr/local.conf
+     (Or use desktop.conf, or create custom for your monitors)
+   - WAYBAR: Create ~/.config/waybar/.local
+     cp ~/.config/waybar/.local.example ~/.config/waybar/.local
+     Edit it to set PRIMARY_MONITOR (check 'hyprctl monitors' after boot)
 
-7. NVIDIA USERS:
+7. OPTIONAL CUSTOMIZATIONS:
+   - Advanced Hyprland tweaks: ~/.config/hypr/hyprland.conf
+   - Waybar styling: ~/.config/waybar/style.css
+   - Rofi customizations: ~/.config/rofi/config.rasi
+   - Check ~/.config for other application configs
+
+8. NVIDIA USERS:
    - If using NVIDIA GPU, ensure kernel params are set:
      sudo cat /etc/default/grub | grep nvidia
    - Add if missing: nvidia-drm.modeset=1
 
-8. FIRST REBOOT:
+9. FIRST REBOOT:
    - Log in with the configured display manager
    - Hyprland should auto-detect and start
    - If issues, check: journalctl --user -xe
@@ -219,6 +274,12 @@ main() {
   echo ""
 
   setup_symlinks
+  echo ""
+
+  validate_dependencies
+  echo ""
+
+  validate_manual_configs
   echo ""
 
   print_next_steps

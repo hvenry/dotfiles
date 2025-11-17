@@ -9,7 +9,6 @@ visual-studio-code-bin
 goimports
 
 # Fonts
-ttf-jetbrains-mono-nerd
 cozette-otb
 cozette-ttf
 

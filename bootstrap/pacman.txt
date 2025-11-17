@@ -12,13 +12,12 @@ less
 ripgrep
 fd
 bat
-exa
+eza
+fzf
+gettext
 jq
 imagemagick
 wget
-
-# Tmux plugins manager dependency
-git
 
 # Zoxide for directory navigation
 zoxide

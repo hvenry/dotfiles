@@ -114,6 +114,12 @@ remove_existing_configs() {
         rm -rf ~/.config/environment.d
       fi
       ;;
+    "xdg")
+      if [ -f ~/.config/mimeapps.list ]; then
+        echo "Removing existing mimeapps.list..."
+        rm -f ~/.config/mimeapps.list
+      fi
+      ;;
     "ly")
       echo "Note: Ly is a display manager and may require special handling"
       echo "Skipping automatic removal for ly - please handle manually if needed"
@@ -246,12 +252,9 @@ echo ""
 # Check if this is an Arch system with Hyprland profile
 if [[ "$PROFILE_NAME" == "arch-hyprland" ]]; then
   echo "Next steps for Arch + Hyprland:"
-  echo "1. Install packages: sudo pacman -S \$(cat $DOTFILES_DIR/bootstrap/pacman.txt | grep -v '^#' | grep -v '^$' | tr '\n' ' ')"
-  echo "2. Install yay (AUR helper) if not already installed"
-  echo "3. Install AUR packages: yay -S \$(cat $DOTFILES_DIR/bootstrap/aur.txt | grep -v '^#' | grep -v '^$' | tr '\n' ' ')"
-  echo "4. Run post-install setup: bash $DOTFILES_DIR/bootstrap/post-install.sh"
+  echo "1. Reload Hyprland configuration: hyprctl reload"
   echo ""
-  echo "Or for a fully automated setup:"
+  echo "If you haven't installed packages yet, run:"
   echo "   sudo bash $DOTFILES_DIR/bootstrap/arch-install.sh"
 else
   echo "Next steps:"

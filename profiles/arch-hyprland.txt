@@ -16,8 +16,11 @@ rofi
 scripts
 systemd
 ly
+backgrounds
 
 # Theming and environment
 gtk
 xsettingsd
-environment
+mako
+xdg
+wlogout

@@ -104,11 +104,38 @@ The post-install script:
 - Sets up Python environment
 - Provides next steps guidance
 
-### Setup Monitor
+### Configure Hyprland and Waybar (REQUIRED)
 
-For monitor specifics (resolution, name, etc), copy a configuration example from `hyrpland/.config/hypr/machines/` to `hyprland/.config/hypr/local.conf` in order to get hyprland setup with the correct monitor configurations.
+These steps are required before your first boot to avoid errors:
 
-You will need to set the specific monitor value one more time in `waybar/.config/waybar/.local`, see `.local.example` for instructions.
+#### 1. Hyprland Monitor Configuration
+
+Create `~/.config/hypr/local.conf` with your monitor settings:
+
+```bash
+# Option A: Copy a preset configuration
+cp ~/.config/hypr/machines/laptop.conf ~/.config/hypr/local.conf
+# OR
+cp ~/.config/hypr/machines/desktop.conf ~/.config/hypr/local.conf
+
+# Option B: Create a custom configuration
+# See ~/.config/hypr/machines/*.conf for examples
+```
+
+#### 2. Waybar Monitor Configuration
+
+Configure the status bar for your primary monitor:
+
+```bash
+# Copy the example configuration
+cp ~/.config/waybar/.local.example ~/.config/waybar/.local
+
+# Edit to set your primary monitor
+# Example: PRIMARY_MONITOR=DP-4 or PRIMARY_MONITOR=eDP-1
+# Run 'hyprctl monitors' after first boot to see available monitors
+```
+
+**Note**: The post-install script will warn you if these configurations are missing.
 
 ## Platform-Specific Notes
 
