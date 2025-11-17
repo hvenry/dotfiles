@@ -56,9 +56,31 @@ tooltip label {
   color: #ff6b6b;
 }
 
-#clock,
+#window {
+  background-color: transparent;
+  color: @lightgray;
+  padding: 2px 0;
+  margin: 8px 0 0 0;
+  font-size: 10px;
+  font-weight: 500;
+  font-family: JetBrainsMono Nerd Font;
+}
+
+#clock {
+  background-color: transparent;
+  color: @text;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 4px 0;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
 #network,
 #pulseaudio,
+#custom-mic,
 #battery {
   background-color: transparent;
   color: @text;
@@ -68,6 +90,17 @@ tooltip label {
   margin-right: 0;
   padding: 4px 0;
   transition: all 0.3s ease;
+}
+
+#clock:hover {
+  color: #6b9dce;
+}
+
+#network:hover,
+#pulseaudio:hover,
+#custom-mic:hover,
+#battery:hover {
+  color: #6b9dce;
 }
 
 #network.disconnected {
@@ -88,4 +121,21 @@ tooltip label {
 
 #battery.charging {
   color: #6bcf7f;
+}
+
+#pulseaudio-mic.source-muted {
+  color: #ff6b6b;
+}
+
+#custom-power {
+  background-color: transparent;
+  color: @text;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 4px 0;
+  transition: all 0.3s ease;
+}
+
+#custom-power:hover {
+  color: #ff6b6b;
 }

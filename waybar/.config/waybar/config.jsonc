@@ -9,11 +9,16 @@
   "spacing": 0,
   "gtk-layer-shell": true,
 
-  "modules-left": ["hyprland/workspaces"],
-
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
   "modules-center": ["clock"],
 
-  "modules-right": ["network", "pulseaudio", "battery"],
+  "modules-right": [
+    "network",
+    "pulseaudio",
+    "pulseaudio#mic",
+    "battery",
+    "custom/power",
+  ],
 
   "hyprland/workspaces": {
     "persistent-workspaces": {
@@ -31,8 +36,17 @@
     "on-click": "activate",
   },
 
+  "hyprland/window": {
+    "format": "{title}",
+    "max-length": 40,
+    "rewrite": {
+      "^(.{45})(.*)$": "$1…",
+    },
+    "rotate": 90,
+  },
+
   "clock": {
-    "format": "{:%H\n%M}",
+    "format": "{:%I\n%M}",
     "interval": 60,
     "tooltip-format": "<big>{:%Y-%m-%d}</big>\n<tt><small>{calendar}</small></tt>",
   },
@@ -42,15 +56,23 @@
     "format-ethernet": "󰈀",
     "format-disconnected": "󰌷",
     "tooltip-format": "{ipaddr}/{cidr}\n{essid}",
+    "on-click": "hyprctl dispatch exec '[float] ghostty -e ~/.config/waybar/scripts/nmtui-mono.sh'",
   },
 
   "pulseaudio": {
     "format": "{icon}",
-    "format-muted": "󰝟",
+    "format-muted": "󰖁",
     "format-icons": {
       "default": ["󰕿", "󰖀", "󰕾"],
     },
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+  },
+
+  "pulseaudio#mic": {
+    "format": "{format_source}",
+    "format-source": "󰍬",
+    "format-source-muted": "󰍭",
+    "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
   },
 
   "battery": {
@@ -63,5 +85,11 @@
     "format-plugged": "󱘖",
     "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
     "tooltip-format": "{capacity}%",
+  },
+
+  "custom/power": {
+    "format": "󰐥",
+    "tooltip": "Logout",
+    "on-click": "wlogout -c 5 -r 5 -p layer-shell",
   },
 }
