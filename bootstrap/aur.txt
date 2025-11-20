@@ -1,0 +1,23 @@
+# Terminal emulator
+ghostty
+
+# Development tools
+claude-code
+visual-studio-code-bin
+
+# Go tools
+goimports
+
+# Fonts
+cozette-otb
+cozette-ttf
+
+# Hyprland ecosystem
+hyprshot
+
+# Cursor theme
+bibata-cursor-theme
+
+# Display managers (optional, choose one)
+# ly
+

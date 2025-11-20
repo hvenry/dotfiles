@@ -1,0 +1,17 @@
+[Unit]
+Description=Run yay update checks daily
+Requires=yay-update.service
+
+[Timer]
+# Run daily at 2 AM
+OnCalendar=daily
+OnCalendar=*-*-* 02:00:00
+
+# Also run on boot after a 5 minute delay
+OnBootSec=5min
+
+# Run if the timer was missed (e.g., system was off)
+Persistent=true
+
+[Install]
+WantedBy=timers.target

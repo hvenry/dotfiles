@@ -2,4 +2,8 @@
 # Core development environment for macOS
 # Packages: shell, editor, terminal multiplexer, terminal emulator, IDE
 
-zsh nvim tmux ghostty vscode
+zsh
+nvim
+tmux
+ghostty
+vscode

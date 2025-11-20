@@ -5,19 +5,20 @@ return {
     local lualine = require("lualine")
     local lazy_status = require("lazy.status")
 
+    -- Mode highlight colors
     local colors = {
-      blue = "#65D1FF",
-      green = "#3EFFDC",
-      violet = "#FF61EF",
-      yellow = "#FFDA7B",
-      red = "#FF4A4A",
-      fg = "#c3ccdc",
-      bg = "#112638",
-      inactive_bg = "#2c3043",
+      blue = "#65D1FF", -- normal
+      green = "#3effa2", -- insert
+      violet = "#FF61EF", -- visual
+      yellow = "#FFDA7B", -- command
+      red = "#FF4A4A", -- replace
+      fg = "#FFFFFF", -- white text
+      bg = "#000000", -- black background
+      inactive_bg = "#1A1A1A", -- slightly lighter for inactive
     }
 
+    -- Define lualine theme
     local my_lualine_theme = {
-      -- colours for different vim modes
       normal = {
         a = { bg = colors.blue, fg = colors.bg, gui = "bold" },
         b = { bg = colors.bg, fg = colors.fg },
@@ -44,9 +45,9 @@ return {
         c = { bg = colors.bg, fg = colors.fg },
       },
       inactive = {
-        a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = "bold" },
-        b = { bg = colors.inactive_bg, fg = colors.semilightgray },
-        c = { bg = colors.inactive_bg, fg = colors.semilightgray },
+        a = { bg = colors.inactive_bg, fg = "#777777", gui = "bold" },
+        b = { bg = colors.inactive_bg, fg = "#777777" },
+        c = { bg = colors.inactive_bg, fg = "#777777" },
       },
     }
 
@@ -87,7 +88,7 @@ return {
           {
             lazy_status.updates,
             cond = lazy_status.has_updates,
-            color = { fg = "#ff9e64" },
+            color = { fg = colors.yellow },
           },
           "encoding",
           "fileformat",
@@ -97,7 +98,6 @@ return {
         lualine_z = { "location" },
       },
 
-      -- when the window is inactive
       inactive_sections = {
         lualine_a = {},
         lualine_b = {},

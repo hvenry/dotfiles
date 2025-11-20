@@ -1,0 +1,101 @@
+# Core development and shells
+git
+stow
+base-devel
+zsh
+tmux
+neovim
+
+# Terminal utilities and core tools
+wl-clipboard
+less
+ripgrep
+fd
+bat
+eza
+fzf
+gettext
+jq
+imagemagick
+wget
+
+# Zoxide for directory navigation
+zoxide
+
+# Programming language toolchains
+go
+rust
+ruby
+php
+composer
+jdk-openjdk
+julia
+lua
+luarocks
+python-pip
+npm
+tree-sitter
+
+# Language-specific formatters and tools
+gofumpt
+gopls
+
+# Rofi (app launcher)
+rofi-wayland
+
+# Wayland/Hyprland stack
+# Core Hyprland environment
+hyprland
+hyprpaper
+hypridle
+hyprlock
+hyprpicker
+xdg-desktop-portal-hyprland
+
+# Display server and session management
+wayland
+wayland-protocols
+
+# Audio system
+pipewire
+pipewire-pulse
+pipewire-alsa
+pipewire-jack
+wireplumber
+pactl
+playerctl
+
+# Networking
+networkmanager
+network-manager-applet
+
+# System utilities
+polkit
+polkit-kde-agent
+brightnessctl
+grim
+slurp
+
+# Status bar and widgets
+waybar
+
+# Notification daemon
+mako
+libnotify
+
+# Theming and fonts
+gtk3
+gtk4
+qt6ct
+adwaita-qt
+gnome-themes-extra
+xsettingsd
+ttf-jetbrains-mono-nerd
+inter-font
+
+# File management
+thunar
+
+# Display manager (ly is the primary)
+ly
+

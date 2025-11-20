@@ -1,0 +1,14 @@
+[Unit]
+Description=Update AUR packages with yay
+After=network-online.target
+Wants=network-online.target
+
+# This service is triggered by yay-update.timer
+# Do NOT enable this service directly - only enable the timer!
+# systemctl --user enable yay-update.timer
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/yay -Syu --noconfirm
+StandardOutput=journal
+StandardError=journal

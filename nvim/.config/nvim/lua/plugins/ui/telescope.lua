@@ -14,13 +14,42 @@ return {
 
     telescope.setup({
       defaults = {
+        vimgrep_arguments = {
+          "rg",
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          "--smart-case",
+          "--hidden",
+          "--glob",
+          "!.git/*", -- but still skip .git
+        },
         path_display = { "smart" },
+        file_ignore_patterns = {
+          "%.git/",
+          "node_modules/",
+          "target/",
+          "dist/",
+          ".cache/",
+          "venv/",
+          "__pycache__/",
+        },
         mappings = {
           i = {
             ["<C-k>"] = actions.move_selection_previous,
             ["<C-j>"] = actions.move_selection_next,
             ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
           },
+        },
+      },
+      pickers = {
+        find_files = {
+          hidden = true, -- ✅ works here
+        },
+        live_grep = {
+          hidden = true, -- also affects ripgrep searches
         },
       },
       extensions = {

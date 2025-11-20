@@ -1,20 +1,19 @@
 # appearance
-theme=TokyoNight Night
-background = #000000
+# theme=IBM 5153 CGA (Black)
+theme=12-bit Rainbow
 
-background-opacity = 0.96
-background-blur-radius = 8
+background = black
+window-decoration = false
+
+# background-opacity = 0
 macos-titlebar-style = hidden
 
-window-padding-x = 8, 0
-window-padding-y = 4, 0
+# window-padding-x = 4
+# window-padding-y = 4, 0
 
 # font
-font-family = "JetBrains Mono"
-font-size=14
-font-feature=-calt
-font-feature=-liga
-font-feature=-dlig
+font-family = "JetBrainsMono Nerd Font"
+font-size=12
 
 # keybindings
 #kill entire line

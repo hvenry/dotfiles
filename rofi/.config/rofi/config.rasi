@@ -1,0 +1,110 @@
+configuration {
+    modi:                       "drun";
+    show-icons:                 false;
+    drun-display-format:        "{name}";
+}
+
+* {
+    font: "Inter 12";
+    background: rgba(0, 0, 0, 0.33);
+    background-alt: rgba(0, 0, 0, 0.34);
+    foreground: #eeeeee;
+    selected: #eeeeee;
+    urgent: #f85149;
+}
+
+window {
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       275;
+    height:                      200px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px;
+    border-radius:               0px;
+    background-color:            @background;
+}
+
+mainbox {
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     10px;
+    background-color:            transparent;
+    children:                    [ "inputbar", "listview" ];
+}
+
+inputbar {
+    spacing:                     10px;
+    margin:                      0px 0px 8px 0px;
+    padding:                     3px 8px;
+    border:                      0px;
+    outline:                     0px;
+    border-radius:               0px;
+    background-color:            @background-alt;
+    text-color:                  @foreground;
+    children:                    [ "textbox-prompt-colon", "entry" ];
+}
+
+textbox-prompt-colon {
+    padding:                     5px 0px;
+    expand:                      false;
+    str:                         " ";
+}
+
+entry {
+    padding:                     5px 0px;
+    cursor:                      text;
+    placeholder:                 "";
+    placeholder-color:           inherit;
+}
+
+listview {
+    columns:                     1;
+    lines:                       3;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    spacing:                     3px;
+    margin:                      0px;
+    padding:                     5px;
+    border:                      0px;
+    outline:                     0px;
+    background-color:            transparent;
+    text-color:                  @foreground;
+}
+
+element {
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     6px;
+    border:                      0px;
+    border-radius:               0px;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      pointer;
+}
+
+element normal.normal {
+    background-color:            transparent;
+    text-color:                  @foreground;
+}
+
+element selected.normal {
+    background-color:            rgba(176, 176, 176, 0.1);
+    text-color:                  @selected;
+}
+
+element alternate.normal {
+    background-color:            transparent;
+    text-color:                  @foreground;
+}
+
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+}
+

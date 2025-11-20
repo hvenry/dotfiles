@@ -1,0 +1,95 @@
+{
+  "layer": "top",
+  "position": "left",
+  "width": 32,
+  "margin-top": 0,
+  "margin-bottom": 0,
+  "margin-left": 0,
+  "margin-right": 0,
+  "spacing": 0,
+  "gtk-layer-shell": true,
+
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["clock"],
+
+  "modules-right": [
+    "network",
+    "pulseaudio",
+    "pulseaudio#mic",
+    "battery",
+    "custom/power",
+  ],
+
+  "hyprland/workspaces": {
+    "persistent-workspaces": {
+      "$PRIMARY_MONITOR": [1, 2, 3, 4, 5],
+    },
+    "format": "{icon}",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "default": "•",
+    },
+    "on-click": "activate",
+  },
+
+  "hyprland/window": {
+    "format": "{title}",
+    "max-length": 40,
+    "rewrite": {
+      "^(.{45})(.*)$": "$1…",
+    },
+    "rotate": 90,
+  },
+
+  "clock": {
+    "format": "{:%I\n%M}",
+    "interval": 60,
+    "tooltip-format": "<big>{:%Y-%m-%d}</big>\n<tt><small>{calendar}</small></tt>",
+  },
+
+  "network": {
+    "format-wifi": "󰖩",
+    "format-ethernet": "󰈀",
+    "format-disconnected": "󰌷",
+    "tooltip-format": "{ipaddr}/{cidr}\n{essid}",
+    "on-click": "hyprctl dispatch exec '[float] ghostty -e ~/.config/waybar/scripts/nmtui-mono.sh'",
+  },
+
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-muted": "󰖁",
+    "format-icons": {
+      "default": ["󰕿", "󰖀", "󰕾"],
+    },
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+  },
+
+  "pulseaudio#mic": {
+    "format": "{format_source}",
+    "format-source": "󰍬",
+    "format-source-muted": "󰍭",
+    "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15,
+    },
+    "format": "{icon}",
+    "format-charging": "󰂄",
+    "format-plugged": "󱘖",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "tooltip-format": "{capacity}%",
+  },
+
+  "custom/power": {
+    "format": "󰐥",
+    "tooltip": "Logout",
+    "on-click": "wlogout -c 5 -r 5 -p layer-shell",
+  },
+}

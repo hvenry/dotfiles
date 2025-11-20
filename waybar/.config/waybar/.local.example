@@ -1,0 +1,5 @@
+# For laptop
+PRIMARY_MONITOR=eDP-1
+
+# For desktop:
+PRIMARY_MONITOR=DP-4

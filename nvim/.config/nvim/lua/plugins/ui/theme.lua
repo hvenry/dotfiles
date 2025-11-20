@@ -1,5 +1,5 @@
 return {
-  "folke/tokyonight.nvim",
+  "projekt0n/github-nvim-theme",
   priority = 1000,
   config = function()
     vim.opt.termguicolors = true
@@ -31,22 +31,36 @@ return {
       end
     end
 
-    require("tokyonight").setup({
-      transparent = true,
-      styles = { sidebars = "transparent", floats = "transparent" },
-      -- Make the built-in tabline transparent too
-      on_highlights = function(hl)
-        hl.TabLine = { bg = "NONE" }
-        hl.TabLineFill = { bg = "NONE" }
-        hl.TabLineSel = { bg = "NONE" }
-      end,
+    -- configure github-nvim-theme
+    require("github-theme").setup({
+      options = {
+        transparent = true, -- enable transparency
+      },
+      groups = {
+        all = {
+          Normal = { bg = "NONE" },
+          NormalNC = { bg = "NONE" },
+          NormalFloat = { bg = "NONE" },
+          FloatBorder = { bg = "NONE" },
+          CursorLine = { bg = "NONE" },
+          CursorColumn = { bg = "NONE" },
+          SignColumn = { bg = "NONE" },
+          StatusLine = { bg = "NONE" },
+          StatusLineNC = { bg = "NONE" },
+          TabLine = { bg = "NONE" },
+          TabLineFill = { bg = "NONE" },
+          TabLineSel = { bg = "NONE" },
+        },
+      },
     })
 
-    -- set colorscheme, then immediately fix bufferline highlights
-    vim.cmd.colorscheme("tokyonight")
+    -- set colorscheme
+    vim.cmd.colorscheme("github_dark_default")
+
+    -- make bufferline transparent after applying colorscheme
     make_bufferline_transparent()
 
-    -- ensure it stays transparent if the colorscheme changes later
+    -- reapply transparency whenever colorscheme changes
     vim.api.nvim_create_autocmd("ColorScheme", {
       pattern = "*",
       callback = make_bufferline_transparent,
