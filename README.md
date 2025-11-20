@@ -52,7 +52,7 @@ brew install --cask ghostty
 Install Tmux Plugin Manager (TPM) for tmux themes and plugins:
 
 ```bash
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 ```
 
 Good to go!

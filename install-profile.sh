@@ -265,6 +265,6 @@ fi
 echo ""
 echo "For Tmux users:"
 echo "  - Start tmux: tmux new-session -s main"
-echo "  - Press Ctrl+b + I to install plugins"
+echo "  - Press prefix + I to install plugins (default: Ctrl+Space + I)"
 echo ""
 echo "For more details, see: $DOTFILES_DIR/README.md"

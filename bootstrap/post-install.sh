@@ -27,16 +27,17 @@ prompt_yes_no() {
 setup_tpm() {
   echo "=== Setting up Tmux Plugin Manager (TPM) ==="
 
-  if [[ -d ~/.tmux/plugins/tpm ]]; then
-    echo "TPM already installed at ~/.tmux/plugins/tpm"
+  if [[ -d ~/.config/tmux/plugins/tpm ]]; then
+    echo "TPM already installed at ~/.config/tmux/plugins/tpm"
     return
   fi
 
   echo "Installing TPM..."
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  mkdir -p ~/.config/tmux/plugins
+  git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 
   echo "✓ TPM installed"
-  echo "Note: Start a tmux session and press prefix+I to install plugins"
+  echo "Note: Start a tmux session and press prefix+I to install plugins (default: Ctrl+Space + I)"
 }
 
 # --- Setup Zsh Environment ---------------------------------------------------
@@ -194,7 +195,7 @@ Next steps:
 
 2. TMUX:
    - Start a new tmux session: tmux new-session -s main
-   - Press Ctrl+b (or your prefix) + I to install tmux plugins
+   - Press prefix + I to install tmux plugins (default: Ctrl+Space + I)
 
 3. DISPLAY MANAGER:
    - A display manager was configured above
