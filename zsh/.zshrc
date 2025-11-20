@@ -3,23 +3,26 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Add ~/.local/bin to PATH if it exists and isn't already in PATH
+if [ -d "${HOME}/.local/bin" ] && [[ ":${PATH}:" != *":${HOME}/.local/bin:"* ]]; then
+    export PATH="${HOME}/.local/bin:${PATH}"
+fi
+
 # Homebrew environment setup
 if [[ -f "/opt/homebrew/bin/brew" ]] then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# Source GHCup environment for Haskell
-[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+# macOS: Source conda installation
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ] && . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+fi
 
-# source conda installation
-[ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ] && . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
-
-# set defaul editor
-export EDITOR=nvim
-
-# NVIDIA Video Acceleration
-export LIBVA_DRIVER_NAME=nvidia
-export VDPAU_DRIVER=nvidia
+# Linux: NVIDIA Video Acceleration (only if NVIDIA GPU detected)
+if [[ "$OSTYPE" == "linux-gnu"* ]] && command -v nvidia-smi &> /dev/null; then
+  export LIBVA_DRIVER_NAME=nvidia
+  export VDPAU_DRIVER=nvidia
+fi
 
 # Zinit installation path
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -29,6 +32,9 @@ if [ ! -d "$ZINIT_HOME" ]; then
    mkdir -p "$(dirname $ZINIT_HOME)"
    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
+
+# set defaul editor
+export EDITOR=nvim
 
 # Source Zinit
 source "$ZINIT_HOME/zinit.zsh"
@@ -73,6 +79,7 @@ HISTSIZE=5000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
+
 setopt appendhistory
 setopt sharehistory
 setopt hist_ignore_space
@@ -87,17 +94,17 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-# Useful aliases 
+# Useful aliases
 alias vim='nvim'
-alias ls='ls --color'
 alias c='clear'
+
+# Platform-specific ls alias
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  alias ls='ls -G'
+else
+  alias ls='ls --color'
+fi
 
 # Shell integrations for fzf
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
-
-
-# Add ~/.local/bin to PATH
-if [ -d "${HOME}/.local/bin" ] && [[ ":${PATH}:" != *":${HOME}/.local/bin:"* ]]; then
-    PATH="${HOME}/.local/bin:${PATH}"
-fi
