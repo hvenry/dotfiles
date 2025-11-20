@@ -1,11 +1,14 @@
 # appearance
-theme=TokyoNight Night
-background = #000000
+# theme=IBM 5153 CGA (Black)
+theme=12-bit Rainbow
 
-background-opacity = 0.90
+background = black
+window-decoration = false
+
+# background-opacity = 0
 macos-titlebar-style = hidden
 
-window-padding-x = 4
+# window-padding-x = 4
 # window-padding-y = 4, 0
 
 # font
