@@ -1,4 +1,5 @@
-@define-color primary #333333;
-@define-color on_primary #e0e0e0;
-@define-color shadow #000000;
-@define-color foreground #f1f1f1;
+@define-color bg rgba(0, 0, 0, 0.01);
+@define-color button_bg rgba(10, 10, 10, 0.6);
+@define-color button_hover rgba(255, 255, 255, 0.08);
+@define-color text #888888;
+@define-color text_hover #ffffff;

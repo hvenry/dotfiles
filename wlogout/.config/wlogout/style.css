@@ -1,91 +1,70 @@
 @import "colors.css";
 
 * {
-  font-family: "Inter", FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+  font-family: JetBrainsMono Nerd Font;
   background-image: none;
-  transition: 20ms;
+  transition: none;
   box-shadow: none;
 }
 
 window {
-  background-color: rgba(26, 17, 15, 0.1);
-  background-size: cover;
-  font-size: 16pt;
+  background-color: @bg;
 }
 
 button {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 20%;
-  border-radius: 80px;
-  border: none;
-  transition:
-    all 0.1s cubic-bezier(0.55, 0, 0.28, 1.682),
-    box-shadow 0.1s ease-in-out,
-    background-color 0.1s ease-in-out;
-  color: #7a7a7a;
-  background-color: alpha(@primary, 0.2);
+  border-radius: 0;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  background-color: @button_bg;
+  color: @text;
   outline: none;
+  margin: 6px;
 }
 
 button:focus {
-  background-color: alpha(@primary, 0.5);
-  background-size: 25%;
-  border: none;
+  background-color: @button_hover;
+  color: @text_hover;
+  background-size: 22%;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   outline: none;
-  color: #d0d0d0;
 }
 
 button:hover {
-  background-color: alpha(@primary, 0.9);
-  opacity: 0.8;
-  color: @on_primary;
+  background-color: @button_hover;
+  color: @text_hover;
   background-size: 22%;
-  margin: 12px;
-  border-radius: 80px;
-  box-shadow: 0 0 50px @shadow;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   outline: none;
 }
 
 #lock {
-  margin: 10px;
-  border-radius: 20px;
-  border: none;
+  margin: 6px;
   background-image: image(url("./icons/lock.png"));
 }
 
 #logout {
-  margin: 10px;
-  border-radius: 20px;
-  border: none;
+  margin: 6px;
   background-image: image(url("./icons/logout.png"));
 }
 
 #suspend {
-  margin: 10px;
-  border-radius: 20px;
-  border: none;
+  margin: 6px;
   background-image: image(url("./icons/suspend.png"));
 }
 
 #hibernate {
-  margin: 10px;
-  border-radius: 20px;
-  border: none;
+  margin: 6px;
   background-image: image(url("./icons/hibernate.png"));
 }
 
 #shutdown {
-  margin: 10px;
-  border-radius: 20px;
-  border: none;
+  margin: 6px;
   background-image: image(url("./icons/shutdown.png"));
 }
 
 #reboot {
-  margin: 10px;
-  border-radius: 20px;
-  border: none;
+  margin: 6px;
   background-image: image(url("./icons/reboot.png"));
 }
