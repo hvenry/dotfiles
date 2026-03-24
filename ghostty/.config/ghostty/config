@@ -4,6 +4,7 @@ theme=12-bit Rainbow
 
 background = black
 window-decoration = false
+confirm-close-surface = false
 
 # background-opacity = 0
 macos-titlebar-style = hidden
