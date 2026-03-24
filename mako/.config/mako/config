@@ -25,6 +25,11 @@ text-color=#d0d0d0
 background-color=#00000055
 text-color=#d0d0d0
 
+[app-name=Hyprshot]
+on-notify=none
+on-button-left=exec Thunar ~/Pictures
+default-timeout=8000
+
 [urgency=critical]
 background-color=#00000055
 text-color=#d0d0d0
