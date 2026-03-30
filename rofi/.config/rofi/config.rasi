@@ -2,6 +2,7 @@ configuration {
     modi:                       "drun";
     show-icons:                 false;
     drun-display-format:        "{name}";
+    sorting-method:             "fzf";
 }
 
 * {

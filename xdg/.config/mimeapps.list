@@ -17,6 +17,7 @@ image/webp=imv.desktop
 image/bmp=imv.desktop
 image/tiff=imv.desktop
 image/svg+xml=imv.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 
 [Added Associations]
 x-scheme-handler/http=firefox.desktop;
