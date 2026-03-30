@@ -3,6 +3,7 @@ configuration {
     show-icons:                 false;
     drun-display-format:        "{name}";
     sorting-method:             "fzf";
+    drun-match-fields:          "name";
 }
 
 * {

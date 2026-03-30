@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Network
+GenericName=Network Manager
+Comment=Configure network connections
+Exec=sh -c "hyprctl dispatch exec '[float; size 60%% 60%%; center] ghostty -e $HOME/.config/waybar/scripts/nmtui-mono.sh'"
+Terminal=false
+Type=Application
+Keywords=network;wifi;ethernet;connection;nmtui
+Categories=Network;Settings;
+StartupNotify=false
