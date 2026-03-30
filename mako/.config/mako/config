@@ -11,6 +11,13 @@ border-radius=0
 background-color=#00000055
 text-color=#d0d0d0
 font=Inter 11
+format=<b>%s</b>\n%b
+on-button-left=invoke-default-action
+on-button-right=dismiss
+
+# Icon styling
+max-icon-size=32
+icon-border-radius=0
 
 # Default action
 default-timeout=6000
