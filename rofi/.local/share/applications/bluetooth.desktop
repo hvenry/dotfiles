@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Bluetooth
+GenericName=Bluetooth Manager
+Comment=Manage bluetooth devices
+Exec=sh -c "hyprctl dispatch exec '[float; size 60%% 60%%; center] ghostty -e bluetui'"
+Terminal=false
+Type=Application
+Keywords=bluetooth;devices;pair;connect;bluetui
+Categories=Network;Settings;
+StartupNotify=false
