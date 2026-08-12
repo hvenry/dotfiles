@@ -18,7 +18,7 @@ cd dotfiles
 
 #### Available Profiles
 
-- **`macos`**: Core development environment for macOS (zsh, nvim, tmux, ghostty, vscode).
+- **`macos`**: Core development environment for macOS (zsh, nvim, tmux, ghostty, vscode, aerospace).
 - **`arch-hyprland`**: Full Wayland desktop with Hyprland (includes all desktop components).
 - **`server`**: Minimal headless server setup (zsh, nvim, tmux).
 
@@ -47,6 +47,9 @@ brew install tmux fzf neovim
 
 # Terminal emulator
 brew install --cask ghostty
+
+# Tiling window manager
+brew install --cask nikitabobko/tap/aerospace
 ```
 
 Install Tmux Plugin Manager (TPM) for tmux themes and plugins:

@@ -1,9 +1,10 @@
 # macOS Profile
 # Core development environment for macOS
-# Packages: shell, editor, terminal multiplexer, terminal emulator, IDE
+# Packages: shell, editor, terminal multiplexer, terminal emulator, IDE, window manager
 
 zsh
 nvim
 tmux
 ghostty
 vscode
+aerospace

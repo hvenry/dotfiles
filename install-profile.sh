@@ -54,6 +54,12 @@ remove_existing_configs() {
         echo "Warning: Unknown OS type for VS Code config removal"
       fi
       ;;
+    "aerospace")
+      if [ -f ~/.aerospace.toml ]; then
+        echo "Removing existing aerospace config..."
+        rm -f ~/.aerospace.toml
+      fi
+      ;;
     "hyprland")
       if [ -d ~/.config/hypr ]; then
         echo "Removing existing hyprland config..."
