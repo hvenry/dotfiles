@@ -4,100 +4,55 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a modular dotfiles repository that uses GNU Stow for symlink-based configuration management. Each application has its own directory containing a `.config` subdirectory that mirrors the target structure in `~/.config/`.
+This is a modular dotfiles repository that uses GNU Stow for symlink-based configuration management, organized by platform. Each application is a stow package living under exactly one platform directory.
 
 ## Architecture
 
+### Platform Directories
+
+- `shared/` — packages used on every machine: zsh, nvim, tmux, ghostty, vscode
+- `macos/` — macOS-only packages: aerospace
+- `linux/` — Arch Linux + Hyprland desktop packages (hyprland, waybar, rofi, mako, wlogout, gtk, xsettingsd, xdg, ly, systemd, scripts, backgrounds) plus `linux/bootstrap/` (automated Arch installer)
+
 ### Stow-Based Package System
 
-- Each top-level directory (e.g., `nvim/`, `tmux/`, `zsh/`) is a "stow package"
-- Packages contain `.config` directories that mirror the target filesystem structure
-- Running `stow package-name` creates symlinks from the repo to `~/`
-- The `.stowrc` file configures stow with `--no-folding`, `--verbose`, and `--restow` flags
+- Packages contain `.config` directories that mirror the target structure in `~/.config/` (or top-level dotfiles like `zsh/.zshrc`, `aerospace/.aerospace.toml`)
+- `.stowrc` configures stow with `--no-folding`, `--verbose`, `--restow`, and `--target=~` — the target flag is required because packages live in subdirectories
+- Install a package from the repo root with `stow -d <platform-dir> <package>`
 
 ### Profile-Based Installation
 
-- Pre-defined profiles in `profiles/` directory specify package combinations
-- `macos.txt`: Core development environment (zsh, nvim, tmux, ghostty, vscode)
-- `arch-hyprland.txt`: Full Wayland desktop with Hyprland window manager
-- `server.txt`: Minimal headless setup (zsh, nvim, tmux)
+- Profiles in `profiles/` list package names (no platform prefix); `install-profile.sh` resolves each name by searching `shared/`, `macos/`, then `linux/`
+- `macos.txt`: zsh, nvim, tmux, ghostty, vscode, aerospace
+- `arch-hyprland.txt`: full Wayland desktop with Hyprland
+- `server.txt`: minimal headless setup (zsh, nvim, tmux)
 
 ## Common Commands
 
-### Installation and Management
-
 ```bash
+# Install dotfiles profiles (configs only); --clean avoids symlink conflicts
+./install-profile.sh --clean macos
+./install-profile.sh --clean arch-hyprland
+./install-profile.sh --clean server
+
+# Install/remove individual packages (from the repo root)
+stow -d shared nvim
+stow -d macos aerospace
+stow -D -d shared nvim
+
 # Automated Arch Linux setup (packages + dotfiles)
-./bootstrap/arch-install.sh                  # Complete Arch + Hyprland setup
+sudo ./linux/bootstrap/arch-install.sh
 
-# Install dotfiles profiles (configs only)
-./install-profile.sh --clean macos           # macOS development setup
-./install-profile.sh --clean arch-hyprland   # Arch Linux + Hyprland desktop
-./install-profile.sh --clean server          # Minimal server setup
-
-# Install individual packages
-stow nvim                    # Install Neovim configuration
-stow tmux                    # Install Tmux configuration
-stow -D nvim                 # Remove Neovim configuration symlinks
-```
-
-### Configuration Sourcing
-
-```bash
+# Reload configs
 source ~/.zshrc
 tmux source ~/.config/tmux/tmux.conf
 ```
 
 ## Important Notes
 
-### Cross-Platform VS Code Handling
-
-The `vscode` package automatically detects OS and targets the correct path:
-
-- macOS: `~/Library/Application Support/Code/User/`
-- Linux: `~/.config/Code/User/`
-
-### Clean Installation
-
-Always use `--clean` flag with profile installation to avoid symlink conflicts:
-
-```bash
-./install-profile.sh --clean profile-name
-```
-
-### Package Structure
-
-Each package follows this structure:
-
-```
-package-name/
-└── .config/
-    └── package-name/
-        └── [configuration files]
-```
-
-When modifying configurations, edit files in the repository, not the symlinked versions in `~/.config/`.
-
-## Bootstrap System (Arch Linux)
-
-### Automated Package Installation
-
-The `bootstrap/` directory contains automated installation for Arch Linux:
-
-- `bootstrap/arch-install.sh` - Complete system setup script
-- `bootstrap/pacman.txt` - Core system packages (Hyprland, audio, networking, etc.)
-- `bootstrap/aur.txt` - AUR packages (ghostty, fonts, development tools)
-
-### Bootstrap Usage
-
-```bash
-# Complete Arch + Hyprland setup (fresh install)
-./bootstrap/arch-install.sh
-
-# The script will:
-# 1. Install packages from pacman.txt and aur.txt
-# 2. Set up system services (SDDM, PipeWire)
-# 3. Configure NVIDIA if detected
-# 4. Apply the arch-hyprland dotfiles profile
-```
+- **Edit files in the repository**, not the symlinked copies in `~` — they are the same files, but repo paths are canonical.
+- **VS Code**: `shared/vscode` stows to `~/.config/Code/User/` on every platform (VS Code's native location on Linux; on macOS, VS Code's actual config dir `~/Library/Application Support/Code/User/` is not currently wired up).
+- **Package structure**: `<platform-dir>/<package>/.config/<package>/...` for `~/.config` targets, or `<platform-dir>/<package>/<dotfile>` for home-root dotfiles.
+- **Bootstrap (Arch)**: `linux/bootstrap/arch-install.sh` installs from `pacman.txt`/`aur.txt`, configures services, then applies the arch-hyprland profile. `quick-setup.sh` is the curl-able entry point; `post-install.sh` finalizes (TPM, Ly, timers).
+- Design specs and implementation plans live in `docs/superpowers/`.
 

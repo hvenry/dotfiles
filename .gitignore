@@ -1,5 +1,5 @@
 # tpm will install our plugins, we ignore them because we do not want subrepos
-tmux/.config/tmux/plugins/
+shared/tmux/.config/tmux/plugins/
 
 # Ignore various config directories that shouldn't be tracked
 .config/configstore/
@@ -8,3 +8,7 @@ tmux/.config/tmux/plugins/
 
 # macOS system files
 .DS_Store
+
+# Claude / superpowers working artifacts (specs, plans, agent scratch)
+docs/superpowers/
+.superpowers/

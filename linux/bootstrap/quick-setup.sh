@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Quick setup script for deploying dotfiles on a new Arch Linux machine
-# Usage: bash <(curl -fsSL https://raw.github.com/user/dotfiles/master/bootstrap/quick-setup.sh)
-# Or:    git clone https://github.com/user/dotfiles.git ~/dotfiles && ~/dotfiles/bootstrap/quick-setup.sh
+# Usage: bash <(curl -fsSL https://raw.github.com/user/dotfiles/master/linux/bootstrap/quick-setup.sh)
+# Or:    git clone https://github.com/user/dotfiles.git ~/dotfiles && ~/dotfiles/linux/bootstrap/quick-setup.sh
 
 set -euo pipefail
 
@@ -24,7 +24,7 @@ print_warning() {
 }
 
 # Detect if running from curl or local
-if [[ ! -d "$(pwd)/bootstrap" ]]; then
+if [[ ! -d "$(pwd)/linux/bootstrap" ]]; then
   print_step "Cloning dotfiles repository..."
   if ! command -v git &> /dev/null; then
     print_error "git not found. Install with: sudo pacman -S git"
@@ -44,8 +44,8 @@ if [[ ! -d "$(pwd)/bootstrap" ]]; then
 fi
 
 # Verify we're in the right place
-if [[ ! -f "bootstrap/arch-install.sh" ]]; then
-  print_error "bootstrap/arch-install.sh not found. Are you in the dotfiles directory?"
+if [[ ! -f "linux/bootstrap/arch-install.sh" ]]; then
+  print_error "linux/bootstrap/arch-install.sh not found. Are you in the dotfiles directory?"
   exit 1
 fi
 
@@ -73,7 +73,7 @@ case "$choice" in
     print_warning "You will be prompted for your sudo password"
     echo ""
     read -p "Press Enter to continue..."
-    sudo bash bootstrap/arch-install.sh
+    sudo bash linux/bootstrap/arch-install.sh
     ;;
   2)
     print_step "Installing dotfiles only (no packages)..."
@@ -85,7 +85,7 @@ Quick Setup Script Usage
 ========================
 
 Full Setup (Recommended):
-  bash bootstrap/quick-setup.sh
+  bash linux/bootstrap/quick-setup.sh
   Choose option 1 (installs packages + configs)
 
 Configs Only:
@@ -94,7 +94,7 @@ Configs Only:
 Manual Steps:
   1. Clone: git clone <repo> ~/dotfiles
   2. Install stow: sudo pacman -S stow
-  3. Install packages: sudo bash bootstrap/arch-install.sh
+  3. Install packages: sudo bash linux/bootstrap/arch-install.sh
   4. Or just configs: ./install-profile.sh arch-hyprland
 
 Environment Variables:
@@ -102,7 +102,7 @@ Environment Variables:
   DOTS_DIR=<path>     - Target dotfiles directory
   PROFILE=<name>      - Profile to install (default: arch-hyprland)
 
-More info: cat SETUP.md
+More info: cat README.md
 EOF
     exit 0
     ;;
@@ -121,4 +121,4 @@ echo "2. Log in with Ly display manager"
 echo "3. Source your shell: source ~/.zshrc"
 echo "4. Restart your terminal"
 echo ""
-echo "For more information, see: $(pwd)/SETUP.md"
+echo "For more information, see: $(pwd)/README.md"

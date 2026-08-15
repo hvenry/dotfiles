@@ -2,10 +2,10 @@
 set -euo pipefail
 
 # --- Settings ---------------------------------------------------------------
-# Detect this script's directory (repo root)
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PACMAN_LIST="${PACMAN_LIST:-$SCRIPT_DIR/bootstrap/pacman.txt}"
-AUR_LIST="${AUR_LIST:-$SCRIPT_DIR/bootstrap/aur.txt}"
+# Detect the repo root (this script lives in linux/bootstrap/)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+PACMAN_LIST="${PACMAN_LIST:-$SCRIPT_DIR/linux/bootstrap/pacman.txt}"
+AUR_LIST="${AUR_LIST:-$SCRIPT_DIR/linux/bootstrap/aur.txt}"
 PROFILE="${PROFILE:-arch-hyprland}"
 DOTS_DIR="${DOTS_DIR:-$SCRIPT_DIR}"
 
@@ -81,6 +81,26 @@ enable_services() {
   # need_root "systemctl enable --now ly"
 }
 
+# Stow each named package from whichever platform dir contains it.
+# First arg: extra stow flags ("-n" for preview, "" for apply); rest: package names.
+stow_each() {
+  local extra_flags="$1"
+  shift
+  local pkg dir found
+  for pkg in "$@"; do
+    found=""
+    for dir in shared macos linux; do
+      if [[ -d "$dir/$pkg" ]]; then
+        # $extra_flags intentionally unquoted: "" must expand to zero args
+        stow $extra_flags -vt "$HOME" -d "$dir" "$pkg"
+        found=1
+        break
+      fi
+    done
+    [[ -n "$found" ]] || echo "Warning: package '$pkg' not found in shared/, macos/, or linux/ — skipping"
+  done
+}
+
 apply_stow_profile() {
   echo "Applying Stow profile: $PROFILE"
 
@@ -107,10 +127,10 @@ apply_stow_profile() {
   fi
 
   echo "Previewing stow actions for packages: ${pkgs[*]}"
-  printf '%s\n' "${pkgs[@]}" | xargs -I{} stow -nvt "$HOME" {}
+  stow_each "-n" "${pkgs[@]}"
 
   echo "Applying stow symlinks..."
-  printf '%s\n' "${pkgs[@]}" | xargs -I{} stow -vt "$HOME" {}
+  stow_each "" "${pkgs[@]}"
 
   # Check for host-specific package
   HOST_PACKAGE="host-$(hostname)"
@@ -121,7 +141,7 @@ apply_stow_profile() {
 }
 
 run_post_install() {
-  local post_install_script="$SCRIPT_DIR/bootstrap/post-install.sh"
+  local post_install_script="$SCRIPT_DIR/linux/bootstrap/post-install.sh"
   if [[ -f "$post_install_script" ]]; then
     echo "Running post-install setup..."
     bash "$post_install_script"
@@ -137,7 +157,7 @@ main() {
   echo ""
 
   # Verify we're in the repo or it's cloned correctly
-  if [[ ! -d "$DOTS_DIR/bootstrap" ]]; then
+  if [[ ! -d "$DOTS_DIR/linux/bootstrap" ]]; then
     echo "Error: This script must be run from the dotfiles repository root"
     echo "       or DOTS_DIR must be set to the repo path."
     exit 1

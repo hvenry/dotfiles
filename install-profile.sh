@@ -13,7 +13,7 @@ remove_existing_configs() {
   for package in $packages; do
     case "$package" in
     "zsh")
-      if [ -f ~/.zshrc ] || [ -f ~/.p10k.zsh ]; then
+      if [ -f ~/.zshrc ] || [ -L ~/.zshrc ] || [ -f ~/.p10k.zsh ] || [ -L ~/.p10k.zsh ]; then
         echo "Removing existing zsh configs..."
         rm -f ~/.zshrc ~/.p10k.zsh
       fi
@@ -25,7 +25,7 @@ remove_existing_configs() {
       fi
       ;;
     "tmux")
-      if [ -d ~/.config/tmux ] || [ -f ~/.tmux.conf ]; then
+      if [ -d ~/.config/tmux ] || [ -f ~/.tmux.conf ] || [ -L ~/.tmux.conf ]; then
         echo "Removing existing tmux configs..."
         rm -rf ~/.config/tmux ~/.tmux.conf
       fi
@@ -55,7 +55,7 @@ remove_existing_configs() {
       fi
       ;;
     "aerospace")
-      if [ -f ~/.aerospace.toml ]; then
+      if [ -f ~/.aerospace.toml ] || [ -L ~/.aerospace.toml ]; then
         echo "Removing existing aerospace config..."
         rm -f ~/.aerospace.toml
       fi
@@ -103,7 +103,7 @@ remove_existing_configs() {
       fi
       ;;
     "gtk")
-      if [ -d ~/.config/gtk-3.0 ] || [ -d ~/.config/gtk-4.0 ] || [ -f ~/.gtkrc-2.0 ]; then
+      if [ -d ~/.config/gtk-3.0 ] || [ -d ~/.config/gtk-4.0 ] || [ -f ~/.gtkrc-2.0 ] || [ -L ~/.gtkrc-2.0 ]; then
         echo "Removing existing GTK configs..."
         rm -rf ~/.config/gtk-3.0 ~/.config/gtk-4.0 ~/.gtkrc-2.0
       fi
@@ -121,12 +121,28 @@ remove_existing_configs() {
       fi
       ;;
     "xdg")
-      if [ -f ~/.config/mimeapps.list ]; then
+      if [ -f ~/.config/mimeapps.list ] || [ -L ~/.config/mimeapps.list ]; then
         echo "Removing existing mimeapps.list..."
         rm -f ~/.config/mimeapps.list
       fi
       ;;
+    "wlogout")
+      if [ -d ~/.config/wlogout ]; then
+        echo "Removing existing wlogout config..."
+        rm -rf ~/.config/wlogout
+      fi
+      ;;
+    "backgrounds")
+      if [ -d ~/.config/backgrounds ]; then
+        echo "Removing existing backgrounds..."
+        rm -rf ~/.config/backgrounds
+      fi
+      ;;
     "ly")
+      if [ -L ~/config.ini ]; then
+        echo "Removing stale ly symlink at ~/config.ini..."
+        rm -f ~/config.ini
+      fi
       echo "Note: Ly is a display manager and may require special handling"
       echo "Skipping automatic removal for ly - please handle manually if needed"
       ;;
@@ -238,16 +254,27 @@ if ! command -v stow >/dev/null 2>&1; then
 fi
 
 # Install packages using stow
-# Note: stow will read .stowrc and .stow-local-ignore from the current directory
+# Note: stow reads .stowrc from the current directory (sets --target=~ etc.)
 echo "Installing packages using stow (reading .stowrc for options)..."
 echo ""
 
+# Each package lives under exactly one platform directory; first hit wins.
+PLATFORM_DIRS="shared macos linux"
+
 for package in $PACKAGES; do
-  if [ -d "$package" ]; then
-    echo "Installing package: $package"
-    stow "$package"
+  package_dir=""
+  for dir in $PLATFORM_DIRS; do
+    if [ -d "$dir/$package" ]; then
+      package_dir="$dir"
+      break
+    fi
+  done
+
+  if [ -n "$package_dir" ]; then
+    echo "Installing package: $package (from $package_dir/)"
+    stow -d "$package_dir" "$package"
   else
-    echo "Warning: Package directory '$package' not found, skipping..."
+    echo "Warning: Package '$package' not found in shared/, macos/, or linux/, skipping..."
   fi
 done
 
@@ -261,7 +288,7 @@ if [[ "$PROFILE_NAME" == "arch-hyprland" ]]; then
   echo "1. Reload Hyprland configuration: hyprctl reload"
   echo ""
   echo "If you haven't installed packages yet, run:"
-  echo "   sudo bash $DOTFILES_DIR/bootstrap/arch-install.sh"
+  echo "   sudo bash $DOTFILES_DIR/linux/bootstrap/arch-install.sh"
 else
   echo "Next steps:"
   echo "1. Source your shell config: source ~/.zshrc"
