@@ -77,8 +77,9 @@ brew install tmux fzf neovim
 # Terminal emulator
 brew install --cask ghostty
 
-# Tiling window manager
+# Window management (workspaces + snapping)
 brew install --cask nikitabobko/tap/aerospace
+brew install --cask rectangle
 ```
 
 Install Tmux Plugin Manager (TPM) for tmux themes and plugins:
@@ -145,6 +146,13 @@ The post-install script warns you if these are missing.
 ### VS Code
 
 The `shared/vscode` package stows settings to `~/.config/Code/User/` on every platform — VS Code's native location on Linux. On macOS, VS Code reads `~/Library/Application Support/Code/User/`, which this repo does not currently wire up.
+
+### Rectangle (macOS)
+
+Rectangle can't read its config live from a dotfile (its source of truth is a macOS preferences plist), so `macos/rectangle` versions a **snapshot**: `RectangleConfig.json`, symlinked to `~/.config/rectangle/`.
+
+- **After changing bindings**: Rectangle Settings → Export, save over `macos/rectangle/.config/rectangle/RectangleConfig.json` (the repo file, not the symlink), then commit.
+- **On a new machine**: Rectangle Settings → Import, pick that file.
 
 ## Post Installation
 

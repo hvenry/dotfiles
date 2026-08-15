@@ -8,3 +8,4 @@ tmux
 ghostty
 vscode
 aerospace
+rectangle

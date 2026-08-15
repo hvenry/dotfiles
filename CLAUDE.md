@@ -11,7 +11,7 @@ This is a modular dotfiles repository that uses GNU Stow for symlink-based confi
 ### Platform Directories
 
 - `shared/` — packages used on every machine: zsh, nvim, tmux, ghostty, vscode
-- `macos/` — macOS-only packages: aerospace
+- `macos/` — macOS-only packages: aerospace, rectangle (a config *snapshot* — Rectangle reads a plist, not the dotfile; sync is via the app's Export/Import)
 - `linux/` — Arch Linux + Hyprland desktop packages (hyprland, waybar, rofi, mako, wlogout, gtk, xsettingsd, xdg, ly, systemd, scripts, backgrounds) plus `linux/bootstrap/` (automated Arch installer)
 
 ### Stow-Based Package System
@@ -23,7 +23,7 @@ This is a modular dotfiles repository that uses GNU Stow for symlink-based confi
 ### Profile-Based Installation
 
 - Profiles in `profiles/` list package names (no platform prefix); `install-profile.sh` resolves each name by searching `shared/`, `macos/`, then `linux/`
-- `macos.txt`: zsh, nvim, tmux, ghostty, vscode, aerospace
+- `macos.txt`: zsh, nvim, tmux, ghostty, vscode, aerospace, rectangle
 - `arch-hyprland.txt`: full Wayland desktop with Hyprland
 - `server.txt`: minimal headless setup (zsh, nvim, tmux)
 

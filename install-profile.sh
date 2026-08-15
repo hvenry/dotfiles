@@ -60,6 +60,12 @@ remove_existing_configs() {
         rm -f ~/.aerospace.toml
       fi
       ;;
+    "rectangle")
+      if [ -d ~/.config/rectangle ]; then
+        echo "Removing existing rectangle config..."
+        rm -rf ~/.config/rectangle
+      fi
+      ;;
     "hyprland")
       if [ -d ~/.config/hypr ]; then
         echo "Removing existing hyprland config..."
@@ -82,6 +88,10 @@ remove_existing_configs() {
       if [ -d ~/.config/rofi ]; then
         echo "Removing existing rofi config..."
         rm -rf ~/.config/rofi
+      fi
+      if [ -d ~/.local/share/applications ]; then
+        echo "Removing dangling launcher symlinks..."
+        find ~/.local/share/applications -maxdepth 1 -xtype l -delete
       fi
       ;;
     "mako")
