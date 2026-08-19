@@ -1,0 +1,48 @@
+# herdr configuration — keybinds mirrored from tmux (~/.config/tmux/tmux.conf)
+# Validate: herdr config check   ·   Apply live: herdr server reload-config
+
+onboarding = false
+
+[theme]
+# Match the tmux status bar theme (janoamaral/tokyo-night-tmux)
+name = "tokyo-night"
+
+[terminal]
+# Splits/tabs inherit the current pane's directory
+# (tmux: split-window -c "#{pane_current_path}") — explicit for clarity.
+new_cwd = "follow"
+
+[keys]
+# tmux prefix. NOTE: `herdr server reload-config` does not rebind [keys] —
+# a prefix change needs a server restart (herdr server stop; herdr).
+prefix = "ctrl+space"
+
+# tmux: bind t new-window
+new_tab = "prefix+t"
+
+# tmux: bind H previous-window / bind L next-window
+previous_tab = "prefix+shift+h"
+next_tab = "prefix+shift+l"
+
+# tmux: bind f choose-tree (session/workspace picker)
+goto = "prefix+f"
+
+# tmux: bind - split-window -v  (herdr default, kept explicit)
+split_horizontal = "prefix+minus"
+# tmux: bind | split-window -h  (shift+backslash = the | key)
+split_vertical = "prefix+shift+backslash"
+
+# tmux: bind r rename-session / bind R rename-window
+rename_workspace = "prefix+r"
+rename_tab = "prefix+shift+r"
+
+# resize_mode default (prefix+r) is taken by rename_workspace above
+resize_mode = "prefix+m"
+
+# tmux: bind , source-file (reload config)
+reload_config = "prefix+comma"
+
+# Pane focus stays on herdr's default prefix+h/j/k/l — deliberately NOT
+# ctrl+hjkl (tmux's vim-tmux-navigator trick needs vim-aware passthrough
+# herdr lacks; a global ctrl+hjkl bind would break vim splits, ctrl+h
+# backspace, ctrl+l clear, and ctrl+j in agent TUIs).
