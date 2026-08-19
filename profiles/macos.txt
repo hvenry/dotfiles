@@ -9,3 +9,4 @@ ghostty
 vscode
 aerospace
 rectangle
+herdr

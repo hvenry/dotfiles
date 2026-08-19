@@ -66,6 +66,13 @@ remove_existing_configs() {
         rm -rf ~/.config/rectangle
       fi
       ;;
+    "herdr")
+      # Only the config file — herdr keeps logs/state in the same directory
+      if [ -f ~/.config/herdr/config.toml ] || [ -L ~/.config/herdr/config.toml ]; then
+        echo "Removing existing herdr config..."
+        rm -f ~/.config/herdr/config.toml
+      fi
+      ;;
     "hyprland")
       if [ -d ~/.config/hypr ]; then
         echo "Removing existing hyprland config..."
