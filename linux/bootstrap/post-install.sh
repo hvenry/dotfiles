@@ -159,14 +159,23 @@ validate_dependencies() {
 validate_manual_configs() {
   echo "=== Checking for manual configuration requirements ==="
 
-  if [[ ! -f ~/.config/hypr/local.conf ]]; then
-    echo "⚠️  Hyprland: ~/.config/hypr/local.conf not found"
+  if [[ ! -f ~/.config/hypr/local.lua ]]; then
+    echo "⚠️  Hyprland: ~/.config/hypr/local.lua not found"
     echo "   You must configure monitor settings. Copy one of:"
+    echo "   - cp ~/.config/hypr/machines/laptop.lua ~/.config/hypr/local.lua"
+    echo "   - cp ~/.config/hypr/machines/desktop.lua ~/.config/hypr/local.lua"
+    echo "   Or create a custom local.lua with your monitor configuration"
+  else
+    echo "✓ Hyprland local.lua found"
+  fi
+
+  if [[ ! -f ~/.config/hypr/local.conf ]]; then
+    echo "⚠️  hyprlock/hyprpaper: ~/.config/hypr/local.conf not found"
+    echo "   You must configure lock screen / wallpaper settings. Copy one of:"
     echo "   - cp ~/.config/hypr/machines/laptop.conf ~/.config/hypr/local.conf"
     echo "   - cp ~/.config/hypr/machines/desktop.conf ~/.config/hypr/local.conf"
-    echo "   Or create a custom local.conf with your monitor configuration"
   else
-    echo "✓ Hyprland local.conf found"
+    echo "✓ hyprlock/hyprpaper local.conf found"
   fi
 
   if [[ ! -f ~/.config/waybar/.local ]]; then
@@ -215,15 +224,16 @@ Next steps:
    - Discord and other AUR packages will stay current
 
 6. REQUIRED CONFIGURATIONS (BEFORE FIRST BOOT):
-   - HYPRLAND: Create ~/.config/hypr/local.conf
+   - HYPRLAND: Create ~/.config/hypr/local.lua and local.conf
+     cp ~/.config/hypr/machines/laptop.lua ~/.config/hypr/local.lua
      cp ~/.config/hypr/machines/laptop.conf ~/.config/hypr/local.conf
-     (Or use desktop.conf, or create custom for your monitors)
+     (Or use desktop.*, or create custom for your monitors)
    - WAYBAR: Create ~/.config/waybar/.local
      cp ~/.config/waybar/.local.example ~/.config/waybar/.local
      Edit it to set PRIMARY_MONITOR (check 'hyprctl monitors' after boot)
 
 7. OPTIONAL CUSTOMIZATIONS:
-   - Advanced Hyprland tweaks: ~/.config/hypr/hyprland.conf
+   - Advanced Hyprland tweaks: ~/.config/hypr/hyprland.lua
    - Waybar styling: ~/.config/waybar/style.css
    - Rofi customizations: ~/.config/rofi/config.rasi
    - Check ~/.config for other application configs
@@ -239,7 +249,7 @@ Next steps:
    - If issues, check: journalctl --user -xe
 
 Troubleshooting resources:
-- Hyprland:  ~/.config/hypr/hyprland.conf
+- Hyprland:  ~/.config/hypr/hyprland.lua
 - Waybar:    ~/.config/waybar/config.json
 - Zsh:       ~/.zshrc
 - Neovim:    ~/.config/nvim/init.lua

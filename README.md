@@ -131,8 +131,9 @@ The post-install script installs TPM, sources zsh, enables the Ly display manage
 These steps are required before your first boot to avoid errors:
 
 ```bash
-# 1. Hyprland monitor configuration
-cp ~/.config/hypr/machines/laptop.conf ~/.config/hypr/local.conf   # or desktop.conf
+# 1. Hyprland monitor configuration (or desktop.* for the desktop machine)
+cp ~/.config/hypr/machines/laptop.lua ~/.config/hypr/local.lua
+cp ~/.config/hypr/machines/laptop.conf ~/.config/hypr/local.conf   # for hyprlock/hyprpaper
 
 # 2. Waybar primary monitor
 cp ~/.config/waybar/.local.example ~/.config/waybar/.local
