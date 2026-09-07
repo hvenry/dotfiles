@@ -10,7 +10,7 @@ This is a modular dotfiles repository that uses GNU Stow for symlink-based confi
 
 ### Platform Directories
 
-- `shared/` — packages used on every machine: zsh, nvim, tmux, ghostty, vscode
+- `shared/` — packages used on every machine: zsh, nvim, tmux, ghostty, vscode, herdr
 - `macos/` — macOS-only packages: aerospace, rectangle (a config *snapshot* — Rectangle reads a plist, not the dotfile; sync is via the app's Export/Import)
 - `linux/` — Arch Linux + Hyprland desktop packages (hyprland, waybar, rofi, mako, wlogout, gtk, xsettingsd, xdg, ly, systemd, scripts, backgrounds) plus `linux/bootstrap/` (automated Arch installer)
 
