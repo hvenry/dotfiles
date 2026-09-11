@@ -21,17 +21,54 @@ need_root() {
   fi
 }
 
+# Home directory of the user the dotfiles belong to. Under sudo, $HOME is
+# root's, which would stow every symlink into /root.
+target_home() {
+  if [[ $EUID -eq 0 && -n "${SUDO_USER:-}" ]]; then
+    getent passwd "$SUDO_USER" | cut -d: -f6
+  else
+    printf '%s' "$HOME"
+  fi
+}
+
+# Run a command as the invoking user, even when this script runs under sudo.
+# makepkg and yay both refuse to run as root. HOME is set through `env` rather
+# than `sudo VAR=val` so a restrictive sudoers setenv policy cannot silently
+# leave it pointing at /root.
+run_as_user() {
+  if [[ $EUID -eq 0 && -n "${SUDO_USER:-}" ]]; then
+    sudo -u "$SUDO_USER" env "HOME=$(target_home)" "$@"
+  else
+    "$@"
+  fi
+}
+
+# makepkg and yay must run as a normal user. When this script is run under
+# sudo we drop back to $SUDO_USER; with no such user there is nobody to build
+# as, so fail early and loudly instead of midway through the install.
+require_build_user() {
+  if [[ $EUID -eq 0 && -z "${SUDO_USER:-}" ]]; then
+    echo "Error: makepkg and yay refuse to run as root, and SUDO_USER is unset,"
+    echo "       so there is no unprivileged user to build AUR packages as."
+    echo "       Re-run as your normal user (the script sudo's when it needs to):"
+    echo "         ./linux/bootstrap/arch-install.sh"
+    exit 1
+  fi
+}
+
 install_yay() {
   if have yay; then
     echo "yay already installed."
     return
   fi
+  require_build_user
   echo "Installing yay (AUR helper)..."
   need_root "pacman -S --needed --noconfirm base-devel git"
-  tmp=$(mktemp -d)
+  # Build as the invoking user - makepkg aborts when run as root.
+  tmp=$(run_as_user mktemp -d)
   trap 'rm -rf "$tmp"' EXIT
-  git clone https://aur.archlinux.org/yay-bin.git "$tmp/yay-bin"
-  (cd "$tmp/yay-bin" && makepkg -si --noconfirm)
+  run_as_user git clone https://aur.archlinux.org/yay-bin.git "$tmp/yay-bin"
+  run_as_user bash -c 'cd "$1" && makepkg -si --noconfirm' _ "$tmp/yay-bin"
 }
 
 install_pacman_packages() {
@@ -61,7 +98,10 @@ install_aur_packages() {
     echo "No AUR packages listed, skipping."
     return 0
   }
-  yay -S --needed --noconfirm $aur_pkgs
+  require_build_user
+  # yay refuses to run as root ("Avoid running yay as root/sudo."), so drop
+  # to the invoking user. Unquoted on purpose: the list must word-split.
+  run_as_user yay -S --needed --noconfirm $aur_pkgs
 }
 
 ensure_nvidia_tweaks() {
@@ -136,7 +176,7 @@ apply_stow_profile() {
   HOST_PACKAGE="host-$(hostname)"
   if [[ -d "$HOST_PACKAGE" ]]; then
     echo "Found host-specific package: $HOST_PACKAGE"
-    stow -vt "$HOME" "$HOST_PACKAGE"
+    run_as_user stow -vt "$(target_home)" "$HOST_PACKAGE"
   fi
 }
 
@@ -144,7 +184,9 @@ run_post_install() {
   local post_install_script="$SCRIPT_DIR/linux/bootstrap/post-install.sh"
   if [[ -f "$post_install_script" ]]; then
     echo "Running post-install setup..."
-    bash "$post_install_script"
+    # post-install.sh is entirely user-level (~/.config, ~/.zshrc,
+    # `systemctl --user`), so it must not run as root.
+    run_as_user bash "$post_install_script"
   else
     echo "Warning: post-install script not found at $post_install_script"
   fi

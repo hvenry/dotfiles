@@ -41,7 +41,9 @@ stow -d macos aerospace
 stow -D -d shared nvim
 
 # Automated Arch Linux setup (packages + dotfiles)
-sudo ./linux/bootstrap/arch-install.sh
+# Run as your normal user - it escalates with sudo itself, and makepkg/yay
+# refuse to run as root.
+./linux/bootstrap/arch-install.sh
 
 # Reload configs
 source ~/.zshrc
@@ -53,6 +55,6 @@ tmux source ~/.config/tmux/tmux.conf
 - **Edit files in the repository**, not the symlinked copies in `~` — they are the same files, but repo paths are canonical.
 - **VS Code**: `shared/vscode` stows to `~/.config/Code/User/` on every platform (VS Code's native location on Linux; on macOS, VS Code's actual config dir `~/Library/Application Support/Code/User/` is not currently wired up).
 - **Package structure**: `<platform-dir>/<package>/.config/<package>/...` for `~/.config` targets, or `<platform-dir>/<package>/<dotfile>` for home-root dotfiles.
-- **Bootstrap (Arch)**: `linux/bootstrap/arch-install.sh` installs from `pacman.txt`/`aur.txt`, configures services, then applies the arch-hyprland profile. `quick-setup.sh` is the curl-able entry point; `post-install.sh` finalizes (TPM, Ly, timers).
+- **Bootstrap (Arch)**: `linux/bootstrap/arch-install.sh` installs from `pacman.txt`/`aur.txt`, configures services, then applies the arch-hyprland profile. `quick-setup.sh` is the curl-able entry point; `post-install.sh` finalizes (TPM, Ly, timers). AUR steps drop to `$SUDO_USER` via `run_as_user`.
 - Design specs and implementation plans live in `docs/superpowers/`.
 

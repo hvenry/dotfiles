@@ -73,7 +73,7 @@ case "$choice" in
     print_warning "You will be prompted for your sudo password"
     echo ""
     read -p "Press Enter to continue..."
-    sudo bash linux/bootstrap/arch-install.sh
+    bash linux/bootstrap/arch-install.sh
     ;;
   2)
     print_step "Installing dotfiles only (no packages)..."
@@ -94,7 +94,7 @@ Configs Only:
 Manual Steps:
   1. Clone: git clone <repo> ~/dotfiles
   2. Install stow: sudo pacman -S stow
-  3. Install packages: sudo bash linux/bootstrap/arch-install.sh
+  3. Install packages: bash linux/bootstrap/arch-install.sh
   4. Or just configs: ./install-profile.sh arch-hyprland
 
 Environment Variables:

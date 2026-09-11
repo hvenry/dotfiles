@@ -106,7 +106,7 @@ git clone git@github.com:hvenry/dotfiles.git
 cd dotfiles
 
 # Run the complete setup (requires sudo)
-sudo ./linux/bootstrap/arch-install.sh
+./linux/bootstrap/arch-install.sh
 ```
 
 This script will:

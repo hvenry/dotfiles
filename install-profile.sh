@@ -305,7 +305,7 @@ if [[ "$PROFILE_NAME" == "arch-hyprland" ]]; then
   echo "1. Reload Hyprland configuration: hyprctl reload"
   echo ""
   echo "If you haven't installed packages yet, run:"
-  echo "   sudo bash $DOTFILES_DIR/linux/bootstrap/arch-install.sh"
+  echo "   bash $DOTFILES_DIR/linux/bootstrap/arch-install.sh"
 else
   echo "Next steps:"
   echo "1. Source your shell config: source ~/.zshrc"
