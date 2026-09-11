@@ -26,8 +26,13 @@ remove_existing_configs() {
       ;;
     "tmux")
       if [ -d ~/.config/tmux ] || [ -f ~/.tmux.conf ] || [ -L ~/.tmux.conf ]; then
-        echo "Removing existing tmux configs..."
-        rm -rf ~/.config/tmux ~/.tmux.conf
+        echo "Removing existing tmux configs (keeping plugins/)..."
+        # Keep ~/.config/tmux/plugins: TPM and every installed plugin live there.
+        # Wiping them means a re-clone of each plugin on every --clean run.
+        if [ -d ~/.config/tmux ]; then
+          find ~/.config/tmux -mindepth 1 -maxdepth 1 ! -name plugins -exec rm -rf {} + || true
+        fi
+        rm -f ~/.tmux.conf
       fi
       ;;
     "ghostty")
@@ -168,6 +173,136 @@ remove_existing_configs() {
   echo ""
 }
 
+# Install TPM and every plugin listed in tmux.conf.
+#
+# tmux.conf ends with `run '~/.config/tmux/plugins/tpm/tpm'`, which fails
+# SILENTLY when TPM is absent: keybindings still work (they are plain config),
+# but no plugin and no theme ever loads. TPM is deliberately untracked here
+# (see .gitignore - we do not want a nested git repo), so every fresh clone of
+# these dotfiles hits this. Bootstrap it instead of leaving it to the reader.
+setup_tmux_plugins() {
+  local tpm_dir="$HOME/.config/tmux/plugins/tpm"
+
+  echo "Setting up tmux plugins (TPM)..."
+
+  if ! command -v tmux >/dev/null 2>&1; then
+    echo "  tmux is not installed - skipping plugin setup"
+    echo "  After installing tmux, re-run: $0 $PROFILE_NAME"
+    return 0
+  fi
+
+  if ! command -v git >/dev/null 2>&1; then
+    echo "  git is not installed - skipping plugin setup"
+    return 0
+  fi
+
+  if [ -d "$tpm_dir" ]; then
+    echo "  TPM already installed"
+  else
+    echo "  Cloning TPM..."
+    if ! git clone --depth 1 https://github.com/tmux-plugins/tpm "$tpm_dir" >/dev/null 2>&1; then
+      echo "  Failed to clone TPM (no network?). Retry with:"
+      echo "    git clone https://github.com/tmux-plugins/tpm $tpm_dir"
+      echo "    $tpm_dir/bin/install_plugins"
+      return 0
+    fi
+  fi
+
+  # install_plugins is idempotent and, per TPM's own docs, does not need a
+  # running tmux server - so this is safe during a headless/first-boot install.
+  local output
+  if output="$("$tpm_dir/bin/install_plugins" 2>&1)"; then
+    echo "$output" | sed 's/^/  /'
+  else
+    echo "$output" | sed 's/^/  /'
+    echo "  Some plugins failed to install. Retry with:"
+    echo "    $tpm_dir/bin/install_plugins"
+  fi
+
+  # Pick up the new config/plugins in an already-running server, if there is one.
+  if tmux list-sessions >/dev/null 2>&1; then
+    tmux source-file "$HOME/.config/tmux/tmux.conf" >/dev/null 2>&1 || true
+    echo "  Reloaded config in the running tmux server"
+  fi
+}
+
+# Create the machine-specific config files that are deliberately untracked.
+#
+# hypr/local.lua + local.conf and waybar/.local hold per-machine monitor names,
+# so they are gitignored - which means a FRESH CLONE has none of them and stow
+# silently links nothing. Hyprland then starts with no monitor/workspace rules,
+# and waybar's launch.sh fails to source $PRIMARY_MONITOR. Seed them from
+# machines/<machine>.{lua,conf}. Runs before stow so the new files get linked
+# in the same pass. Never overwrites an existing file - those are hand-tuned.
+setup_machine_local_configs() {
+  local hypr_dir="$DOTFILES_DIR/linux/hyprland/.config/hypr"
+  local waybar_dir="$DOTFILES_DIR/linux/waybar/.config/waybar"
+  local machine host
+
+  echo "Checking machine-specific configuration..."
+
+  # Prefer a template named after this host, otherwise guess the form factor.
+  host="${HOSTNAME:-$(cat /etc/hostname 2>/dev/null)}"
+  if [ -n "$host" ] && [ -f "$hypr_dir/machines/$host.lua" ]; then
+    machine="$host"
+  elif [ "$(hostnamectl chassis 2>/dev/null)" = "laptop" ] ||
+    compgen -G "/sys/class/power_supply/BAT*" >/dev/null 2>&1; then
+    machine="laptop"
+  else
+    machine="desktop"
+  fi
+  echo "  Detected machine: $machine"
+
+  case " $PACKAGES " in
+  *" hyprland "*)
+    local ext target template
+    for ext in lua conf; do
+      target="$hypr_dir/local.$ext"
+      template="$hypr_dir/machines/$machine.$ext"
+      if [ -e "$target" ]; then
+        echo "  hypr/local.$ext exists - keeping it"
+      elif [ -f "$template" ]; then
+        cp "$template" "$target"
+        echo "  Created hypr/local.$ext from machines/$machine.$ext"
+        echo "    Check monitor names/resolutions against: hyprctl monitors"
+      else
+        echo "  No template machines/$machine.$ext - create hypr/local.$ext by hand"
+        echo "    Available templates: $(ls "$hypr_dir/machines/" 2>/dev/null | tr '\n' ' ')"
+      fi
+    done
+    ;;
+  esac
+
+  case " $PACKAGES " in
+  *" waybar "*)
+    local waybar_local="$waybar_dir/.local"
+    if [ -e "$waybar_local" ]; then
+      echo "  waybar/.local exists - keeping it"
+    else
+      # The machine template is the curated answer; fall back to the live
+      # session only when no template matched (first monitor may be wrong
+      # on a multi-monitor box, so we always print what we picked).
+      local primary=""
+      if [ -f "$hypr_dir/machines/$machine.lua" ]; then
+        primary="$(sed -n 's/^local primary[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' \
+          "$hypr_dir/machines/$machine.lua" | head -1)"
+      fi
+      if [ -z "$primary" ] && command -v hyprctl >/dev/null 2>&1; then
+        primary="$(hyprctl monitors 2>/dev/null | awk '/^Monitor /{print $2; exit}')"
+      fi
+      if [ -n "$primary" ]; then
+        printf 'PRIMARY_MONITOR=%s\n' "$primary" >"$waybar_local"
+        echo "  Created waybar/.local with PRIMARY_MONITOR=$primary"
+      else
+        echo "  Could not determine the primary monitor."
+        echo "    Create it by hand (see waybar/.local.example and hyprctl monitors):"
+        echo "      echo 'PRIMARY_MONITOR=<name>' > $waybar_local"
+      fi
+    fi
+    ;;
+  esac
+}
+
 show_usage() {
   echo "Usage: $0 [--clean] <profile-name>"
   echo ""
@@ -260,6 +395,14 @@ if [ "$CLEAN_MODE" = true ]; then
   remove_existing_configs "$PACKAGES"
 fi
 
+# Seed untracked machine-specific files before stow, so they get linked too.
+case " $PACKAGES " in
+*" hyprland "* | *" waybar "*)
+  setup_machine_local_configs
+  echo ""
+  ;;
+esac
+
 # Change to dotfiles directory
 cd "$DOTFILES_DIR"
 
@@ -296,6 +439,15 @@ for package in $PACKAGES; do
 done
 
 echo ""
+
+# Post-stow setup for packages that need more than a symlink.
+case " $PACKAGES " in
+*" tmux "*)
+  setup_tmux_plugins
+  echo ""
+  ;;
+esac
+
 echo "Profile '$PROFILE_NAME' installed successfully!"
 echo ""
 
@@ -303,6 +455,10 @@ echo ""
 if [[ "$PROFILE_NAME" == "arch-hyprland" ]]; then
   echo "Next steps for Arch + Hyprland:"
   echo "1. Reload Hyprland configuration: hyprctl reload"
+  echo "   NOTE: 'hyprctl reload' cannot switch config formats. If the running"
+  echo "   session started from an older .conf setup, it stays on hyprlang and"
+  echo "   ignores hyprland.lua - log out and back in to pick it up."
+  echo "   Check with: hyprctl systeminfo | grep configProvider"
   echo ""
   echo "If you haven't installed packages yet, run:"
   echo "   bash $DOTFILES_DIR/linux/bootstrap/arch-install.sh"
@@ -313,8 +469,13 @@ else
 fi
 
 echo ""
-echo "For Tmux users:"
+echo "For Tmux users (prefix is Ctrl+Space):"
 echo "  - Start tmux: tmux new-session -s main"
-echo "  - Press prefix + I to install plugins (default: Ctrl+Space + I)"
+echo "  - Reload config from inside tmux:  prefix + ,"
+echo "  - Reload config from a shell:      tmux source-file ~/.config/tmux/tmux.conf"
+echo "  - Install plugins added later:     prefix + I"
+echo "  - Reinstall all plugins:           ~/.config/tmux/plugins/tpm/bin/install_plugins"
+echo "  - If the theme is missing, the plugins did not load - reinstall them with"
+echo "    the command above, then reload."
 echo ""
 echo "For more details, see: $DOTFILES_DIR/README.md"

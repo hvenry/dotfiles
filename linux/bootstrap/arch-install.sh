@@ -121,26 +121,6 @@ enable_services() {
   # need_root "systemctl enable --now ly"
 }
 
-# Stow each named package from whichever platform dir contains it.
-# First arg: extra stow flags ("-n" for preview, "" for apply); rest: package names.
-stow_each() {
-  local extra_flags="$1"
-  shift
-  local pkg dir found
-  for pkg in "$@"; do
-    found=""
-    for dir in shared macos linux; do
-      if [[ -d "$dir/$pkg" ]]; then
-        # $extra_flags intentionally unquoted: "" must expand to zero args
-        stow $extra_flags -vt "$HOME" -d "$dir" "$pkg"
-        found=1
-        break
-      fi
-    done
-    [[ -n "$found" ]] || echo "Warning: package '$pkg' not found in shared/, macos/, or linux/ — skipping"
-  done
-}
-
 # `hostname` is NOT installed by default on Arch (it ships in inetutils, which
 # this repo never installs). Under `set -e` a failing command substitution
 # aborts the whole script, so resolve the host name without external commands.
@@ -168,19 +148,16 @@ apply_stow_profile() {
     exit 1
   fi
 
-  # read package names, ignoring comments/blank lines
-  mapfile -t pkgs < <(sed -E 's/#.*$//; /^\s*$/d' "profiles/$PROFILE.txt")
-
-  if [[ ${#pkgs[@]} -eq 0 ]]; then
-    echo "Error: No packages found in profile '$PROFILE'!"
-    exit 1
+  # Delegate to install-profile.sh rather than re-implementing stow here.
+  # It resolves packages across shared/macos/linux, seeds the untracked
+  # machine-local configs (hypr/local.*, waybar/.local) and bootstraps TPM -
+  # all of which a second stow implementation here silently skipped.
+  # Set CLEAN=1 to remove conflicting configs first.
+  if [[ "${CLEAN:-0}" == "1" ]]; then
+    run_as_user "$DOTS_DIR/install-profile.sh" --clean "$PROFILE"
+  else
+    run_as_user "$DOTS_DIR/install-profile.sh" "$PROFILE"
   fi
-
-  echo "Previewing stow actions for packages: ${pkgs[*]}"
-  stow_each "-n" "${pkgs[@]}"
-
-  echo "Applying stow symlinks..."
-  stow_each "" "${pkgs[@]}"
 
   # Check for host-specific package
   local host
