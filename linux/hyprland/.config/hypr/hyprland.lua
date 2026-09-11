@@ -89,6 +89,12 @@ hl.config({
     accel_profile = "flat",
     touchpad = {
       natural_scroll = true,
+      -- Scroll speed multiplier: 1.0 is the libinput default, lower is slower.
+      -- Tune live without editing this file (note: `hyprctl keyword` does NOT
+      -- work with the Lua config - it needs `eval`):
+      --   hyprctl eval 'hl.config({ input = { touchpad = { scroll_factor = 0.2 } } })'
+      -- The mouse/wheel equivalent is input.scroll_factor, left at the default.
+      scroll_factor = 0.25,
     },
   },
 
