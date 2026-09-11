@@ -21,3 +21,7 @@ cask "ghostty"
 # Window management (workspaces + snapping)
 cask "nikitabobko/tap/aerospace"
 cask "rectangle"
+
+# Password manager
+# Add `cask "1password-cli"` too if you want the `op` command line tool.
+cask "1password"

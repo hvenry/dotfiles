@@ -16,6 +16,12 @@ cozette-ttf
 hyprshot
 bluetui
 
+# Password manager
+# Officially maintained by 1Password. Source is GPG-signed; the signing key is
+# imported by import_aur_signing_keys() in arch-install.sh.
+# Add 1password-cli here too if you want the `op` command line tool.
+1password
+
 # Cursor theme
 bibata-cursor-theme
 

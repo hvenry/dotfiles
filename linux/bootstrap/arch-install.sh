@@ -32,9 +32,10 @@ target_home() {
 }
 
 # Run a command as the invoking user, even when this script runs under sudo.
-# makepkg and yay both refuse to run as root. HOME is set through `env` rather
-# than `sudo VAR=val` so a restrictive sudoers setenv policy cannot silently
-# leave it pointing at /root.
+# makepkg and yay both refuse to run as root, and GPG keys must land in the
+# user's keyring - not root's - for makepkg to find them. HOME is set through
+# `env` rather than `sudo VAR=val` so a restrictive sudoers setenv policy
+# cannot silently leave it pointing at /root.
 run_as_user() {
   if [[ $EUID -eq 0 && -n "${SUDO_USER:-}" ]]; then
     sudo -u "$SUDO_USER" env "HOME=$(target_home)" "$@"
@@ -54,6 +55,38 @@ require_build_user() {
     echo "         ./linux/bootstrap/arch-install.sh"
     exit 1
   fi
+}
+
+# Import upstream signing keys for AUR packages that verify their sources.
+# `yay --noconfirm` cannot prompt to accept an unknown key, so makepkg fails
+# with "unknown public key" and, under `set -e`, kills this whole script.
+# Importing up front keeps the unattended install unattended.
+import_aur_signing_keys() {
+  # keyid:package - kept next to each other so it is obvious why a key is here
+  local keys=(
+    "3FEF9748469ADBE15DA7CA80AC2D62742012EA22:1password"
+  )
+
+  if ! have gpg; then
+    echo "gpg not found - skipping AUR signing key import."
+    return 0
+  fi
+
+  local entry key pkg
+  for entry in "${keys[@]}"; do
+    key="${entry%%:*}"
+    pkg="${entry##*:}"
+    if run_as_user gpg --list-keys "$key" >/dev/null 2>&1; then
+      echo "Signing key for $pkg already present."
+      continue
+    fi
+    echo "Importing signing key for $pkg ($key)..."
+    if ! run_as_user gpg --keyserver keyserver.ubuntu.com --recv-keys "$key" >/dev/null 2>&1; then
+      echo "  Warning: could not import the key for $pkg."
+      echo "  If it fails to build with 'unknown public key', run:"
+      echo "    gpg --keyserver keyserver.ubuntu.com --recv-keys $key"
+    fi
+  done
 }
 
 install_yay() {
@@ -195,6 +228,7 @@ main() {
 
   install_pacman_packages
   install_yay
+  import_aur_signing_keys
   install_aur_packages
   ensure_nvidia_tweaks
   enable_services
