@@ -65,34 +65,32 @@ First, install [Homebrew](https://brew.sh/) (if not already installed):
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Install essential tools and dependencies:
+Then run the bootstrap, which installs everything in
+`macos/bootstrap/Brewfile` and applies the `macos` profile:
 
 ```bash
-# Install git and stow for dotfiles management
-brew install git stow
+./macos/bootstrap/brew-install.sh
 
-# Install core applications
-brew install tmux fzf neovim
-
-# Terminal emulator
-brew install --cask ghostty
-
-# Window management (workspaces + snapping)
-brew install --cask nikitabobko/tap/aerospace
-brew install --cask rectangle
+# Remove conflicting existing configs first:
+CLEAN=1 ./macos/bootstrap/brew-install.sh
 ```
 
-Install Tmux Plugin Manager (TPM) for tmux themes and plugins:
+It installs Homebrew itself if missing, so the step above is optional.
+
+To install the packages without touching the dotfiles:
 
 ```bash
-git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+brew bundle --file macos/bootstrap/Brewfile
 ```
 
-Then install the profile:
+Or apply the dotfiles alone, if the apps are already installed:
 
 ```bash
 ./install-profile.sh --clean macos
 ```
+
+TPM and the tmux plugins are installed automatically by `install-profile.sh`;
+no manual `git clone` is needed.
 
 Good to go!
 

@@ -45,6 +45,9 @@ stow -D -d shared nvim
 # refuse to run as root.
 ./linux/bootstrap/arch-install.sh
 
+# Automated macOS setup (Homebrew packages + dotfiles)
+./macos/bootstrap/brew-install.sh
+
 # Reload configs
 source ~/.zshrc
 tmux source ~/.config/tmux/tmux.conf
@@ -56,5 +59,6 @@ tmux source ~/.config/tmux/tmux.conf
 - **VS Code**: `shared/vscode` stows to `~/.config/Code/User/` on every platform (VS Code's native location on Linux; on macOS, VS Code's actual config dir `~/Library/Application Support/Code/User/` is not currently wired up).
 - **Package structure**: `<platform-dir>/<package>/.config/<package>/...` for `~/.config` targets, or `<platform-dir>/<package>/<dotfile>` for home-root dotfiles.
 - **Bootstrap (Arch)**: `linux/bootstrap/arch-install.sh` installs from `pacman.txt`/`aur.txt`, configures services, then applies the arch-hyprland profile. `quick-setup.sh` is the curl-able entry point; `post-install.sh` finalizes (TPM, Ly, timers). AUR steps drop to `$SUDO_USER` via `run_as_user`.
+- **Bootstrap (macOS)**: `macos/bootstrap/brew-install.sh` installs Homebrew if missing, runs `brew bundle` against `macos/bootstrap/Brewfile`, then applies the macos profile (`CLEAN=1` to pass `--clean`).
 - Design specs and implementation plans live in `docs/superpowers/`.
 

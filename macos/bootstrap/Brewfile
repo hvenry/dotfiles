@@ -1,0 +1,23 @@
+# Homebrew Bundle file for the macOS profile - the apps these dotfiles configure.
+#
+#   brew bundle --file macos/bootstrap/Brewfile
+#
+# or run macos/bootstrap/brew-install.sh, which also applies the stow profile.
+
+tap "nikitabobko/tap"
+
+# Dotfiles management
+brew "git"
+brew "stow"
+
+# Core development tools
+brew "neovim"
+brew "tmux"
+brew "fzf"
+
+# Terminal emulator
+cask "ghostty"
+
+# Window management (workspaces + snapping)
+cask "nikitabobko/tap/aerospace"
+cask "rectangle"
