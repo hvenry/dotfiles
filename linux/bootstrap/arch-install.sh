@@ -141,6 +141,16 @@ stow_each() {
   done
 }
 
+# `hostname` is NOT installed by default on Arch (it ships in inetutils, which
+# this repo never installs). Under `set -e` a failing command substitution
+# aborts the whole script, so resolve the host name without external commands.
+get_hostname() {
+  local h="${HOSTNAME:-}"
+  [[ -n "$h" ]] || h="$(cat /etc/hostname 2>/dev/null || true)"
+  [[ -n "$h" ]] || h="$(uname -n 2>/dev/null || true)"
+  printf '%s' "$h"
+}
+
 apply_stow_profile() {
   echo "Applying Stow profile: $PROFILE"
 
@@ -173,10 +183,11 @@ apply_stow_profile() {
   stow_each "" "${pkgs[@]}"
 
   # Check for host-specific package
-  HOST_PACKAGE="host-$(hostname)"
-  if [[ -d "$HOST_PACKAGE" ]]; then
-    echo "Found host-specific package: $HOST_PACKAGE"
-    run_as_user stow -vt "$(target_home)" "$HOST_PACKAGE"
+  local host
+  host="$(get_hostname)"
+  if [[ -n "$host" && -d "host-$host" ]]; then
+    echo "Found host-specific package: host-$host"
+    run_as_user stow -vt "$(target_home)" "host-$host"
   fi
 }
 
