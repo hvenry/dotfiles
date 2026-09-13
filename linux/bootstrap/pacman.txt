@@ -5,6 +5,8 @@ base-devel
 zsh
 tmux
 neovim
+# Required by nvim-treesitter's `main` branch to build parsers
+tree-sitter-cli
 
 # Terminal utilities and core tools
 wl-clipboard

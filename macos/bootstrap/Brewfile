@@ -12,6 +12,8 @@ brew "stow"
 
 # Core development tools
 brew "neovim"
+# Required by nvim-treesitter's `main` branch to build parsers
+brew "tree-sitter-cli"
 brew "tmux"
 brew "fzf"
 
