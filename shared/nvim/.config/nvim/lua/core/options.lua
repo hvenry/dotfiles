@@ -31,6 +31,18 @@ opt.signcolumn = "yes"
 -- backspace
 opt.backspace = "indent,eol,start"
 
+-- keep undo history across sessions (in ~/.local/state/nvim/undo)
+opt.undofile = true
+
+-- keep some context visible around the cursor
+opt.scrolloff = 8
+
+-- faster CursorHold: gitsigns blame, LSP highlights
+opt.updatetime = 250
+
+-- ask to save instead of failing on :q with unsaved changes
+opt.confirm = true
+
 -- use system clipboard
 opt.clipboard:append("unnamedplus")
 

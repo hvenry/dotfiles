@@ -13,6 +13,8 @@ wl-clipboard
 less
 ripgrep
 fd
+lazygit
+lazydocker
 bat
 eza
 fzf
