@@ -12,6 +12,8 @@ return {
       { "<leader>f", group = "find" },
       { "<leader>g", group = "git / goto" },
       { "<leader>h", group = "hunk" },
+      { "<leader>q", group = "session" },
+      { "<leader>r", group = "resize / rename" },
       { "<leader>t", group = "toggle" },
     },
   },

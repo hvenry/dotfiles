@@ -1,0 +1,17 @@
+# Matches shared/lazygit and the nvim colorscheme (github_dark_default).
+# lazydocker exposes only these four theme keys - there is no
+# nerdFontsVersion equivalent here.
+gui:
+  theme:
+    activeBorderColor:
+      - "#58a6ff"
+      - bold
+    inactiveBorderColor:
+      - "#21262d"
+    selectedLineBgColor:
+      - "#161b22"
+    optionsTextColor:
+      - "#58a6ff"
+
+logs:
+  since: 60m

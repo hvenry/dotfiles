@@ -8,6 +8,8 @@ zsh
 nvim
 tmux
 ghostty
+lazygit
+lazydocker
 
 # Hyprland desktop environment
 hyprland

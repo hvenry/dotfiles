@@ -38,7 +38,9 @@ local function enter_resize_mode()
   end
 end
 
-keymap.set("n", "<leader>r", enter_resize_mode, { desc = "Enter resize mode" })
+-- <leader>rr, not <leader>r: a bare <leader>r would stall for timeoutlen
+-- while nvim waits to see if <leader>rn / <leader>rs is coming.
+keymap.set("n", "<leader>rr", enter_resize_mode, { desc = "Enter resize mode" })
 
 -- BUFFER NAVIGATION
 keymap.set("n", "H", ":BufferLineCyclePrev<CR>", { desc = "Go to previous buffer", silent = true })

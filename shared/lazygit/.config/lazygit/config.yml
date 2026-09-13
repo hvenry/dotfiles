@@ -1,0 +1,37 @@
+# Colors match the nvim colorscheme (github_dark_default) so the lazygit float
+# opened with <leader>gg does not clash with the editor behind it.
+gui:
+  nerdFontsVersion: "3"
+  theme:
+    activeBorderColor:
+      - "#58a6ff"
+      - bold
+    inactiveBorderColor:
+      - "#21262d"
+    searchingActiveBorderColor:
+      - "#d29922"
+      - bold
+    optionsTextColor:
+      - "#58a6ff"
+    selectedLineBgColor:
+      - "#161b22"
+    inactiveViewSelectedLineBgColor:
+      - "#161b22"
+    cherryPickedCommitFgColor:
+      - "#0d1117"
+    cherryPickedCommitBgColor:
+      - "#bc8cff"
+    markedBaseCommitFgColor:
+      - "#0d1117"
+    markedBaseCommitBgColor:
+      - "#d29922"
+    unstagedChangesColor:
+      - "#ff7b72"
+    defaultFgColor:
+      - "#b1bac4"
+
+os:
+  # We usually launch lazygit from inside nvim (<leader>gg). Without this,
+  # pressing `e` on a file starts a nested nvim inside the float; with it the
+  # file opens in the session we came from.
+  editPreset: nvim-remote

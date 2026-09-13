@@ -9,8 +9,17 @@ return {
   },
   opts = {
     direction = "float",
-    float_opts = { border = "rounded" },
-    -- Close the float with <Esc> instead of it going to the TUI.
+    -- Default float is small; these TUIs need close to the whole screen.
+    float_opts = {
+      border = "rounded",
+      width = function()
+        return math.floor(vim.o.columns * 0.92)
+      end,
+      height = function()
+        return math.floor(vim.o.lines * 0.9)
+      end,
+    },
+    -- Don't tint the terminal background; lazygit/lazydocker draw their own.
     shade_terminals = false,
   },
   config = function(_, opts)

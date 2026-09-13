@@ -6,6 +6,8 @@ zsh
 nvim
 tmux
 ghostty
+lazygit
+lazydocker
 vscode
 aerospace
 rectangle
