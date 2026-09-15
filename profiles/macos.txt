@@ -12,3 +12,4 @@ vscode
 aerospace
 rectangle
 herdr
+claude

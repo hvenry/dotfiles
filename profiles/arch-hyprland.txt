@@ -8,6 +8,7 @@ zsh
 nvim
 tmux
 ghostty
+claude
 lazygit
 lazydocker
 

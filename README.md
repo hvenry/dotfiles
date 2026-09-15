@@ -9,7 +9,7 @@ Every stow package lives under exactly one platform directory:
 ```
 dotfiles/
 ├── shared/              # Used on every machine
-│   ├── zsh/  nvim/  tmux/  ghostty/  vscode/  herdr/
+│   ├── zsh/  nvim/  tmux/  ghostty/  vscode/  herdr/  claude/
 ├── macos/               # macOS only
 │   └── aerospace/  rectangle/
 ├── linux/               # Arch Linux + Hyprland desktop
@@ -35,7 +35,7 @@ cd dotfiles
 
 ### Profiles
 
-- **`macos`**: Core development environment (zsh, nvim, tmux, ghostty, vscode, herdr, aerospace, rectangle)
+- **`macos`**: Core development environment (zsh, nvim, tmux, ghostty, vscode, herdr, claude, aerospace, rectangle)
 - **`arch-hyprland`**: Full Wayland desktop (shared tools + Hyprland, Waybar, Rofi, and friends)
 - **`server`**: Minimal headless setup (zsh, nvim, tmux)
 
