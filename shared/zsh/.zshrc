@@ -105,6 +105,13 @@ else
   alias ls='ls --color'
 fi
 
+# Linux: open directories in Thunar, like macOS `open` (defaults to cwd)
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  open() {
+    thunar "${1:-.}" >/dev/null 2>&1 &!
+  }
+fi
+
 # Shell integrations for fzf
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
