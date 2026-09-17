@@ -2,7 +2,7 @@
 Name=Sound
 GenericName=Audio Mixer
 Comment=Configure audio device settings
-Exec=sh -c "hyprctl dispatch exec '[float; size 60%% 60%%; center] ghostty -e wiremix'"
+Exec=hyprctl dispatch "hl.dsp.exec_cmd('[float; size 60%% 60%%; center] ghostty -e wiremix')"
 Terminal=false
 Type=Application
 Keywords=pipewire;sound;audio;volume;mixer
