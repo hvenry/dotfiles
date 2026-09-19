@@ -1,6 +1,9 @@
 return {
   "nvim-telescope/telescope.nvim",
-  branch = "0.1.x",
+  -- master, not the 0.1.x branch: 0.1.x previews call nvim-treesitter's
+  -- module API (`parsers.ft_to_lang`), which the `main` branch removed (see
+  -- plugins/code/treesitter.lua). master uses core `vim.treesitter` instead.
+  branch = "master",
   dependencies = {
     "nvim-lua/plenary.nvim",
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
