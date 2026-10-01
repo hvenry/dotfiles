@@ -33,5 +33,10 @@
   "voiceEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754348500668
+  },
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
   }
 }
