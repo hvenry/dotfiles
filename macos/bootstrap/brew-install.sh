@@ -20,28 +20,36 @@ require_macos() {
   fi
 }
 
+# Put brew on PATH from a known prefix, if it is installed but not exported.
+# Apple Silicon uses /opt/homebrew, Intel uses /usr/local.
+load_brew_shellenv() {
+  local brew_bin
+  for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [[ -x "$brew_bin" ]]; then
+      eval "$("$brew_bin" shellenv)"
+      return 0
+    fi
+  done
+  return 1
+}
+
 install_homebrew() {
-  if have brew; then
+  # Probe the known prefixes BEFORE installing: a fresh shell that has not
+  # sourced the dotfiles .zshrc yet has Homebrew on disk but not on PATH, and
+  # re-running the installer over an existing install can fail the script.
+  if have brew || load_brew_shellenv; then
     echo "Homebrew already installed."
   else
     echo "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  fi
-
-  # A fresh install is not on PATH yet. Cover Apple Silicon and Intel prefixes.
-  if ! have brew; then
-    local brew_bin
-    for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
-      if [[ -x "$brew_bin" ]]; then
-        eval "$("$brew_bin" shellenv)"
-        break
-      fi
-    done
+    load_brew_shellenv || true
   fi
 
   if ! have brew; then
     echo "Error: brew is still not on PATH after installation."
-    echo "       Open a new shell and re-run this script."
+    echo '       Run: eval "$(/opt/homebrew/bin/brew shellenv)"   (Apple Silicon)'
+    echo '         or eval "$(/usr/local/bin/brew shellenv)"      (Intel)'
+    echo "       then re-run this script."
     exit 1
   fi
 }
