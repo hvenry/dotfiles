@@ -14,7 +14,7 @@ macos-titlebar-style = hidden
 
 # font
 font-family = "JetBrainsMono Nerd Font"
-font-size=12
+font-size=14
 
 # keybindings
 #kill entire line
