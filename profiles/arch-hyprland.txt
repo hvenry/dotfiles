@@ -9,6 +9,7 @@ nvim
 tmux
 ghostty
 claude
+agents
 lazygit
 lazydocker
 

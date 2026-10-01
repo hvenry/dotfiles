@@ -9,7 +9,7 @@ Produce a portfolio entry for henryvendittelli.com from the repo you are
 currently in. The portfolio renders `content/projects/*.md` files; your job is
 to gather the facts, draft the writeup, and write the file.
 
-**Portfolio repo:** `/Users/hvenry/dev/henry-vendittelli-portfolio`
+**Portfolio repo:** `~/dev/henry-vendittelli-portfolio`
 (if it is missing, print the file content for the user to paste instead)
 
 ## 1. Gather evidence from the repo before asking anything
@@ -247,7 +247,7 @@ cannot contradict:
 
 ### Creating a new entry
 
-1. Write to `/Users/hvenry/dev/henry-vendittelli-portfolio/content/projects/<slug>.md`
+1. Write to `~/dev/henry-vendittelli-portfolio/content/projects/<slug>.md`
 2. Copy any image into `public/assets/images/projects/` (skip if you are
    already working inside the portfolio repo)
 3. Set `order` to one past the current highest, unless the user wants it ranked

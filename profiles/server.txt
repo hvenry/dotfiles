@@ -6,3 +6,4 @@ zsh
 nvim
 tmux
 claude
+agents

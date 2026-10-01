@@ -448,6 +448,14 @@ case " $PACKAGES " in
   ;;
 esac
 
+# Plugins and skills are installed state, not files; rebuild them from the tracked manifests.
+case " $PACKAGES " in
+*" claude "*)
+  "$DOTFILES_DIR/scripts/claude-sync.sh"
+  echo ""
+  ;;
+esac
+
 echo "Profile '$PROFILE_NAME' installed successfully!"
 echo ""
 
