@@ -18,6 +18,7 @@ lazydocker
 bat
 eza
 fzf
+tree
 gettext
 jq
 imagemagick

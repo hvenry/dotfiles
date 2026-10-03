@@ -97,6 +97,8 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # Useful aliases
 alias vim='nvim'
 alias c='clear'
+alias lg='lazygit'
+alias ld='lazydocker'
 
 # Platform-specific ls alias
 if [[ "$OSTYPE" == "darwin"* ]]; then

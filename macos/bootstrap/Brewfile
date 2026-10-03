@@ -18,6 +18,7 @@ brew "neovim"
 brew "tree-sitter-cli"
 brew "tmux"
 brew "fzf"
+brew "tree"
 brew "lazygit"
 brew "lazydocker"
 
@@ -31,3 +32,6 @@ cask "rectangle"
 # Password manager
 # Add `cask "1password-cli"` too if you want the `op` command line tool.
 cask "1password"
+
+# Notes (vault synced with Obsidian Sync)
+cask "obsidian"
