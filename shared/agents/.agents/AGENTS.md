@@ -3,7 +3,7 @@
 Shared by every coding agent on every machine. Source of truth:
 `~/dotfiles/shared/agents/.agents/AGENTS.md` (stowed to `~/.agents/AGENTS.md`).
 Loaded by Claude Code (`@` import in `~/.claude/CLAUDE.md`), Codex (`~/.codex/AGENTS.md`),
-opencode (`~/.config/opencode/AGENTS.md`), and Gemini CLI (`~/.gemini/GEMINI.md`).
+and opencode (`~/.config/opencode/AGENTS.md`).
 
 ## About me
 
@@ -19,15 +19,6 @@ opencode (`~/.config/opencode/AGENTS.md`), and Gemini CLI (`~/.gemini/GEMINI.md`
   explicitly ask for a commit.
 - I rapidly prototype with AI agents. A feature is usually one session, a project is
   usually an afternoon to a few days.
-- Project instructions live in `AGENTS.md` at the repo root, so every agent reads them.
-  `CLAUDE.md` is a one-line `@AGENTS.md` import, plus Claude-only rules if any.
-- When creating or initializing project instructions (e.g. Claude Code's `/init`), read the code first, then write:
-  - `AGENTS.md`, kept short (~60 lines): one-paragraph overview, commands, repo map, repo conventions, and the docs index.
-  - `docs/<concept>.md` for each real concept (data flow, auth, database, CI/CD, styling...), following Project docs below.
-    Architecture detail goes in these docs, not in `AGENTS.md`.
-  - `CLAUDE.md` as the one-line import.
-- If a repo has a full `CLAUDE.md` and no `AGENTS.md`, migrate it the same way:
-  split its content into `AGENTS.md` and `docs/`, verify every claim against the code, and drop what is stale.
 
 ## General Guidelines
 
@@ -45,11 +36,58 @@ opencode (`~/.config/opencode/AGENTS.md`), and Gemini CLI (`~/.gemini/GEMINI.md`
 - When end-to-end testing always be picky about the UI and pixel perfection.
 - Always hold the same high standard engineering excellence: lint, test, and document everything. Do not skip any of these steps.
 
-## Project docs
+## Project instructions and docs
 
-Every repo has two kinds of Markdown docs, each with one fixed template so any repo reads the same:
+Every repo has three kinds of agent-facing Markdown, each with one fixed template so any repo reads the same:
+- **`AGENTS.md`** at the repo root: how to work in the repo, and the index of everything below.
 - **Docs** (`docs/*.md`) describe what is built. Reference material, kept true to the code.
 - **Specs** (`docs/specs/*.md`) describe what is planned. Working documents that disappear once built.
+
+### AGENTS.md
+
+- `CLAUDE.md` is a one-line `@AGENTS.md` import, plus Claude-only rules if any.
+- When creating or initializing project instructions (e.g. Claude Code's `/init`), read the code first, then write
+  `AGENTS.md` from the template below, a doc per real concept (data flow, auth, database, CI/CD, styling...),
+  and `CLAUDE.md` as the import. Architecture detail goes in docs, not in `AGENTS.md`.
+- If a repo has a full `CLAUDE.md` and no `AGENTS.md`, migrate it the same way:
+  split its content into `AGENTS.md` and `docs/`, verify every claim against the code, and drop what is stale.
+- Keep it short (~60 lines). Use exactly these headings, in this order; drop Planned if there are no specs.
+- Commands: one per line, each with a comment. Never `a | b | c` shorthand; it reads like a shell pipe.
+  Always include how to run a single test.
+- No test suite yet is a known gap, not a state: say so under Commands and link the spec that adds one.
+- No version numbers in prose; versions live in the package manifest. The only exception is a pin that is
+  itself a rule, stated with its reason.
+- Conventions are rules with their reason (what breaks without it), not descriptions of the code.
+- Docs triggers follow the order of work in the repo; once there are more than ~10, group them under short
+  labels. Planned triggers are alphabetical, because build order lives only in `docs/specs/roadmap.md`.
+
+````markdown
+# <Project>
+
+<What it is and why, 2-4 sentences, one per line.>
+Stack: <languages, frameworks, services>.
+
+## Commands
+```bash
+pnpm dev                          # one command per line, each with a comment
+pnpm test path/to/file.test.ts    # how to run a single test
+```
+
+## Repo map
+```
+src/<area>/   one-line role
+```
+
+## Conventions
+- **<Rule>.** Why, or what breaks without it.
+
+## Docs
+- Before <task>, read `docs/<concept>.md`.
+
+## Planned
+Build order: `docs/specs/roadmap.md`.
+- Before implementing <feature>, read `docs/specs/<feature>.md`.
+````
 
 ### Docs
 
@@ -62,6 +100,8 @@ Every repo has two kinds of Markdown docs, each with one fixed template so any r
 - The repo's `AGENTS.md` is the docs index: list each doc with a when-to-read trigger
   (e.g. "Before changing auth, read `docs/auth-flow.md`") rather than importing it.
 - Never describe unbuilt work in a doc; that is a spec.
+- No decisions log (`decisions.md`, ADR folders): a decision goes in the Decisions and gotchas section
+  of the concept doc it affects.
 - Every doc follows this template (drop Tech or Decisions and gotchas if empty):
 
 ```markdown
