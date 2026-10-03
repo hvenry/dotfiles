@@ -9,6 +9,3 @@ shared/tmux/.config/tmux/plugins/
 # macOS system files
 .DS_Store
 
-# Claude / superpowers working artifacts (specs, plans, agent scratch)
-docs/superpowers/
-.superpowers/

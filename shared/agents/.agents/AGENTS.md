@@ -47,6 +47,12 @@ opencode (`~/.config/opencode/AGENTS.md`), and Gemini CLI (`~/.gemini/GEMINI.md`
 
 ## Project docs
 
+Every repo has two kinds of Markdown docs, each with one fixed template so any repo reads the same:
+- **Docs** (`docs/*.md`) describe what is built. Reference material, kept true to the code.
+- **Specs** (`docs/specs/*.md`) describe what is planned. Working documents that disappear once built.
+
+### Docs
+
 - Docs live in `docs/`, one concept per file, named in lowercase kebab-case (`docs/auth-flow.md`).
   Only `README.md`, `AGENTS.md`, and `CLAUDE.md` keep tool-mandated caps names.
 - Overviews, not long form: aim for ~100 lines max. If a doc outgrows that, split it into
@@ -55,7 +61,7 @@ opencode (`~/.config/opencode/AGENTS.md`), and Gemini CLI (`~/.gemini/GEMINI.md`
 - Update the doc in the same change as the code it describes.
 - The repo's `AGENTS.md` is the docs index: list each doc with a when-to-read trigger
   (e.g. "Before changing auth, read `docs/auth-flow.md`") rather than importing it.
-- Plans and specs are working documents, not reference docs, and are exempt from this format.
+- Never describe unbuilt work in a doc; that is a spec.
 - Every doc follows this template (drop Tech or Decisions and gotchas if empty):
 
 ```markdown
@@ -80,6 +86,58 @@ Non-obvious choices and why, known limits.
 
 ## Related
 - [Other concept](other-concept.md)
+```
+
+### Specs
+
+- Specs live in `docs/specs/`, one feature per file, lowercase kebab-case, no numeric prefixes
+  (`docs/specs/wear-log.md`). Never use `TODO-` prefixes, `docs/features/`, top-level `specs/`,
+  or tool-specific planning folders; planning tools and plugins write their specs and plans here,
+  in this template.
+- Build order lives in one place, `docs/specs/roadmap.md`: an ordered list of spec links with one
+  line each. Create it once a repo has more than one spec; reorder lines, never rename files.
+- Aim for ~150 lines max. If a spec outgrows that, split the feature into smaller specs.
+- Keep `Status` current (`draft` -> `ready` -> `in progress`) and tick Tasks as they land.
+- List specs in the repo's `AGENTS.md` under a separate "Planned" heading with a trigger
+  (e.g. "Before implementing the wear log, read `docs/specs/wear-log.md`").
+- Small todos don't get a spec; a spec is for work that needs a design before code.
+- Completing a spec, in the same change as the code that meets its Done when:
+  1. Rewrite what was built into docs using the docs template: new concept docs or updates to
+     existing ones. Describe the result, not the plan; carry lasting choices into Decisions and gotchas.
+  2. Delete the spec (git history keeps it) and remove it from `roadmap.md` and the "Planned" index.
+  3. Add or update the docs' triggers in `AGENTS.md`.
+- Every spec follows this template (drop Open questions if empty):
+
+```markdown
+# <Feature>
+
+**Status:** draft | ready | in progress
+
+<One sentence: what this adds, from the user's point of view.>
+
+## Goal
+The problem it solves and the outcome. How we will know it worked.
+
+## Scope
+- In: what this spec covers
+- Out: explicit non-goals
+
+## Design
+The approach: data model, flow, UI, APIs. A Mermaid diagram if it helps.
+Link existing docs for context instead of repeating them.
+
+## Tasks
+- [ ] Ordered steps, each one verifiable on its own
+
+## Done when
+- [ ] Testable acceptance criteria, including docs written and this spec removed
+
+## Open questions
+- Unresolved decisions, each with an owner or a default.
+
+## Related
+- [Concept doc](../concept.md)
+- [Other spec](other-feature.md)
 ```
 
 ## My dotfiles
