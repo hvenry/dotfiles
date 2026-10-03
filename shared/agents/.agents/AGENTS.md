@@ -32,7 +32,9 @@ and opencode (`~/.config/opencode/AGENTS.md`).
 ## Programming
 
 - When making technical decisions, do not give much weight to development cost, instead focus on long-term maintainability, performance, scalability, and correctness.
-- When doing a bug fix, always start with reproducing the bug in an E2E setting as closely aligned with how an end user would experience it.
+- Bug fixes: reproduce first, as close to how the user hit it as possible (E2E where you can),
+  and capture the reproduction as a failing test before changing code. The fix is done when that
+  test passes; it stays in the suite as a regression test.
 - When end-to-end testing always be picky about the UI and pixel perfection.
 - Always hold the same high standard engineering excellence: lint, test, and document everything. Do not skip any of these steps.
 
