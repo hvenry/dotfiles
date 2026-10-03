@@ -81,33 +81,67 @@ Batch these into one question, with your best guess pre-filled:
 
 ## 4. Write the body
 
-**Review two existing entries before drafting.** They are the standard to match,
-not this description of them:
-`content/projects/globe-expert.md` and `content/projects/simple-shell.md`
-in the portfolio repo.
+**Read `content/projects/_TEMPLATE.md` and `content/projects/clear-rag.md`
+in the portfolio repo before drafting.** The template is the shape; clear-rag
+is a finished entry in it. Match them, not this description of them.
 
-### Depth
+### Goal: understood in ten seconds, explained in two minutes
 
-Write until the interesting part is actually explained, then stop. For a
-project with real engineering in it that is usually **400-1200 words**; less
-only when there is genuinely less to say. A thin summary of a deep project is
-the failure mode to avoid. Someone who clicked into a writeup wants the
-mechanism, not the elevator pitch. The card summary already did the pitch.
+A reader should know what the project is and how it works from the top of the
+page without scrolling. Everything below that is optional depth. Simplify:
+pick the one or two ideas that make the project interesting and cut the rest.
 
-Lead with **the interesting problem**, not a feature list. Both reference
-entries open on a difficulty:
+**Length: 400-800 words, at most ~5 `##` sections.** Under 400 only when there
+is genuinely less to say. Over 800 means it is turning into a design doc; cut
+whole sections rather than trimming sentences.
 
-- globe.expert: country borders are flat polygons and a globe is a sphere, so
-  every fill, border, and click has to cross between the two without drifting
+### The shape
 
-Then explain how it was solved, **in prose**. Bullets are for genuinely
-enumerable things; paragraphs carry explanation. A column of bullets reads as
-notes, not as writing.
+```markdown
+One or two sentences: what it is and the interesting problem it solves.
+
+## At a glance
+
+- **What it does:** one line
+- **How it works:** one line, the core mechanism
+- **Scope:** solo/team, year, where it runs or is live
+
+(one mermaid diagram of the architecture or main flow)
+
+## How it works
+
+One sentence of setup, then 3-6 short bullets. Use `###` only for genuinely
+separate subsystems, at most ~3.
+
+## What I tried
+
+- **Approach:** what happened and why it was kept or dropped
+
+## Where it stops
+
+- 2-4 bullets: what it does not do, what the next version needs
+
+## Background
+
+1-2 sentences: where it came from, what it built on.
+```
+
+- **Short lists over paragraphs.** Prose only for the opening and one-sentence
+  section lead-ins. Each bullet is one idea in one or two lines; if a bullet
+  needs a third line, split it or cut it.
+- **Lead with the problem**, not a feature list (globe.expert: country borders
+  are flat polygons and a globe is a sphere).
+- **"What I tried" holds design decisions and dead ends**: alternatives
+  measured, approaches abandoned, bugs that changed the design. Skip it only
+  if nothing was tried.
+- Rename "How it works" to something specific (`## The loop`,
+  `## From flat geometry to a sphere`) when that reads better. Keep the order.
 
 ### The full markdown toolkit
 
 The renderer does far more than plain text. Use these when they explain
-something prose cannot:
+something a bullet cannot, and sparingly: one or two diagrams per entry, one
+table, at most one or two code blocks, a formula only when it is the point.
 
 **Mermaid diagrams.** A fenced block tagged `mermaid` becomes a rendered
 diagram, themed to match the site and re-rendered when the theme flips. Every
@@ -136,26 +170,11 @@ this way. Do not decorate prose with it.
 they do, options and tradeoffs.
 
 **Code blocks** with a language tag get syntax highlighting and a copy button.
-Keep them tight: a signature, a struct, five to ten key lines, never a whole
+Keep them minimal: a signature, a struct, at most ten key lines, never a whole
 file.
 
 Also available: `##`/`###` headings, inline `code`, **bold**, _italics_, links,
 blockquotes, and horizontal rules.
-
-### Sections
-
-There is no fixed outline. Name sections after what the project actually
-contains. The reference entries use `## Game modes`, `## From flat geometry to
-a sphere`, `## Architecture`, `## The loop`, `## fork, exec, wait`,
-`## Why cd can't be a program`, `## Where it stops`, `## Background`. Use `###`
-to break a long section into parts.
-
-Two are worth including whenever they apply:
-
-- **Limitations** (`## Where it stops`): what it does not do, and what the
-  next version would need. Honesty reads as competence, and it shows you know
-  where the edges are.
-- **Background**: where it came from, what it was built on, credit to sources.
 
 ### Voice
 
