@@ -16,7 +16,14 @@ to gather the facts, draft the writeup, and write the file.
 
 Investigate before asking anything. Read, in roughly this order:
 
-- `README.md`: the single best source for what it does and why
+- `AGENTS.md`: the overview, stack, conventions, and the index of every doc and spec
+- Every concept doc in `docs/` (not `docs/specs/`): **the source of truth for how
+  each part works.** Mechanisms, numbers, and design decisions in the writeup
+  come from here, especially each doc's "Decisions and gotchas" section, which
+  is the raw material for "What I tried"
+- `docs/specs/` and `docs/specs/roadmap.md`: planned work only, the raw
+  material for "Where it stops". Never describe a spec as built
+- `README.md`: the public framing, features, and headline results
 - `package.json` / `pyproject.toml` / `Cargo.toml` / `go.mod`: real dependencies
 - `docker-compose.yml`, `.github/workflows/`, infra config: deployment reality
 - Source entry points and directory names: architecture
@@ -180,9 +187,11 @@ blockquotes, and horizontal rules.
 
 - First person, reflective where it is earned: "one detail took me a while to
   appreciate", "the best thing this project taught me".
-- **Never invent capabilities, metrics, or outcomes.** Everything must trace to
-  the repo, the README, or the user. If you want to describe a mechanism you
-  cannot verify, read the source until you can, or ask.
+- **Never invent capabilities, metrics, or outcomes.** Every mechanism, number,
+  and count must trace to a `docs/` concept doc, the code, a results file, or
+  the user, never to memory or an older version of the entry. Where docs and
+  code disagree, the code wins; say so to the user. If you want to describe a
+  mechanism you cannot verify, read the source until you can, or ask.
 - Explain, do not sell. No "cutting-edge", "seamless", "leveraged", "robust
   solution", "powerful", "blazing fast".
 - **Punctuation.** Join clauses with a period, a comma, a colon, or
@@ -261,6 +270,12 @@ cannot contradict:
   on an update, because it silently reorders the whole index.
 - Rewrite `summary` and the body when the project has moved on; refresh
   `technologies` against the current dependencies.
+- **Re-verify every claim in the existing body against the current docs and
+  code** before keeping it: counts, metrics, settings, diagrams, and
+  mechanism descriptions drift as the project changes. Fix or cut what no
+  longer holds, and list what you corrected for the user.
+- If the existing entry breaks the shape or length rules in step 4, rewrite it
+  to them; do not preserve structure, only the frontmatter fields above.
 - Do not re-ask the questions in step 3 for values already filled in. Ask only
   about genuinely new facts, and mention what you preserved.
 

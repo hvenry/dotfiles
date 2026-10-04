@@ -9,7 +9,7 @@ Tracking the manifest and syncing from it gives the same setup everywhere, while
 
 ## How it works
 
-- `shared/claude/.claude/` stows to `~/.claude/`: `settings.json`, `statusline.sh`, `CLAUDE.md` and hand-written skills under `skills/`.
+- `shared/claude/.claude/` stows to `~/.claude/`: `settings.json`, `statusline.sh`, `CLAUDE.md`, and `skills/` holding relative symlinks to the shared skills.
 - `settings.json` is the plugin manifest: `enabledPlugins` and `extraKnownMarketplaces`.
 - `scripts/claude-sync.sh` runs whenever a profile includes `claude`:
   1. Adds any missing GitHub marketplaces.
@@ -26,7 +26,8 @@ Tracking the manifest and syncing from it gives the same setup everywhere, while
 - `shared/claude/.claude/settings.json` - settings and plugin manifest
 - `shared/claude/.claude/statusline.sh` - status line (directory, model, context use, lines changed)
 - `shared/claude/.claude/CLAUDE.md` - imports the global agent instructions
-- `shared/claude/.claude/skills/` - tracked hand-written skills
+- `shared/agents/.agents/skills/` - tracked hand-written skills, stowed to `~/.agents/skills/` where Codex and opencode read them
+- `shared/claude/.claude/skills/<name>` - relative symlink to `../../../agents/.agents/skills/<name>`, because Claude Code only reads `~/.claude/skills/`; add one per new skill
 - `scripts/claude-sync.sh` - plugin installer
 
 ## Decisions and gotchas
