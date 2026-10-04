@@ -95,11 +95,15 @@ Build order: `docs/specs/roadmap.md`.
 ### README
 
 - `README.md` is for people arriving at the repo (GitHub, a recruiter, future you):
-  what it is, why it exists, how to see it running, and where to read more.
+  what it is, what it does, how to see it running, and where to read more.
 - Keep it short (~100 lines). How a part works belongs in a `docs/` concept doc, linked from the README.
 - Never duplicate a doc or `AGENTS.md`: summarise in a sentence and link. Quick start is the minimum
   to see it running, not the full command list.
 - Link only the docs a newcomer needs (~5), not every doc; `AGENTS.md` is the full index.
+- Images use Markdown image syntax (`![alt](path)`), never HTML `<img>`/`<picture>`, and point to either
+  a file in `docs/images/` or a live URL (e.g. the deployed site's Open Graph image). Never reference other
+  repo paths (`public/`, `app/`, `screenshots/`) or GitHub-only suffixes like `?raw=true`, so images render
+  on GitHub and anywhere `docs/` is mirrored (e.g. an Obsidian vault).
 - Every README follows this template (drop Results or Status if empty):
 
 ````markdown
@@ -109,8 +113,8 @@ Build order: `docs/specs/roadmap.md`.
 
 <Screenshot, demo GIF, or live link.>
 
-## Why
-2-4 sentences: the problem and what makes this different.
+## Features
+3-6 bullets: what it does and what makes it different.
 
 ## Results
 Headline numbers or outcomes, if the project has them (e.g. benchmark tables).
