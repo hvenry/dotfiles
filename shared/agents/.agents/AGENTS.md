@@ -40,10 +40,11 @@ and opencode (`~/.config/opencode/AGENTS.md`).
 
 ## Project instructions and docs
 
-Every repo has three kinds of agent-facing Markdown, each with one fixed template so any repo reads the same:
+Every repo has four kinds of Markdown, each with one fixed template so any repo reads the same:
 - **`AGENTS.md`** at the repo root: how to work in the repo, and the index of everything below.
 - **Docs** (`docs/*.md`) describe what is built. Reference material, kept true to the code.
 - **Specs** (`docs/specs/*.md`) describe what is planned. Working documents that disappear once built.
+- **`README.md`** at the repo root: the front page for people arriving at the repo.
 
 ### AGENTS.md
 
@@ -89,6 +90,41 @@ src/<area>/   one-line role
 ## Planned
 Build order: `docs/specs/roadmap.md`.
 - Before implementing <feature>, read `docs/specs/<feature>.md`.
+````
+
+### README
+
+- `README.md` is for people arriving at the repo (GitHub, a recruiter, future you):
+  what it is, why it exists, how to see it running, and where to read more.
+- Keep it short (~100 lines). How a part works belongs in a `docs/` concept doc, linked from the README.
+- Never duplicate a doc or `AGENTS.md`: summarise in a sentence and link. Quick start is the minimum
+  to see it running, not the full command list.
+- Link only the docs a newcomer needs (~5), not every doc; `AGENTS.md` is the full index.
+- Every README follows this template (drop Results or Status if empty):
+
+````markdown
+# <Project>
+
+<One sentence: what it is.>
+
+<Screenshot, demo GIF, or live link.>
+
+## Why
+2-4 sentences: the problem and what makes this different.
+
+## Results
+Headline numbers or outcomes, if the project has them (e.g. benchmark tables).
+
+## Quick start
+```bash
+<the minimum to see it running>
+```
+
+## Docs
+- [Concept](docs/concept.md) - one line
+
+## Status
+Active, paused, or archived, plus anything a visitor should know (e.g. "local only").
 ````
 
 ### Docs
