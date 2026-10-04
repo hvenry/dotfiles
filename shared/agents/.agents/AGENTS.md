@@ -103,6 +103,7 @@ Build order: `docs/specs/roadmap.md`.
 - Keep it short (~100 lines). How a part works belongs in a `docs/` concept doc, linked from the README.
 - Never duplicate a doc: summarise in a sentence and link. Quick start is the minimum to see it running,
   not the full command list.
+- Features is 3-6 bullets only: one short line each, no intro sentence, no paragraphs, no sub-bullets.
 - Link only the docs a newcomer needs (~5), not every doc.
 - Never mention or link `AGENTS.md` or `CLAUDE.md`: they are for agents, not readers.
 - Images use Markdown image syntax (`![alt](path)`), never HTML `<img>`/`<picture>`, and point to either
@@ -119,7 +120,8 @@ Build order: `docs/specs/roadmap.md`.
 <Screenshot, demo GIF, or live link.>
 
 ## Features
-3-6 bullets: what it does and what makes it different.
+- <What it does, one short line>
+- <What makes it different, one short line>
 
 ## Results
 Headline numbers or outcomes, if the project has them (e.g. benchmark tables).

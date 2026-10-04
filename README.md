@@ -1,184 +1,107 @@
 # Dotfiles
 
-My configurations, managed with [GNU Stow](https://www.gnu.org/software/stow/) and organized by platform. Stow creates symlinks from this repo into `~/`.
+My config for every machine I use (personal macOS, work macOS, Arch + Hyprland, headless servers), symlinked into `~` with [GNU Stow](https://www.gnu.org/software/stow/).
 
-## Repository Structure
+## Why
 
-Every stow package lives under exactly one platform directory:
+One repo keeps the shell, editor, terminal, window manager, and coding-agent setup identical across machines.
+Packages are grouped by platform (`shared/`, `macos/`, `linux/`) and profiles pick which ones a machine gets, so one command sets up a new machine and re-running it updates an old one.
+It also holds the global instructions every coding agent (Claude Code, Codex, opencode) reads, so they all behave the same everywhere.
 
-```
-dotfiles/
-├── shared/              # Used on every machine
-│   ├── zsh/  nvim/  tmux/  ghostty/  vscode/  herdr/  claude/
-├── macos/               # macOS only
-│   └── aerospace/  rectangle/
-├── linux/               # Arch Linux + Hyprland desktop
-│   ├── bootstrap/       # Automated Arch installer (packages + services)
-│   ├── hyprland/  waybar/  rofi/  mako/  wlogout/
-│   ├── gtk/  xsettingsd/  xdg/  ly/  systemd/
-│   └── scripts/  backgrounds/
-├── profiles/            # Package lists for common setups
-├── install-profile.sh   # Profile installer
-└── .stowrc              # Stow defaults (--target=~, --restow, --no-folding)
-```
-
-## Quick Start
+## Quick start
 
 ```bash
-cd ~
-git clone git@github.com:hvenry/dotfiles.git
-cd dotfiles
-
-# Install a complete profile (--clean removes existing configs first)
-./install-profile.sh --clean <profile-name>
+git clone git@github.com:hvenry/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+./install-profile.sh --clean macos    # or arch-hyprland, or server
 ```
 
-### Profiles
+`--clean` removes existing configs that would block the symlinks.
+The installer also installs TPM and the tmux plugins, and any missing Claude Code plugins.
 
-- **`macos`**: Core development environment (zsh, nvim, tmux, ghostty, vscode, herdr, claude, aerospace, rectangle)
-- **`arch-hyprland`**: Full Wayland desktop (shared tools + Hyprland, Waybar, Rofi, and friends)
-- **`server`**: Minimal headless setup (zsh, nvim, tmux)
+## Profiles
 
-The installer resolves each package name by searching `shared/`, `macos/`, then `linux/`. Packages that can't be found are skipped with a warning.
+| Profile | Packages |
+| --- | --- |
+| `macos` | zsh, nvim, tmux, ghostty, lazygit, lazydocker, vscode, aerospace, rectangle, herdr, claude, agents |
+| `arch-hyprland` | core tools plus Hyprland, Waybar, Rofi, Mako, Ly, wlogout, GTK theming, systemd timers |
+| `server` | zsh, nvim, tmux, claude, agents |
 
-### Upgrading from the flat layout
-
-On a machine that last installed the old flat layout, run `./install-profile.sh --clean <profile-name>` once — `--clean` also removes the old layout's now-dangling symlinks. If stow still reports `existing target is not owned by stow`, delete the path it names and re-run.
-
-## Installing Individual Packages
-
-Run stow from the repo root, pointing `-d` at the platform directory:
+Each name in `profiles/<profile>.txt` resolves by searching `shared/`, `macos/`, then `linux/`.
+Install or remove one package by hand from the repo root:
 
 ```bash
-stow -d shared nvim         # install one package
-stow -d macos aerospace
-stow -D -d shared nvim      # remove a package's symlinks
+stow -d shared nvim        # link one package
+stow -D -d shared nvim     # unlink it
 ```
 
-`.stowrc` sets the target to `~`, so this works from the repo root for any platform directory.
+## New machine
 
-## macOS Setup
-
-First, install [Homebrew](https://brew.sh/) (if not already installed):
+### macOS
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+./macos/bootstrap/brew-install.sh          # Homebrew (if missing), Brewfile, then the macos profile
+CLEAN=1 ./macos/bootstrap/brew-install.sh  # same, passing --clean to the profile
 ```
 
-Then run the bootstrap, which installs everything in
-`macos/bootstrap/Brewfile` and applies the `macos` profile:
+Rectangle reads a plist, not a dotfile, so `macos/rectangle` is a snapshot.
+On a new machine, Rectangle Settings > Import and pick `macos/rectangle/.config/rectangle/RectangleConfig.json`.
+After changing bindings, Export over that repo file and commit it.
+
+### Arch Linux + Hyprland
+
+Run as your normal user; the script escalates with `sudo` itself.
 
 ```bash
-./macos/bootstrap/brew-install.sh
-
-# Remove conflicting existing configs first:
-CLEAN=1 ./macos/bootstrap/brew-install.sh
+./linux/bootstrap/arch-install.sh   # pacman + AUR packages, services, arch-hyprland profile, post-install
 ```
 
-It installs Homebrew itself if missing, so the step above is optional.
-
-To install the packages without touching the dotfiles:
+On a bare system, `linux/bootstrap/quick-setup.sh` clones the repo first and then runs the same steps.
+Before the first Hyprland boot, set the per-machine files (post-install warns if they are missing):
 
 ```bash
-brew bundle --file macos/bootstrap/Brewfile
+cp ~/.config/hypr/machines/laptop.lua ~/.config/hypr/local.lua     # or desktop.*
+cp ~/.config/hypr/machines/laptop.conf ~/.config/hypr/local.conf   # hyprlock/hyprpaper
+cp ~/.config/waybar/.local.example ~/.config/waybar/.local         # then set PRIMARY_MONITOR
 ```
 
-Or apply the dotfiles alone, if the apps are already installed:
+### Personal vs work machines
+
+Personal-only Claude Code plugins (MCP plugins and third-party marketplaces) install only on machines with this marker:
 
 ```bash
-./install-profile.sh --clean macos
+mkdir -p ~/.config/dotfiles && touch ~/.config/dotfiles/personal
 ```
 
-TPM and the tmux plugins are installed automatically by `install-profile.sh`;
-no manual `git clone` is needed.
+Leave it off work machines.
+`scripts/claude-sync.sh` holds the personal list and reruns safely at any time.
 
-Good to go!
-
-## Arch Linux Setup
-
-For a fresh Arch system, the automated bootstrap installer handles everything:
+## Updating a machine
 
 ```bash
-cd ~
-git clone git@github.com:hvenry/dotfiles.git
-cd dotfiles
-
-# Run the complete setup (requires sudo)
-./linux/bootstrap/arch-install.sh
+git -C ~/dotfiles pull --autostash
+./install-profile.sh macos   # re-link new files and install missing plugins; safe to re-run
 ```
 
-This script will:
+Conflicts usually land in `shared/claude/.claude/settings.json`, because Claude Code writes `/model`, `/plugin`, and `/config` changes into it.
+Keep keys from both sides, then check it with `jq . shared/claude/.claude/settings.json`.
 
-- Install all core system packages from `linux/bootstrap/pacman.txt`
-- Install yay (AUR helper) if not present
-- Install all AUR packages from `linux/bootstrap/aur.txt`
-- Set up Ly as the primary display manager
-- Create symlinks for all dotfiles configurations
-- Run the post-install script to finalize configuration
+If stow reports `existing target is not owned by stow`, a real file sits where a symlink should go.
+Diff it against the repo version, then move it aside and re-run.
 
-### Post-Install Setup
+## Agent instructions
 
-```bash
-bash linux/bootstrap/post-install.sh
-```
+`shared/agents/.agents/AGENTS.md` is the single source of global rules for every coding agent.
+The `agents` package links it to `~/.agents/AGENTS.md`, `~/.codex/AGENTS.md`, and `~/.config/opencode/AGENTS.md`; Claude Code imports it from `~/.claude/CLAUDE.md`.
+Edit only the source file.
 
-The post-install script installs TPM, sources zsh, enables the Ly display manager and systemd timers, installs global npm packages, and prints next steps.
+## Docs
 
-### Configure Hyprland and Waybar (REQUIRED)
+- [CLAUDE.md](CLAUDE.md) - repo layout, conventions, and how packages and profiles fit together
+- [Global agent instructions](shared/agents/.agents/AGENTS.md) - rules every coding agent follows
+- [Hyprland machine configs](linux/hyprland/.config/hypr/machines/README.md) - per-machine monitor setup
 
-These steps are required before your first boot to avoid errors:
+## Status
 
-```bash
-# 1. Hyprland monitor configuration (or desktop.* for the desktop machine)
-cp ~/.config/hypr/machines/laptop.lua ~/.config/hypr/local.lua
-cp ~/.config/hypr/machines/laptop.conf ~/.config/hypr/local.conf   # for hyprlock/hyprpaper
-
-# 2. Waybar primary monitor
-cp ~/.config/waybar/.local.example ~/.config/waybar/.local
-# Edit ~/.config/waybar/.local and set PRIMARY_MONITOR (run 'hyprctl monitors' after first boot)
-```
-
-The post-install script warns you if these are missing.
-
-## Platform-Specific Notes
-
-### VS Code
-
-The `shared/vscode` package stows settings to `~/.config/Code/User/` on every platform — VS Code's native location on Linux. On macOS, VS Code reads `~/Library/Application Support/Code/User/`, which this repo does not currently wire up.
-
-### Rectangle (macOS)
-
-Rectangle can't read its config live from a dotfile (its source of truth is a macOS preferences plist), so `macos/rectangle` versions a **snapshot**: `RectangleConfig.json`, symlinked to `~/.config/rectangle/`.
-
-- **After changing bindings**: Rectangle Settings → Export, save over `macos/rectangle/.config/rectangle/RectangleConfig.json` (the repo file, not the symlink), then commit.
-- **On a new machine**: Rectangle Settings → Import, pick that file.
-
-## Post Installation
-
-```bash
-# 1. Source your shell
-source ~/.zshrc
-
-# 2. Tmux plugins: start tmux, then press prefix + I
-tmux new-session -s main
-
-# 3. Neovim: launch nvim, run :Mason for language servers
-```
-
-## References
-
-- [GNU Stow](https://www.gnu.org/software/stow/)
-- [Ghostty](https://ghostty.org/)
-- [neovim](https://neovim.io/)
-- [tmux](https://github.com/tmux/tmux/wiki)
-- [tpm](https://github.com/tmux-plugins/tpm)
-- [AeroSpace](https://github.com/nikitabobko/AeroSpace)
-
-Arch specific:
-
-- [Pacman](https://wiki.archlinux.org/title/Pacman)
-- [Hyprland](https://wiki.hypr.land/)
-- [Rofi](https://github.com/davatorium/rofi)
-- [Waybar](https://github.com/Alexays/Waybar)
-- [Ly](https://github.com/fairyglade/ly)
-- [systemd](https://github.com/systemd/systemd)
+Active, used daily on every machine.
+VS Code config stows to `~/.config/Code/User/`, which is only wired up on Linux; macOS VS Code reads `~/Library/Application Support/Code/User/`.
