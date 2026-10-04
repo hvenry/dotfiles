@@ -46,6 +46,10 @@ Every repo has four kinds of Markdown, each with one fixed template so any repo 
 - **Specs** (`docs/specs/*.md`) describe what is planned. Working documents that disappear once built.
 - **`README.md`** at the repo root: the front page for people arriving at the repo.
 
+All four must render the same on GitHub and in Obsidian (where `docs/` and READMEs are mirrored):
+put a blank line before and after every table, list, fenced code block and HTML comment, and never
+use raw HTML for content (images, tables, layout).
+
 ### AGENTS.md
 
 - `CLAUDE.md` is a one-line `@AGENTS.md` import, plus Claude-only rules if any.
@@ -97,14 +101,15 @@ Build order: `docs/specs/roadmap.md`.
 - `README.md` is for people arriving at the repo (GitHub, a recruiter, future you):
   what it is, what it does, how to see it running, and where to read more.
 - Keep it short (~100 lines). How a part works belongs in a `docs/` concept doc, linked from the README.
-- Never duplicate a doc or `AGENTS.md`: summarise in a sentence and link. Quick start is the minimum
-  to see it running, not the full command list.
-- Link only the docs a newcomer needs (~5), not every doc; `AGENTS.md` is the full index.
+- Never duplicate a doc: summarise in a sentence and link. Quick start is the minimum to see it running,
+  not the full command list.
+- Link only the docs a newcomer needs (~5), not every doc.
+- Never mention or link `AGENTS.md` or `CLAUDE.md`: they are for agents, not readers.
 - Images use Markdown image syntax (`![alt](path)`), never HTML `<img>`/`<picture>`, and point to either
   a file in `docs/images/` or a live URL (e.g. the deployed site's Open Graph image). Never reference other
   repo paths (`public/`, `app/`, `screenshots/`) or GitHub-only suffixes like `?raw=true`, so images render
   on GitHub and anywhere `docs/` is mirrored (e.g. an Obsidian vault).
-- Every README follows this template (drop Results or Status if empty):
+- Every README follows this template (drop Results if empty):
 
 ````markdown
 # <Project>
@@ -126,9 +131,6 @@ Headline numbers or outcomes, if the project has them (e.g. benchmark tables).
 
 ## Docs
 - [Concept](docs/concept.md) - one line
-
-## Status
-Active, paused, or archived, plus anything a visitor should know (e.g. "local only").
 ````
 
 ### Docs
