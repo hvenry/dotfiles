@@ -230,7 +230,7 @@ Link existing docs for context instead of repeating them.
 
 - Every machine (personal macOS, work macOS, Arch) has my dotfiles repo at `~/dotfiles`, linked into `~` with GNU Stow.
 - Files in `~` like `~/.zshrc` or `~/.claude/settings.json` are symlinks into the repo. Edit the repo path, never replace the symlink.
-- Before changing anything there, read `~/dotfiles/CLAUDE.md` for the layout and conventions.
+- Before changing anything there, read `~/dotfiles/AGENTS.md` for the layout and conventions.
 - Update a machine: `git -C ~/dotfiles pull --autostash`, then from `~/dotfiles` run `./install-profile.sh <profile>` (`macos`, `arch-hyprland`, or `server`). It re-links new files and installs missing Claude plugins. Safe to re-run.
 - Pull or merge conflicts usually hit `shared/claude/.claude/settings.json`, because Claude Code writes `/model`, `/plugin`, and `/config` changes into it. Keep the keys from both sides, keep `"model": "opus[1m]"`, then check it parses with `jq . <file>`.
 - Stow error "existing target is not owned by stow": a real file sits where a symlink should go. Show me the diff against the repo version before moving or deleting it.
