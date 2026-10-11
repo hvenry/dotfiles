@@ -56,22 +56,39 @@ live: "https://example.com" # deployed URL
 youtube: "https://youtu.be/..." # demo video; Loom links work too
 image: "project_name.png" # public/assets/images/projects/
 imageLight: "project_name_light.png" # optional light-mode variant
-year: "2026" # or "2024 - 2025"
-role: "Solo project" # or "Team of 5 - backend + ML"
-featured: 1 # 1-3 = position on the home page grid
 draft: true # hidden in production, visible in dev
 ---
 ```
+
+**No `year` or `role` fields, and no team size or date range in the
+Overview list.** The site does not show them; if an existing entry still has
+them, remove them.
 
 **Technology names are matched against the icon registry**: the `techIcons` map
 in the portfolio's `components/TechBadge.tsx`. Read it for the canonical
 spelling and prefer a key that already exists over a variant of it, so
 `Next.js` not `NextJS` and `Node.js` not `Node`. A name with no entry still
 renders, falling back to a generic code glyph, so an unregistered technology
-never blocks the entry. When a project's defining technology has no icon, say
-so: adding one is an import plus a line in that map, from `react-icons`.
+never blocks the entry.
 
-List ALL technologies present in the project (programming languages, ci/cd, cloud, third part, b2b, etc)! Do not leave out any. I will manually refine what should actually be shown.
+**Which technologies to list.** I trim every list by the same rules, so apply
+them before I have to:
+
+- **List:** languages, frameworks, datastores, infrastructure and hosted
+  services (cloud, CI/CD, third-party APIs), and test frameworks (pytest,
+  Vitest, Playwright).
+- **Leave out:** linters, formatters and git hooks (ESLint, Prettier, Ruff,
+  mypy, Husky); small utility, icon and font libraries (Lucide, Geist, drei,
+  react-icons); optional providers the project merely supports (OpenAI and
+  Anthropic beside a local model); and anything that belongs to another
+  project. A homelab that runs an app lists the services it hosts, not that
+  app's stack, which goes in the app's own writeup.
+- **Icons:** for every listed technology without a `techIcons` entry, search
+  `react-icons` (`node -e 'console.log(Object.keys(require("react-icons/si")).filter(k=>/name/i.test(k)))'`)
+  and propose an import plus a map line. When no brand icon exists, propose a
+  fitting generic one (`GiWarpPipe` for Gluetun, `MdSubtitles` for Bazarr) and
+  say it is a stand-in. Verify each export exists in the installed version; a
+  newer icon may need a `react-icons` upgrade.
 
 ## 3. Ask only for what the repo cannot tell you
 
@@ -79,8 +96,6 @@ Batch these into one question, with your best guess pre-filled:
 
 - **Live URL**: deployed anywhere?
 - **Demo video**: YouTube/Loom link?
-- **Role**: solo or team? What was your part? (never guess this)
-- **Year**: infer from git history, but confirm it
 - **Preview image**: do they have one, or should it be captured (see step 5)?
 - **What was the hard or interesting part?** The one question worth asking
   even when you think you can infer it. It is what the writeup should be built
@@ -88,9 +103,18 @@ Batch these into one question, with your best guess pre-filled:
 
 ## 4. Write the body
 
-**Read `content/projects/_TEMPLATE.md` and `content/projects/clear-rag.md`
-in the portfolio repo before drafting.** The template is the shape; clear-rag
-is a finished entry in it. Match them, not this description of them.
+**Read `content/projects/_TEMPLATE.md` and two or three finished entries
+(`clear-rag.md`, `hvenrylab.md`, `simple-shell.md`) in the portfolio repo before
+drafting.** The template is the shape; the entries show my voice. Match them,
+not this description of them.
+
+**The personal parts are mine.** Draft the factual sections (Overview, how it
+works, What I tried, Where it stops). For the opening and the closing, leave
+the template's visible `**TODO (Henry):**` lines with a few bullet notes of
+raw material underneath (the motivation the repo or I gave you, dates,
+credits), and create the entry with `draft: true` so it cannot ship before I
+write them. Never use an HTML comment as a placeholder: the renderer prints
+comments as visible text.
 
 ### Goal: understood in ten seconds, explained in two minutes
 
@@ -98,57 +122,61 @@ A reader should know what the project is and how it works from the top of the
 page without scrolling. Everything below that is optional depth. Simplify:
 pick the one or two ideas that make the project interesting and cut the rest.
 
-**Length: 400-800 words, at most ~5 `##` sections.** Under 400 only when there
-is genuinely less to say. Over 800 means it is turning into a design doc; cut
-whole sections rather than trimming sentences.
+**Length: 500-900 words of prose** (tables and code blocks excluded). Under 500
+only when there is genuinely less to say. Over 900 means it is turning into a
+design doc; cut whole sections rather than trimming sentences.
 
 ### The shape
 
 ```markdown
-One or two sentences: what it is and the interesting problem it solves.
+(Henry: 1-3 short paragraphs, why it exists and the interesting problem)
 
-## At a glance
+## <Project> Overview
 
-- **What it does:** one line
-- **How it works:** one line, the core mechanism
-- **Scope:** solo/team, year, where it runs or is live
+- What it does, in one line
+- The core mechanism, in one line
+- **Where it runs:** where it runs or is live
 
 (one mermaid diagram of the architecture or main flow)
 
-## How it works
+## How it works   <- renamed to what it contains
 
-One sentence of setup, then 3-6 short bullets. Use `###` only for genuinely
-separate subsystems, at most ~3.
+One sentence of setup, then 3-6 short bullets. Use `###` for genuinely
+separate subsystems.
 
 ## What I tried
 
 - **Approach:** what happened and why it was kept or dropped
 
-## Where it stops
+## Where it stops and next steps
 
 - 2-4 bullets: what it does not do, what the next version needs
 
-## Background
-
-1-2 sentences: where it came from, what it built on.
+(Henry: a closing paragraph with no heading: origin, credits, how it feels)
 ```
 
-- **Short lists over paragraphs.** Prose only for the opening and one-sentence
-  section lead-ins. Each bullet is one idea in one or two lines; if a bullet
-  needs a third line, split it or cut it.
+- **Short lists over paragraphs** in the sections you draft. Each bullet is one
+  idea in one or two lines, starts with `-` (never `*`: mixing markers splits
+  a list in two) and has no trailing period.
 - **Lead with the problem**, not a feature list (globe.expert: country borders
   are flat polygons and a globe is a sphere).
 - **"What I tried" holds design decisions and dead ends**: alternatives
   measured, approaches abandoned, bugs that changed the design. Skip it only
   if nothing was tried.
 - Rename "How it works" to something specific (`## The loop`,
-  `## From flat geometry to a sphere`) when that reads better. Keep the order.
+  `## How the globe does its magic`) when that reads better.
+- Write the project's own name in inline code in prose (`clear-rag`,
+  `globe.expert`).
+- **Link other writeups relatively** (`[homelab](/projects/hvenrylab)`), never
+  with `https://henryvendittelli.com/...`: a full URL renders as an external
+  link and opens a new tab.
 
 ### The full markdown toolkit
 
 The renderer does far more than plain text. Use these when they explain
-something a bullet cannot, and sparingly: one or two diagrams per entry, one
-table, at most one or two code blocks, a formula only when it is the point.
+something a bullet cannot: one or two diagrams per entry, tables wherever the
+facts are enumerable, at most one or two code blocks, a formula only when it is
+the point.
 
 **Mermaid diagrams.** A fenced block tagged `mermaid` becomes a rendered
 diagram, themed to match the site and re-rendered when the theme flips. Every
@@ -166,15 +194,20 @@ more than the prose around them:
     ```
 
 Quote every node label (`A["text"]`) so punctuation and parentheses are safe,
-and use `<br/>` for line breaks inside a label.
+and use `<br/>` for line breaks inside a label. A long pipeline crushed into one
+line reads badly; wrap it into rows with subgraphs (`direction LR` on top,
+`direction RL` below) linked as whole subgraphs (`top --> bottom`). Linking a
+node inside a subgraph to one outside makes Mermaid ignore the subgraph's
+direction. `ootd.md` has a working example.
 
 **LaTeX math.** Inline with `$...$`, display with `$$...$$` on its own lines,
 rendered by KaTeX. Use it for real mathematics: projections, scoring formulas,
 complexity bounds. The globe entry derives its spherical coordinate conversions
 this way. Do not decorate prose with it.
 
-**Tables** for enumerable facts: settings and their effects, commands and what
-they do, options and tradeoffs.
+**Tables** for enumerable facts: hardware and software specs, settings and
+their effects, commands and what they do, options and tradeoffs, benchmark
+results. Use as many as earn their place.
 
 **Code blocks** with a language tag get syntax highlighting and a copy button.
 Keep them minimal: a signature, a struct, at most ten key lines, never a whole
@@ -186,7 +219,9 @@ blockquotes, and horizontal rules.
 ### Voice
 
 - First person, reflective where it is earned: "one detail took me a while to
-  appreciate", "the best thing this project taught me".
+  appreciate", "the best thing this project taught me". Humour, asides and
+  exclamations belong in my parts (the opening and closing); keep your
+  sections plain and factual, and do not imitate my jokes.
 - **Never invent capabilities, metrics, or outcomes.** Every mechanism, number,
   and count must trace to a `docs/` concept doc, the code, a results file, or
   the user, never to memory or an older version of the entry. Where docs and
@@ -205,13 +240,21 @@ blockquotes, and horizontal rules.
 exactly that ratio, so an OG image fits with no letterboxing, and the card
 then matches what people already see when the project is shared anywhere else.
 
+The `image` (the dark one) also becomes the project's share card: the site
+generates `/projects/<slug>/opengraph-image` from it, inside the home card's
+frame with the project URL underneath. Pick a preview that still reads at
+link-preview size, because it is what people see when the writeup is shared.
+
 Look for an existing OG image first, in this order:
 
-1. `app/opengraph-image.{png,jpg}` or `app/**/opengraph-image.*` (Next.js
+1. `docs/images/` in the project repo: the README standard keeps screenshots
+   there, often as a dark and light pair (e.g. `dashboard.png` and
+   `dashboard-light.png`)
+2. `app/opengraph-image.{png,jpg}` or `app/**/opengraph-image.*` (Next.js
    file convention). Also check for `opengraph-image.tsx` (generated at
    runtime; render the deployed URL to capture it)
-2. `public/og*.{png,jpg}`, `public/images/og*`, `static/og*`, `assets/og*`
-3. The live site's meta tag, if deployed:
+3. `public/og*.{png,jpg}`, `public/images/og*`, `static/og*`, `assets/og*`
+4. The live site's meta tag, if deployed:
    `curl -s <url> | grep -oE '<meta property="og:image"[^>]*>'` then download it
 
 If none exists, capture one: drive a headless browser at a **1200x630** viewport
@@ -224,6 +267,9 @@ project, a terminal screenshot cropped to 1200x630 works.
 - Off-ratio images letterbox against the theme background (black in dark, white
   in light). Acceptable, but 1200x630 is cleanest.
 - No image is fine. The card and page simply render without one.
+- **Check what the image shows.** The site is public: crop or recapture
+  anything with private details (IP addresses, hostnames, emails, tokens,
+  personal data). Prefer a project's public screenshots over a private repo's.
 
 ### Light and dark variants
 
@@ -265,7 +311,7 @@ one in the same visual language.
 Treat the existing frontmatter as the source of truth for anything the repo
 cannot contradict:
 
-- **Preserve `order`, `featured`, `year`, `role`, and image filenames** unless
+- **Preserve `order` and image filenames** unless
   the user asks otherwise or the repo proves them wrong. Never renumber `order`
   on an update, because it silently reorders the whole index.
 - Rewrite `summary` and the body when the project has moved on; refresh
@@ -286,9 +332,11 @@ cannot contradict:
    already working inside the portfolio repo)
 3. Set `order` to one past the current highest, unless the user wants it ranked
    higher. Check the existing files
-4. Tell the user to run the portfolio dev server and check `/projects/<slug>`
+4. Set `draft: true`, so the entry shows only in `pnpm dev` until I have
+   written my TODO parts and removed it
+5. Tell the user to run the portfolio dev server and check `/projects/<slug>`
 
-**Do not commit or push.** I handle all git operations themselves.
+**Do not commit or push.** I handle all git operations myself.
 
 If the portfolio repo is not on this machine, output the complete file content
 in a code block plus the target path, and note where the image should go.
