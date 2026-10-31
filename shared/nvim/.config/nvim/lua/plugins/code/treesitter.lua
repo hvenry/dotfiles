@@ -18,6 +18,9 @@ return {
       "typescript",
       "html",
       "prisma",
+      "gdscript",
+      "godot_resource",
+      "gdshader",
       "markdown",
       "markdown_inline",
     }

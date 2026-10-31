@@ -29,6 +29,7 @@ return {
       markdown = { "prettierd", "prettier", stop_after_first = true },
 
       lua = { "stylua" },
+      gdscript = { "gdformat" },
       python = { "ruff_fix", "ruff_format" },
       go = { "gofumpt", "goimports" },
       rust = { "rustfmt" },

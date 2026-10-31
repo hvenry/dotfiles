@@ -115,6 +115,16 @@ return {
       root_dir = util.root_pattern("package.json", ".git"),
     })
 
+    -- gdscript (served over TCP by the running Godot editor; start Godot first)
+    start_on_filetypes({
+      name = "gdscript",
+      cmd = function()
+        return vim.lsp.rpc.connect("127.0.0.1", 6005)
+      end,
+      filetypes = { "gdscript" },
+      root_dir = util.root_pattern("project.godot"),
+    })
+
     -- html (vscode-html-language-server)
     start_on_filetypes({
       name = "html",

@@ -36,6 +36,7 @@ return {
         "taplo",
         "xmlformatter",
         "shfmt",
+        "gdtoolkit", -- gdformat + gdlint
         -- linters / others
         "eslint_d",
         "golangci-lint",
