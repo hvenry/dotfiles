@@ -9,7 +9,7 @@
   "spacing": 0,
   "gtk-layer-shell": true,
 
-  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-left": ["group/workspaces", "hyprland/window"],
   "modules-center": ["clock"],
 
   "modules-right": [
@@ -20,20 +20,46 @@
     "custom/power",
   ],
 
-  "hyprland/workspaces": {
-    "persistent-workspaces": {
-      "$PRIMARY_MONITOR": [1, 2, 3, 4, 5],
-    },
-    "format": "{icon}",
-    "format-icons": {
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "default": "•",
-    },
-    "on-click": "activate",
+  // Not hyprland/workspaces: it clicks with the legacy `dispatch workspace N`,
+  // which Hyprland rejects under a Lua config. See docs/hyprland-desktop.md.
+  "group/workspaces": {
+    "orientation": "inherit",
+    "modules": ["custom/ws#1", "custom/ws#2", "custom/ws#3", "custom/ws#4", "custom/ws#5"],
+  },
+
+  "custom/ws#1": {
+    "exec": "~/.config/waybar/scripts/workspace.py 1",
+    "return-type": "json",
+    "format": "{}",
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 1 })'",
+  },
+
+  "custom/ws#2": {
+    "exec": "~/.config/waybar/scripts/workspace.py 2",
+    "return-type": "json",
+    "format": "{}",
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 2 })'",
+  },
+
+  "custom/ws#3": {
+    "exec": "~/.config/waybar/scripts/workspace.py 3",
+    "return-type": "json",
+    "format": "{}",
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 3 })'",
+  },
+
+  "custom/ws#4": {
+    "exec": "~/.config/waybar/scripts/workspace.py 4",
+    "return-type": "json",
+    "format": "{}",
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 4 })'",
+  },
+
+  "custom/ws#5": {
+    "exec": "~/.config/waybar/scripts/workspace.py 5",
+    "return-type": "json",
+    "format": "{}",
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 5 })'",
   },
 
   "hyprland/window": {
@@ -56,7 +82,7 @@
     "format-ethernet": "󰈀",
     "format-disconnected": "󰌷",
     "tooltip-format": "{ipaddr}/{cidr}\n{essid}",
-    "on-click": "hyprctl dispatch exec '[float] ghostty -e ~/.config/waybar/scripts/nmtui-mono.sh'",
+    "on-click": "hyprctl dispatch \"hl.dsp.exec_cmd('[float] ghostty -e ~/.config/waybar/scripts/nmtui-mono.sh')\"",
   },
 
   "pulseaudio": {
@@ -65,7 +91,7 @@
     "format-icons": {
       "default": ["󰕿", "󰖀", "󰕾"],
     },
-    "on-click": "hyprctl dispatch exec '[float] ghostty -e wiremix'",
+    "on-click": "hyprctl dispatch \"hl.dsp.exec_cmd('[float] ghostty -e wiremix')\"",
     "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
   },
 

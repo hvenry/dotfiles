@@ -30,7 +30,7 @@ tooltip label {
   padding: 0;
 }
 
-#workspaces button {
+#custom-ws {
   background-color: transparent;
   color: @lightgray;
   border: none;
@@ -42,17 +42,16 @@ tooltip label {
   box-shadow: none;
 }
 
-#workspaces button:hover {
+#custom-ws:hover {
   color: #6b9dce;
 }
 
-#workspaces button.focused,
-#workspaces button.active {
+#custom-ws.active {
   color: #95e1d3;
   transition: all 0.3s ease;
 }
 
-#workspaces button.urgent {
+#custom-ws.urgent {
   color: #ff6b6b;
 }
 

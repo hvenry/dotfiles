@@ -37,6 +37,7 @@ jdk-openjdk
 julia
 lua
 luarocks
+python
 python-pip
 npm
 tree-sitter

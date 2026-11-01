@@ -27,6 +27,7 @@ Per-machine values in untracked local files keep one shared config working on bo
 - `linux/hyprland/.config/hypr/machines/` - per-machine templates, with their own README
 - `linux/waybar/.config/waybar/launch.sh` - starts Waybar on the primary monitor
 - `linux/waybar/.config/waybar/.local.example` - format of the local Waybar file
+- `linux/waybar/.config/waybar/scripts/workspace.py` - one Waybar workspace button, driven by Hyprland's event socket
 - `linux/scripts/.config/scripts/` - battery, network, song and user scripts for Waybar
 
 ## Decisions and gotchas
@@ -36,6 +37,11 @@ Per-machine values in untracked local files keep one shared config working on bo
   Check with `hyprctl systeminfo | grep configProvider`.
 - Seeding never overwrites an existing local file; check monitor names against `hyprctl monitors` after the first boot.
 - Adding a machine: commit a new `machines/<name>.lua` and `.conf` pair.
+- Under the Lua config, `hyprctl dispatch` takes a Lua expression (`hyprctl dispatch "hl.dsp.focus({ workspace = 2 })"`), not legacy syntax like `dispatch workspace 2` or `dispatch exec ...`.
+  Anything that shells out to `hyprctl dispatch` must use the `hl.dsp.*` form.
+- Waybar's built-in `hyprland/workspaces` module clicks with the legacy syntax, so clicks fail.
+  The bar uses five `custom/ws#N` modules in `group/workspaces` instead: `workspace.py N` prints each button's state, and `on-click` focuses it with `hl.dsp.focus`.
+  Buttons 1-5 always show, matching the `Super+1..5` binds; style them with `#custom-ws` and the `.active`, `.occupied`, `.empty` and `.urgent` classes.
 
 ## Related
 
